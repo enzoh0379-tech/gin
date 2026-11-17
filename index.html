@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5ede3">
-<title>Nossa História — Livro Vivo & Animação Cinematográfica</title>
+<title>Nossa História — Plataforma de Presentes Vivos</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Caveat:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
@@ -41,20 +41,105 @@ button, input, textarea, select { font: inherit; }
 button { cursor: pointer; }
 .hidden { display: none !important; }
 
-.click-spark {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  font-size: 14px;
-  color: var(--accent);
-  animation: sparkFly 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+/* =========================================================
+   TELA DE LOGIN SIMPLES E SEGURA (SHA-256)
+   ========================================================= */
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(circle at 50% 35%, #fbf7f1 0%, #eadbca 100%);
 }
 
-@keyframes sparkFly {
-  0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); }
-  100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.2) rotate(25deg); }
+.auth-card {
+  width: min(430px, 100%);
+  background: var(--paper);
+  border: 1px solid #dfd2c3;
+  border-radius: 22px;
+  padding: 34px 28px;
+  box-shadow: 0 24px 60px rgba(43, 35, 32, 0.12);
+  text-align: center;
 }
 
+.auth-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #cf6a60, #8e3b33);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  box-shadow: 0 8px 20px rgba(142, 59, 51, 0.3);
+}
+
+.auth-card h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.1rem;
+  line-height: 1.1;
+  margin-bottom: 6px;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #f2e8dc;
+  border-radius: 99px;
+  padding: 4px;
+  margin: 18px 0;
+}
+
+.auth-tab-btn {
+  border: 0;
+  border-radius: 99px;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: transparent;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+
+.auth-tab-btn.active {
+  background: var(--paper);
+  color: var(--accent-dark);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.auth-form { text-align: left; }
+
+.security-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 14px;
+  background: #f8f2ea;
+  padding: 6px 12px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+}
+
+.auth-error {
+  background: #fde8e6;
+  color: #9c2b23;
+  font-size: 0.82rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* =========================================================
+   TOPBAR & EDITOR
+   ========================================================= */
 .topbar {
   position: sticky;
   top: 0;
@@ -81,7 +166,7 @@ button { cursor: pointer; }
 .edition-pill {
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   background: #efe3d3;
   color: var(--accent-dark);
@@ -90,16 +175,16 @@ button { cursor: pointer; }
   border: 1px solid #dccab4;
 }
 
-.nav-tabs { display: flex; gap: 6px; }
+.nav-tabs { display: flex; gap: 6px; align-items: center; }
 
 .tab {
   border: 1px solid transparent;
   border-radius: 99px;
-  padding: 7px 18px;
+  padding: 7px 16px;
   background: transparent;
   color: var(--muted);
   font-weight: 600;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   transition: all 0.25s ease;
 }
 
@@ -111,8 +196,20 @@ button { cursor: pointer; }
   box-shadow: 0 2px 8px rgba(43, 35, 32, 0.06);
 }
 
-.wrap { width: min(920px, calc(100% - 32px)); margin: 0 auto; }
-.editor { padding: 34px 0 90px; }
+.logout-btn {
+  border: 1px solid #dccab4;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 99px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.logout-btn:hover { background: #efe3d3; color: var(--ink); }
+
+.wrap { width: min(940px, calc(100% - 32px)); margin: 0 auto; }
+.editor { padding: 30px 0 90px; }
 
 .showcase-hero {
   display: grid;
@@ -122,17 +219,14 @@ button { cursor: pointer; }
   background: linear-gradient(135deg, #fcf9f4 0%, #f7eee2 100%);
   border: 1px solid var(--line);
   border-radius: 22px;
-  padding: 32px;
+  padding: 30px;
   margin-bottom: 24px;
   box-shadow: 0 18px 45px rgba(43, 35, 32, 0.06);
-  position: relative;
-  overflow: hidden;
-  animation: fadeUp 0.7s ease both;
 }
 
 .kicker {
   font-family: 'Caveat', cursive;
-  font-size: 1.5rem;
+  font-size: 1.55rem;
   color: var(--accent);
   display: inline-block;
   transform: rotate(-1.5deg);
@@ -144,7 +238,7 @@ h1, h2, h3, .book-title {
 }
 
 .showcase-hero h1 {
-  font-size: clamp(2.3rem, 5vw, 3.4rem);
+  font-size: clamp(2.1rem, 5vw, 3.2rem);
   line-height: 1.06;
   margin: 6px 0 12px;
   letter-spacing: -0.02em;
@@ -153,7 +247,18 @@ h1, h2, h3, .book-title {
 .showcase-hero p {
   color: var(--muted);
   font-size: 0.94rem;
-  margin-bottom: 18px;
+  margin-bottom: 14px;
+}
+
+.value-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.v-badge {
+  background: #fff;
+  border: 1px solid #e2d5c7;
+  padding: 4px 11px;
+  border-radius: 99px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--accent-dark);
 }
 
 .product-selector {
@@ -170,15 +275,11 @@ h1, h2, h3, .book-title {
   padding: 16px 14px;
   text-align: center;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: all 0.25s ease;
   position: relative;
 }
 
-.prod-card:hover {
-  border-color: #cbbba9;
-  transform: translateY(-3px);
-}
-
+.prod-card:hover { border-color: #cbbba9; transform: translateY(-3px); }
 .prod-card.selected {
   border-color: var(--accent);
   background: #fdf6f4;
@@ -199,40 +300,18 @@ h1, h2, h3, .book-title {
   letter-spacing: 0.04em;
 }
 
-.prod-icon {
-  font-size: 1.65rem;
-  margin-bottom: 4px;
-  display: block;
-}
-
-.prod-card strong {
-  display: block;
-  font-size: 0.95rem;
-  color: var(--ink);
-}
-
-.prod-card span {
-  font-size: 0.78rem;
-  color: var(--muted);
-  line-height: 1.3;
-  display: block;
-  margin-top: 3px;
-}
+.prod-icon { font-size: 1.65rem; margin-bottom: 4px; display: block; }
+.prod-card strong { display: block; font-size: 0.95rem; color: var(--ink); }
+.prod-card span { font-size: 0.78rem; color: var(--muted); line-height: 1.3; display: block; margin-top: 3px; }
 
 .hero-mockup-card {
   background: var(--paper);
   border: 1px solid #dfd2c3;
-  border-radius: 8px 18px 18px 8px;
-  padding: 20px 16px 14px;
+  border-radius: 14px;
+  padding: 18px 14px 14px;
   box-shadow: 12px 18px 35px rgba(43, 35, 32, 0.12);
   text-align: center;
-  position: relative;
-  transform: rotate(2deg);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.hero-mockup-card:hover {
-  transform: rotate(0deg) translateY(-5px) scale(1.02);
+  transform: rotate(1.5deg);
 }
 
 .wax-seal-mini {
@@ -256,7 +335,6 @@ h1, h2, h3, .book-title {
   padding: 26px;
   margin: 20px 0;
   box-shadow: 0 10px 30px rgba(43, 35, 32, 0.04);
-  animation: fadeUp 0.65s ease both;
 }
 
 .panel-header {
@@ -308,7 +386,7 @@ h1, h2, h3, .book-title {
   box-shadow: 0 0 0 3px rgba(181, 84, 75, 0.12);
 }
 
-.field textarea { resize: vertical; min-height: 95px; }
+.field textarea { resize: vertical; min-height: 90px; }
 
 .customizer-layout {
   display: grid;
@@ -331,16 +409,11 @@ h1, h2, h3, .book-title {
   text-align: center;
 }
 
-.color-swatches {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 4px;
-}
+.color-swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
 
 .swatch {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: 2px solid #fff;
   box-shadow: 0 0 0 1.5px #cbbba9;
@@ -348,8 +421,8 @@ h1, h2, h3, .book-title {
   transition: transform 0.15s;
 }
 
-.swatch:hover { transform: scale(1.14); }
-.swatch.active { box-shadow: 0 0 0 2.5px var(--ink); transform: scale(1.14); }
+.swatch:hover { transform: scale(1.16); }
+.swatch.active { box-shadow: 0 0 0 2.5px var(--ink); transform: scale(1.16); }
 
 .preview-stage-box {
   background: #f7efe4;
@@ -367,19 +440,11 @@ h1, h2, h3, .book-title {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 14px;
-  height: 112px;
+  gap: 12px;
+  height: 120px;
 }
 
-.preview-duo > div { animation: charIdle 2.5s ease-in-out infinite; }
-.preview-duo > div:nth-child(2) { animation-delay: 1.25s; }
-
-.preview-caption {
-  font-family: 'Caveat', cursive;
-  font-size: 1.22rem;
-  color: var(--muted);
-  margin-top: 6px;
-}
+.preview-caption { font-family: 'Caveat', cursive; font-size: 1.22rem; color: var(--muted); margin-top: 6px; }
 
 .photo-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 18px; align-items: stretch; }
 
@@ -400,7 +465,6 @@ h1, h2, h3, .book-title {
 .photo-box:hover, .photo-box.drag, .drop:hover, .drop.drag {
   border-color: var(--accent);
   background: var(--accent-soft);
-  transform: scale(1.01);
 }
 
 .photo-box input, .drop input { display: none; }
@@ -413,7 +477,6 @@ h1, h2, h3, .book-title {
   margin-bottom: 10px;
   border: 5px solid #fff;
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-  transform: rotate(-2deg);
   display: none;
 }
 
@@ -428,18 +491,6 @@ h1, h2, h3, .book-title {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  position: relative;
-}
-
-.note-card::before {
-  content: "";
-  position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%) rotate(-2deg);
-  width: 68px;
-  height: 18px;
-  background: var(--tape);
 }
 
 .chapter {
@@ -448,7 +499,6 @@ h1, h2, h3, .book-title {
   border-radius: 14px;
   padding: 18px;
   margin: 14px 0;
-  animation: fadeUp 0.4s ease both;
 }
 
 .chapter-head {
@@ -468,7 +518,6 @@ h1, h2, h3, .book-title {
   background: var(--paper);
   color: var(--muted);
   font-size: 1.1rem;
-  transition: all 0.2s;
 }
 
 .remove:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -480,7 +529,6 @@ h1, h2, h3, .book-title {
   object-fit: cover;
   border-radius: 10px;
   border: 4px solid #fff;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
   display: block;
 }
 
@@ -503,7 +551,7 @@ h1, h2, h3, .book-title {
   border-radius: 99px;
   padding: 15px 28px;
   font-weight: 700;
-  transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .btn:hover { transform: translateY(-2px); }
@@ -512,9 +560,8 @@ h1, h2, h3, .book-title {
   color: #fff;
   box-shadow: 0 12px 28px rgba(181, 84, 75, 0.34);
 }
-.primary:hover { box-shadow: 0 16px 34px rgba(181, 84, 75, 0.42); }
 .secondary { background: var(--paper); border: 1px solid var(--line); color: var(--ink); padding: 9px 18px; font-size: 0.88rem; }
-.wide { width: min(390px, 100%); font-size: 1.05rem; }
+.wide { width: min(400px, 100%); font-size: 1.05rem; }
 
 .add {
   width: 100%;
@@ -524,7 +571,6 @@ h1, h2, h3, .book-title {
   border-radius: 12px;
   color: var(--accent-dark);
   font-weight: 600;
-  transition: all 0.2s;
 }
 
 .add:hover { background: var(--accent-soft); border-color: var(--accent); }
@@ -546,11 +592,7 @@ h1, h2, h3, .book-title {
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-.gift-overlay.opened {
-  opacity: 0;
-  transform: scale(1.06);
-  pointer-events: none;
-}
+.gift-overlay.opened { opacity: 0; transform: scale(1.06); pointer-events: none; }
 
 .envelope-box {
   width: min(440px, 92vw);
@@ -567,12 +609,6 @@ h1, h2, h3, .book-title {
   text-align: center;
   padding: 24px;
   overflow: hidden;
-  animation: floatEnvelope 3s ease-in-out infinite;
-}
-
-@keyframes floatEnvelope {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-7px); }
 }
 
 .envelope-flap {
@@ -582,11 +618,7 @@ h1, h2, h3, .book-title {
   background: linear-gradient(180deg, #efe3d3, #f6ece0);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   border-bottom: 1px solid #d9c8b4;
-  transform-origin: top center;
-  transition: transform 0.6s ease;
 }
-
-.gift-overlay.opened .envelope-flap { transform: rotateX(180deg); }
 
 .wax-seal-btn {
   width: 74px;
@@ -599,19 +631,10 @@ h1, h2, h3, .book-title {
   box-shadow: 0 10px 25px rgba(142, 54, 46, 0.42);
   z-index: 5;
   margin-top: 38px;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  animation: sealPulse 2s infinite;
-}
-
-.wax-seal-btn:hover { transform: scale(1.12); }
-
-@keyframes sealPulse {
-  0%, 100% { box-shadow: 0 10px 25px rgba(142, 54, 46, 0.42), 0 0 0 0 rgba(181, 84, 75, 0.4); }
-  50% { box-shadow: 0 10px 25px rgba(142, 54, 46, 0.42), 0 0 0 12px rgba(181, 84, 75, 0); }
 }
 
 /* =========================================================
-   CHUVA DE FLORES E PÉTALAS CAINDO DO CÉU NO LIVRO
+   LEITOR & ESTÚDIO DE VÍDEO DO LIVRO E FILME
    ========================================================= */
 #reader, #cinema-only-view {
   min-height: 100vh;
@@ -634,28 +657,13 @@ h1, h2, h3, .book-title {
   top: -40px;
   opacity: 0;
   animation: petalFall linear infinite;
-  filter: drop-shadow(0 3px 4px rgba(43, 35, 32, 0.08));
 }
 
 @keyframes petalFall {
-  0% {
-    transform: translateY(-20px) translateX(0px) rotate(0deg);
-    opacity: 0;
-  }
-  12% {
-    opacity: 0.78;
-  }
-  50% {
-    transform: translateY(50vh) translateX(var(--sway)) rotate(180deg);
-    opacity: 0.72;
-  }
-  88% {
-    opacity: 0.55;
-  }
-  100% {
-    transform: translateY(108vh) translateX(calc(var(--sway) * -0.6)) rotate(360deg);
-    opacity: 0;
-  }
+  0% { transform: translateY(-20px) translateX(0px) rotate(0deg); opacity: 0; }
+  12% { opacity: 0.75; }
+  50% { transform: translateY(50vh) translateX(var(--sway)) rotate(180deg); opacity: 0.7; }
+  100% { transform: translateY(108vh) translateX(calc(var(--sway) * -0.6)) rotate(360deg); opacity: 0; }
 }
 
 .readerbar {
@@ -686,155 +694,33 @@ h1, h2, h3, .book-title {
   align-items: center;
   justify-content: center;
   padding: 10px 16px 32px;
-  perspective: 1800px;
   position: relative;
   z-index: 8;
 }
 
-.book-wrapper {
-  position: relative;
-  width: min(700px, 100%);
-  transform-style: preserve-3d;
-}
-
-.book-wrapper::before,
-.book-wrapper::after {
-  content: "";
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  right: -6px;
-  width: 100%;
-  background: #f3eadf;
-  border: 1px solid #dfd2c3;
-  border-radius: 6px 18px 18px 6px;
-  z-index: -1;
-}
-
-.book-wrapper::after {
-  top: 11px;
-  bottom: 11px;
-  right: -11px;
-  background: #eaded0;
-  z-index: -2;
-}
+.book-wrapper { position: relative; width: min(740px, 100%); }
 
 .book-page {
   display: none;
   width: 100%;
   min-height: 465px;
-  max-height: calc(100vh - 195px);
+  max-height: calc(100vh - 190px);
   overflow-y: auto;
   background: var(--paper);
-  background-image: linear-gradient(90deg, rgba(43,35,32,0.06) 0%, rgba(43,35,32,0.01) 3%, transparent 8%);
   border: 1px solid #dfd3c3;
   border-radius: 6px 20px 20px 6px;
-  padding: clamp(26px, 4.5vw, 50px);
+  padding: clamp(24px, 4.5vw, 44px);
   box-shadow: var(--shadow-book);
   text-align: center;
   position: relative;
-  transform-origin: left center;
 }
 
-/* Cantoneiras florais animadas nas páginas */
-.corner-floral {
-  position: absolute;
-  width: 64px;
-  height: 64px;
-  pointer-events: none;
-  opacity: 0.45;
-  animation: bloomCorner 1.2s ease-out both;
-}
+.book-page.active { display: block; animation: fadeUp 0.55s ease both; }
 
-.corner-tl { top: 10px; left: 12px; }
-.corner-br { bottom: 10px; right: 12px; transform: rotate(180deg); }
-
-@keyframes bloomCorner {
-  from { opacity: 0; transform: scale(0.7); }
-  to { opacity: 0.45; transform: scale(1); }
-}
-
-.book-page.active {
-  display: block;
-  animation: pageEnterNext 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.book-page.active.prev-dir {
-  animation: pageEnterPrev 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.book-page.turning-out-next {
-  display: block;
-  position: absolute;
-  inset: 0;
-  z-index: 15;
-  pointer-events: none;
-  animation: pageFlipOutNext 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.book-page.turning-out-prev {
-  display: block;
-  position: absolute;
-  inset: 0;
-  z-index: 15;
-  pointer-events: none;
-  animation: pageFlipOutPrev 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes pageFlipOutNext {
-  0% { transform: rotateY(0deg); opacity: 1; }
-  100% { transform: rotateY(-85deg) translateX(-15px); opacity: 0; }
-}
-
-@keyframes pageEnterNext {
-  0% { transform: rotateY(18deg) translateX(24px); opacity: 0; }
-  100% { transform: rotateY(0deg) translateX(0); opacity: 1; }
-}
-
-@keyframes pageFlipOutPrev {
-  0% { transform: rotateY(0deg); opacity: 1; }
-  100% { transform: rotateY(45deg) translateX(35px); opacity: 0; }
-}
-
-@keyframes pageEnterPrev {
-  0% { transform: rotateY(-55deg) translateX(-20px); opacity: 0; }
-  100% { transform: rotateY(0deg) translateX(0); opacity: 1; }
-}
-
-.page-kicker {
-  font-family: 'Caveat', cursive;
-  color: var(--accent);
-  font-size: 1.45rem;
-  margin-bottom: 6px;
-  animation: fadeUp 0.7s ease 0.15s both;
-}
-
-.book-title {
-  font-size: clamp(2.3rem, 6vw, 3.5rem);
-  line-height: 1.1;
-  margin: 6px 0 16px;
-  color: var(--ink);
-  animation: fadeUp 0.7s ease 0.25s both;
-}
-
-.book-page h2 {
-  font-size: clamp(1.85rem, 4.5vw, 2.5rem);
-  line-height: 1.18;
-  margin: 4px 0 16px;
-  color: var(--ink);
-  animation: fadeUp 0.7s ease 0.25s both;
-}
-
-.book-page p {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  color: #463c38;
-  font-size: 1rem;
-  line-height: 1.82;
-  margin: 14px auto;
-  max-width: 52ch;
-  animation: fadeUp 0.8s ease 0.35s both;
-}
+.page-kicker { font-family: 'Caveat', cursive; color: var(--accent); font-size: 1.45rem; margin-bottom: 6px; }
+.book-title { font-size: clamp(2.2rem, 6vw, 3.4rem); line-height: 1.1; margin: 6px 0 16px; color: var(--ink); }
+.book-page h2 { font-size: clamp(1.85rem, 4.5vw, 2.5rem); line-height: 1.18; margin: 4px 0 16px; color: var(--ink); }
+.book-page p { white-space: pre-wrap; overflow-wrap: anywhere; color: #463c38; font-size: 1rem; line-height: 1.82; margin: 14px auto; max-width: 52ch; }
 
 .polaroid-frame {
   position: relative;
@@ -844,75 +730,122 @@ h1, h2, h3, .book-title {
   border-radius: 4px;
   box-shadow: 0 8px 24px rgba(43, 35, 32, 0.12);
   margin: 12px auto 16px;
-  transform: rotate(-1.2deg);
-  transition: transform 0.35s ease;
   max-width: 100%;
-  overflow: hidden;
-  animation: fadeUp 0.75s ease 0.3s both;
 }
 
-.polaroid-frame::after {
-  content: "";
-  position: absolute;
-  top: 0; left: -120%;
-  width: 60%; height: 100%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.45), transparent);
-  animation: photoSheen 4.5s ease-in-out infinite;
+.book-photo { width: 100%; max-height: 300px; object-fit: cover; border-radius: 2px; display: block; }
+.page-date { font-family: 'Caveat', cursive; color: var(--accent-dark); font-size: 1.45rem; margin-top: 14px; }
+
+/* =========================================================
+   ESTÚDIO DE ANIMAÇÃO HD (LIVRO FOLHEANDO + FILME DO CASAL)
+   ========================================================= */
+.cinema-studio-card {
+  background: #1a1514;
+  border: 2px solid #d4c3b0;
+  border-radius: 18px;
+  padding: 14px;
+  margin: 8px auto;
+  max-width: 680px;
+  box-shadow: 0 22px 50px rgba(43, 35, 32, 0.22);
+  color: #fcf9f4;
 }
 
-@keyframes photoSheen {
-  0%, 70% { left: -120%; }
-  100% { left: 160%; }
-}
-
-.polaroid-frame:hover { transform: rotate(0deg) scale(1.02); }
-
-.polaroid-frame::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  transform: translateX(-50%) rotate(2deg);
-  width: 80px;
-  height: 20px;
-  background: var(--tape);
-  z-index: 2;
-}
-
-.book-photo {
+.cinema-canvas-wrap {
+  position: relative;
   width: 100%;
-  max-height: 310px;
-  object-fit: cover;
-  border-radius: 2px;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #120f18;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
+}
+
+.cinema-canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
   display: block;
 }
 
-.page-date {
-  font-family: 'Caveat', cursive;
-  color: var(--accent-dark);
-  font-size: 1.45rem;
+.cinema-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+}
+
+.cinema-btn {
+  background: rgba(255,255,255,0.1);
+  color: #fcf9f4;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 99px;
+  padding: 7px 15px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.cinema-btn:hover { background: rgba(255,255,255,0.2); }
+.cinema-btn.gold { background: linear-gradient(135deg, #c25e54, #9c3f36); border: 0; color: #fff; }
+
+.share-gift-box {
+  background: #faf5ed;
+  border: 1.5px solid #dfd2c3;
+  border-radius: 14px;
+  padding: 16px;
   margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  text-align: left;
+  color: var(--ink);
+}
+
+.qr-preview {
+  width: 78px;
+  height: 78px;
+  border-radius: 8px;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.live-clock-pill {
+  display: inline-block;
+  background: #f2e1dc;
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 5px 14px;
+  border-radius: 99px;
+  margin-top: 8px;
 }
 
 .final-mode-switch {
   display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
   background: #f2e8dc;
   border: 1px solid var(--line);
   border-radius: 99px;
   padding: 4px;
-  margin: 6px auto 16px;
+  margin: 6px auto 14px;
   gap: 4px;
 }
 
 .mode-btn {
   border: 0;
   border-radius: 99px;
-  padding: 7px 16px;
-  font-size: 0.84rem;
+  padding: 7px 14px;
+  font-size: 0.82rem;
   font-weight: 600;
   background: transparent;
   color: var(--muted);
-  transition: all 0.2s;
 }
 
 .mode-btn.active {
@@ -931,16 +864,11 @@ h1, h2, h3, .book-title {
   max-width: 52ch;
 }
 
-.final-letter p {
-  margin: 0 0 12px;
-  text-align: left;
-  font-size: 0.96rem;
-}
-
+.final-letter p { margin: 0 0 12px; text-align: left; font-size: 0.96rem; }
 .final-letter p:last-child { margin-bottom: 0; }
 
 .reroll-btn {
-  margin-top: 12px;
+  margin-top: 10px;
   background: transparent;
   border: 1px dashed var(--accent);
   color: var(--accent-dark);
@@ -950,266 +878,18 @@ h1, h2, h3, .book-title {
   font-weight: 600;
 }
 
-.reroll-btn:hover { background: var(--accent-soft); }
-
-/* =========================================================
-   PALCO CINEMATOGRÁFICO COM JOGO DE CÂMERAS, ZOOM E CENÁRIOS
-   ========================================================= */
-.story-theater {
-  background: #fbf6ee;
-  border: 1.5px solid #e2d4c3;
-  border-radius: 16px;
-  padding: 16px;
-  margin: 8px auto;
-  max-width: 620px;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 14px 36px rgba(43, 35, 32, 0.08);
-}
-
-.theater-viewport {
-  height: 270px;
-  position: relative;
-  border-radius: 12px;
-  border: 1px solid #dccbb7;
-  overflow: hidden;
-  background: #f5ede3;
-}
-
-.camera-rig {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  transform-origin: center bottom;
-  transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), background 1.2s ease;
-}
-
-.cam-wide      { transform: scale(1) translate(0, 0); }
-.cam-zoom-left { transform: scale(1.48) translate(16%, 10%); }
-.cam-zoom-right{ transform: scale(1.48) translate(-16%, 10%); }
-.cam-closeup   { transform: scale(1.55) translate(0, 12%); }
-.cam-pan-right { transform: scale(1.18) translate(-6%, 3%); }
-
-.sky-morning { background: linear-gradient(180deg, #e7f0f5 0%, #f9f3e8 78%, #e4d4be 78%, #dcc7ad 100%); }
-.sky-sunset  { background: linear-gradient(180deg, #f7d9c4 0%, #fce8d5 78%, #dfc9b0 78%, #d2b89c 100%); }
-.sky-night   { background: linear-gradient(180deg, #252233 0%, #423850 78%, #362e3d 78%, #2a2330 100%); }
-.sky-school  { background: linear-gradient(180deg, #e8f1f2 0%, #f8f4ea 78%, #d6cbbd 78%, #c7b9a8 100%); }
-.sky-tree    { background: linear-gradient(180deg, #e5f2e6 0%, #f7f4e6 78%, #c9d6b8 78%, #b3c49e 100%); }
-
-.scenery-backdrop {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.theater-caption {
-  font-family: 'Caveat', cursive;
-  font-size: 1.52rem;
-  color: var(--ink);
-  min-height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 10px;
-  line-height: 1.25;
-}
-
-.theater-progress {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 6px;
-}
-
-.dot-step {
-  width: 26px;
-  height: 4px;
-  border-radius: 4px;
-  background: #e2d5c7;
-  transition: background 0.3s;
-}
-
-.dot-step.active { background: var(--accent); }
-
-.actor-left, .actor-right {
-  position: absolute;
-  bottom: 18px;
-  width: 78px;
-  height: 92px;
-  z-index: 6;
-  transition: all 1.1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.actor-left { left: 16%; }
-.actor-right { right: 16%; }
-
-.actor-walking { animation: walkBob 0.42s ease-in-out infinite alternate; }
-.actor-happy { animation: happyJump 0.55s ease-in-out infinite alternate; }
-
-@keyframes walkBob {
-  from { transform: translateY(0px) rotate(-2.5deg); }
-  to { transform: translateY(-7px) rotate(2.5deg); }
-}
-
-@keyframes happyJump {
-  from { transform: translateY(0px) scale(1); }
-  to { transform: translateY(-10px) scale(1.03); }
-}
-
-.prop-layer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 12px 14px;
-}
-
-.story-badge {
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid #dfd2c3;
-  padding: 4px 12px;
-  border-radius: 99px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--accent-dark);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  margin: 3px;
-}
-
-.speech-bubble {
-  background: #fff;
-  border: 1.5px solid #2b2320;
-  border-radius: 14px;
-  padding: 5px 12px;
-  font-family: 'Caveat', cursive;
-  font-size: 1.24rem;
-  color: #2b2320;
-  position: relative;
-  box-shadow: 2px 3px 0 rgba(43,35,32,0.12);
-  animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  max-width: 82%;
-}
-
-.mini-polaroid-garland {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 6px;
-}
-
-.mini-polaroid {
-  width: 52px;
-  height: 60px;
-  background: #fff;
-  padding: 4px 4px 11px;
-  border-radius: 3px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.14);
-  animation: popIn 0.5s ease both;
-}
-
-.mini-polaroid img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.star-twinkle {
-  position: absolute;
-  color: #f7d060;
-  animation: twinkle 1.4s ease-in-out infinite alternate;
-}
-
-@keyframes twinkle {
-  from { opacity: 0.3; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1.25); }
-}
-
-@keyframes popIn {
-  from { opacity: 0; transform: scale(0.7) translateY(8px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-/* =========================================================
-   BONEQUINHOS CAMINHANDO E PUXANDO AS PÁGINAS DO LIVRO
-   ========================================================= */
 .characters-stage {
-  width: min(700px, 100%);
-  height: 84px;
+  width: min(740px, 100%);
+  height: 82px;
   position: relative;
-  margin-top: -10px;
+  margin-top: -8px;
   z-index: 20;
   pointer-events: none;
 }
 
-.char {
-  width: 72px;
-  height: 78px;
-  position: absolute;
-  bottom: 0;
-  transition: left 1.1s cubic-bezier(0.22, 1, 0.36, 1), right 1.1s cubic-bezier(0.22, 1, 0.36, 1);
-  animation: charStroll 1.8s ease-in-out infinite;
-}
-
+.char { width: 70px; height: 78px; position: absolute; bottom: 0; transition: left 1.1s ease, right 1.1s ease; }
 .char-left { left: 4%; }
-.char-right { right: 4%; animation-delay: 0.9s; }
-
-@keyframes charStroll {
-  0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
-  25% { transform: translateY(-5px) rotate(1.5deg); }
-  50% { transform: translateY(0px) rotate(0deg); }
-  75% { transform: translateY(-4px) rotate(-1.5deg); }
-}
-
-.char-right.pulling {
-  animation: pullPageRight 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
-}
-
-@keyframes pullPageRight {
-  0% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(18px, -16px) rotate(-14deg) scale(1.06); }
-  55% { transform: translate(-55px, -10px) rotate(-22deg) scale(1.06); }
-  80% { transform: translate(-20px, -2px) rotate(-6deg); }
-  100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-}
-
-.char-left.pulling {
-  animation: pullPageLeft 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
-}
-
-@keyframes pullPageLeft {
-  0% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(-18px, -16px) rotate(14deg) scale(1.06); }
-  55% { transform: translate(55px, -10px) rotate(22deg) scale(1.06); }
-  80% { transform: translate(20px, -2px) rotate(6deg); }
-  100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-}
-
-.mini-heart {
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  opacity: 0;
-  color: var(--accent);
-  font-size: 15px;
-}
-
-.char.pulling .mini-heart {
-  animation: popHeart 0.8s ease-out forwards;
-}
-
-@keyframes popHeart {
-  0% { opacity: 0; transform: translate(-50%, 0) scale(0.5); }
-  40% { opacity: 1; transform: translate(-50%, -18px) scale(1.2); }
-  100% { opacity: 0; transform: translate(-50%, -32px) scale(0.9); }
-}
+.char-right { right: 4%; }
 
 .reader-controls {
   position: fixed;
@@ -1225,7 +905,6 @@ h1, h2, h3, .book-title {
   border: 1px solid var(--line);
   border-radius: 99px;
   box-shadow: 0 10px 30px rgba(43, 35, 32, 0.12);
-  backdrop-filter: blur(10px);
 }
 
 .reader-controls button {
@@ -1236,7 +915,6 @@ h1, h2, h3, .book-title {
   color: var(--accent-dark);
   font-weight: 600;
   font-size: 0.88rem;
-  transition: all 0.2s;
 }
 
 .reader-controls button:hover:not(:disabled) { background: var(--accent); color: #fff; }
@@ -1261,65 +939,114 @@ h1, h2, h3, .book-title {
   .product-selector { grid-template-columns: 1fr; }
   .customizer-layout { grid-template-columns: 1fr; }
   .preview-stage-box { order: -1; }
+  .share-gift-box { flex-direction: column; text-align: center; }
 }
 
 @media (max-width: 620px) {
   .grid, .photo-grid { grid-template-columns: 1fr; }
   .panel { padding: 20px 16px; }
   .topbar { flex-direction: column; gap: 8px; }
-  .book-page { max-height: calc(100vh - 190px); padding: 24px 18px; }
-  .characters-stage { height: 68px; }
-  .char { width: 56px; height: 62px; }
 }
 </style>
 </head>
 <body>
 
-<nav class="topbar" id="topbar">
+<!-- =========================================================
+     1. SISTEMA DE LOGIN SIMPLES E SEGURO (CRIPTOGRAFIA SHA-256)
+     ========================================================= -->
+<section id="auth-screen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">♥</div>
+    <div style="font-family:'Caveat',cursive;color:var(--accent);font-size:1.35rem;">Estúdio de Presentes Vivos</div>
+    <h1>Nossa História</h1>
+    <p style="font-size:0.86rem;color:var(--muted);">Entre para criar ou gerenciar seus livros e vídeos personalizados.</p>
+
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab-btn active" id="tab-login">Entrar</button>
+      <button type="button" class="auth-tab-btn" id="tab-register">Criar Conta</button>
+    </div>
+
+    <div id="auth-error" class="auth-error hidden"></div>
+
+    <form id="auth-form" class="auth-form">
+      <div class="field hidden" id="auth-name-wrap">
+        <label for="auth-name">Seu nome</label>
+        <input id="auth-name" type="text" placeholder="Ex.: João Silva">
+      </div>
+      <div class="field">
+        <label for="auth-email">E-mail</label>
+        <input id="auth-email" type="email" required placeholder="seu@email.com">
+      </div>
+      <div class="field">
+        <label for="auth-pass">Senha (mínimo 6 caracteres)</label>
+        <input id="auth-pass" type="password" required minlength="6" placeholder="••••••">
+      </div>
+      <button type="submit" class="btn primary" style="width:100%;margin-top:6px;" id="auth-submit-btn">Acessar Estúdio</button>
+    </form>
+
+    <div class="security-badge">
+      <span>🔒 Protegido com criptografia SHA-256 local</span>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     2. BARRA SUPERIOR DO SISTEMA AUTENTICADO
+     ========================================================= -->
+<nav class="topbar hidden" id="topbar">
   <div class="brand-mini">
     <span>Nossa História</span>
     <span class="edition-pill" id="edition-code">Edição Única</span>
   </div>
   <div class="nav-tabs">
     <button class="tab active" id="editor-tab">1. Personalizar</button>
-    <button class="tab" id="reader-tab">2. Ver Resultado</button>
+    <button class="tab" id="reader-tab">2. Ver Presente</button>
+    <button class="logout-btn" id="logout-btn" title="Encerrar sessão">Sair</button>
   </div>
 </nav>
 
-<main id="editor" class="editor wrap">
+<!-- =========================================================
+     3. EDITOR DO PRESENTE
+     ========================================================= -->
+<main id="editor" class="editor wrap hidden">
   <section class="showcase-hero">
     <div>
-      <span class="kicker">Escolha o formato do seu presente</span>
-      <h1>Transforme a história de vocês em arte viva</h1>
-      <p>Crie um livro interativo com chuva de flores caindo nas páginas, bonequinhos caminhando e puxando as folhas, ou um curta animado cinematográfico.</p>
+      <span class="kicker" id="welcome-user-kicker">Bem-vindo ao estúdio</span>
+      <h1>Crie o livro animado para enviar para quem você ama</h1>
+      <p>Gere uma animação realista do livro abrindo e folheando todas as páginas com suas fotos e mensagens, pronto para enviar no WhatsApp ou baixar em vídeo.</p>
+      <div class="value-badges">
+        <span class="v-badge">📖 Vídeo do Livro Folheando</span>
+        <span class="v-badge">🎬 Filme Animado do Casal</span>
+        <span class="v-badge">📱 Link & QR Code de Envio</span>
+      </div>
     </div>
 
     <div class="hero-mockup-card" aria-hidden="true">
       <div class="wax-seal-mini">♥</div>
       <div style="font-family:'Caveat',cursive;color:var(--accent);font-size:1.15rem;">Edição Colecionável</div>
       <div style="font-family:'Cormorant Garamond',serif;font-weight:700;font-size:1.55rem;margin:2px 0 8px;">Vocês Dois</div>
-      <div style="display:flex;justify-content:center;gap:8px;height:66px;" id="hero-mini-chars"></div>
-      <div style="font-size:0.74rem;color:var(--muted);margin-top:8px;">Com flores caindo e bonecos vivos</div>
+      <div style="display:flex;justify-content:center;gap:8px;height:68px;" id="hero-mini-chars"></div>
+      <div style="font-size:0.74rem;color:var(--muted);margin-top:8px;">Pronto para enviar pelo celular</div>
     </div>
   </section>
 
-  <!-- SELETOR DE FORMATO NA PÁGINA INICIAL -->
+  <!-- SELETOR DE FORMATO -->
   <section class="product-selector" id="product-selector">
+    <div class="prod-card" data-mode="book-video">
+      <span class="prod-icon">📹</span>
+      <strong>Vídeo do Livro Folheando</strong>
+      <span>Animação do livro abrindo página por página para mandar no WhatsApp</span>
+    </div>
     <div class="prod-card" data-mode="animation">
       <span class="prod-icon">🎬</span>
-      <strong>Só Animação</strong>
-      <span>Curta animado com câmeras, zoom, cenários e exportação em vídeo</span>
-    </div>
-    <div class="prod-card" data-mode="book">
-      <span class="prod-icon">📖</span>
-      <strong>Só Livro Interativo</strong>
-      <span>Envelope com selo de cera, chuva de flores, bonecos andando e carta</span>
+      <strong>Filme Animado do Casal</strong>
+      <span>Curta cinematográfico com os personagens e fogos no final</span>
     </div>
     <div class="prod-card selected" data-mode="both">
-      <span class="prod-badge">Mais escolhido</span>
+      <span class="prod-badge">Completo</span>
       <span class="prod-icon">✨</span>
-      <strong>Livro + Animação</strong>
-      <span>A experiência completa com o livro florido e o filme no final</span>
+      <strong>Livro + Vídeos para Enviar</strong>
+      <span>Livro interativo, vídeo do livro folheando, filme do casal e QR Code</span>
     </div>
   </section>
 
@@ -1361,27 +1088,30 @@ h1, h2, h3, .book-title {
     </div>
   </section>
 
-  <!-- 2. CRIADOR DOS BONEQUINHOS -->
+  <!-- 2. CRIADOR DOS PERSONAGENS -->
   <section class="panel">
     <div class="panel-header">
       <span class="step-num">2</span>
-      <h2>Monte os bonequinhos de vocês</h2>
+      <h2>Personalize os personagens</h2>
     </div>
 
     <div class="customizer-layout">
       <div class="char-config-box">
-        <h3 id="label-char-1">Boneco 1</h3>
+        <h3 id="label-char-1">Personagem 1</h3>
         <div class="field">
-          <label>Gênero / Estilo</label>
+          <label>Gênero</label>
           <select id="c1-gender">
             <option value="female" selected>Feminino</option>
             <option value="male">Masculino</option>
-            <option value="neutral">Neutro / Livre</option>
           </select>
         </div>
         <div class="field">
-          <label>Cabelo</label>
+          <label>Estilo de cabelo</label>
           <select id="c1-hair"></select>
+        </div>
+        <div class="field">
+          <label>Cor do cabelo</label>
+          <div class="color-swatches" id="c1-hair-colors"></div>
         </div>
         <div class="field">
           <label>Roupa</label>
@@ -1408,25 +1138,28 @@ h1, h2, h3, .book-title {
 
       <div class="preview-stage-box">
         <div class="preview-duo">
-          <div id="preview-c1" style="width:78px;height:96px;"></div>
-          <div id="preview-c2" style="width:78px;height:96px;"></div>
+          <div id="preview-c1" style="width:86px;height:105px;"></div>
+          <div id="preview-c2" style="width:86px;height:105px;"></div>
         </div>
         <span class="preview-caption">Prévia ao vivo do casal</span>
       </div>
 
       <div class="char-config-box">
-        <h3 id="label-char-2">Boneco 2</h3>
+        <h3 id="label-char-2">Personagem 2</h3>
         <div class="field">
-          <label>Gênero / Estilo</label>
+          <label>Gênero</label>
           <select id="c2-gender">
             <option value="male" selected>Masculino</option>
             <option value="female">Feminino</option>
-            <option value="neutral">Neutro / Livre</option>
           </select>
         </div>
         <div class="field">
-          <label>Cabelo</label>
+          <label>Estilo de cabelo</label>
           <select id="c2-hair"></select>
+        </div>
+        <div class="field">
+          <label>Cor do cabelo</label>
+          <div class="color-swatches" id="c2-hair-colors"></div>
         </div>
         <div class="field">
           <label>Roupa</label>
@@ -1467,8 +1200,8 @@ h1, h2, h3, .book-title {
         <input id="cover-photo" type="file" accept="image/*">
       </label>
       <div class="note-card">
-        <strong style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:4px;">Livro Vivo & Florido</strong>
-        <p style="font-size:0.85rem;color:var(--muted);">Ao abrir o livro, pétalas de flores caem suavemente pelo céu enquanto os bonequinhos caminham juntos rumo à última página.</p>
+        <strong style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:4px;">Pronto para enviar para a pessoa!</strong>
+        <p style="font-size:0.85rem;color:var(--muted);">Ao gerar, você terá uma <strong>animação em vídeo do livro abrindo e virando todas as páginas</strong> (perfeita para mandar no WhatsApp ou Instagram) + um link exclusivo que abre o presente sem pedir senha.</p>
       </div>
     </div>
   </section>
@@ -1476,16 +1209,16 @@ h1, h2, h3, .book-title {
   <!-- 4. CAPÍTULOS / CENAS -->
   <section class="panel">
     <div class="panel-header">
-      <span class="step-num" id="chapters-step-num">4</span>
-      <h2 id="chapters-heading">Capítulos e cenas da história</h2>
+      <span class="step-num">4</span>
+      <h2>Capítulos e fotos do livro</h2>
     </div>
     <div id="chapters"></div>
-    <button class="add" id="add-chapter">+ Adicionar novo capítulo / cena</button>
+    <button class="add" id="add-chapter">+ Adicionar novo capítulo</button>
   </section>
 
   <div class="actions">
-    <button class="btn primary wide" id="make-book">Gerar livro + animação ♥</button>
-    <p class="hint">Processado 100% no seu navegador com privacidade total.</p>
+    <button class="btn primary wide" id="make-book">Gerar livro animado para enviar ♥</button>
+    <p class="hint">Gera animação do livro folheando em HD, link compartilhável e QR Code.</p>
   </div>
 </main>
 
@@ -1496,37 +1229,38 @@ h1, h2, h3, .book-title {
   <div class="envelope-box">
     <div class="envelope-flap"></div>
     <div style="z-index:4;margin-top:42px;">
-      <div style="font-family:'Caveat',cursive;color:var(--accent);font-size:1.45rem;">Um presente especial para</div>
+      <div style="font-family:'Caveat',cursive;color:var(--accent);font-size:1.45rem;">Um presente exclusivo para</div>
       <h2 id="envelope-names" style="font-size:2.1rem;color:var(--ink);margin:2px 0;">Vocês Dois</h2>
-      <p style="font-size:0.84rem;color:var(--muted);">Clique no selo de cera para abrir</p>
+      <p style="font-size:0.84rem;color:var(--muted);">Toque no selo de cera para abrir</p>
     </div>
     <button type="button" class="wax-seal-btn" id="break-seal-btn" title="Abrir presente">♥</button>
   </div>
 </div>
 
 <!-- =========================================================
-     MODO SOMENTE ANIMAÇÃO (CINEMA EXCLUSIVO)
+     MODO SOMENTE VÍDEO (LIVRO FOLHEANDO OU FILME DO CASAL)
      ========================================================= -->
 <section id="cinema-only-view" class="hidden">
   <div class="floating-bg" id="floating-bg-cinema"></div>
   <div class="readerbar">
     <div class="brand">
-      <span>🎬 Cinema de Nossa História</span>
+      <span id="cinema-brand-label">📹 Animação do Livro</span>
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
-      <button class="btn secondary" id="music-toggle-cinema">♪ Música: Off</button>
-      <button class="btn secondary" id="back-editor-cinema">Editar cenas</button>
+      <button class="btn secondary" id="music-toggle-cinema">♪ Trilha: Off</button>
+      <button class="btn secondary" id="back-editor-cinema">Editar</button>
     </div>
   </div>
-  <div class="wrap" style="padding-top:16px;text-align:center;position:relative;z-index:8;">
-    <div class="page-kicker" id="cinema-subtitle">Edição animada</div>
-    <h1 class="book-title" id="cinema-title" style="margin-bottom:14px;">Vocês Dois</h1>
-    <div class="story-theater" id="standalone-theater" style="max-width:680px;"></div>
+  <div class="wrap" style="padding-top:10px;text-align:center;position:relative;z-index:8;">
+    <div class="page-kicker" id="cinema-subtitle">Pronto para enviar para quem você ama</div>
+    <h1 class="book-title" id="cinema-title" style="margin-bottom:4px;">Vocês Dois</h1>
+    <div id="cinema-live-clock" class="live-clock-pill hidden"></div>
+    <div id="standalone-theater" style="margin-top:14px;"></div>
   </div>
 </section>
 
 <!-- =========================================================
-     MODO LEITOR (LIVRO COM FLORES CAINDO E BONECOS ANDANDO)
+     MODO LEITOR COMPLETO (LIVRO + VÍDEO FOLHEANDO + FILME)
      ========================================================= -->
 <section id="reader" class="hidden">
   <div class="floating-bg" id="floating-bg"></div>
@@ -1537,25 +1271,17 @@ h1, h2, h3, .book-title {
       <span>Nossa História</span>
     </div>
     <div style="display:flex;gap:8px;align-items:center;">
-      <button class="btn secondary" id="music-toggle">♪ Música: Off</button>
-      <button class="btn secondary" id="back-editor">Editar conteúdo</button>
+      <button class="btn secondary" id="music-toggle">♪ Trilha: Off</button>
+      <button class="btn secondary" id="back-editor">Editar</button>
     </div>
   </div>
 
   <div class="book-stage">
     <div class="book-wrapper" id="book-stage"></div>
 
-    <!-- Bonequinhos que caminham ao longo das páginas e se aproximam no final -->
     <div class="characters-stage" aria-hidden="true">
-      <div class="char char-left" id="char-left">
-        <span class="mini-heart">♥</span>
-        <div id="char-left-svg"></div>
-      </div>
-
-      <div class="char char-right" id="char-right">
-        <span class="mini-heart">♥</span>
-        <div id="char-right-svg"></div>
-      </div>
+      <div class="char char-left" id="char-left"><div id="char-left-svg"></div></div>
+      <div class="char char-right" id="char-right"><div id="char-right-svg"></div></div>
     </div>
   </div>
 
@@ -1575,53 +1301,204 @@ let chapterId = 0;
 let pages = [];
 let pageIndex = 0;
 let coverImage = "";
-let isAnimating = false;
 let letterVariationIndex = 0;
 let currentStoryContext = null;
-let theaterTimer = null;
-let mediaRecorder = null;
-let recordedChunks = [];
+let canvasAnimFrame = null;
+let liveClockInterval = null;
 let audioCtx = null;
 let musicInterval = null;
 let isMusicPlaying = false;
 
 $("edition-code").textContent = `Edição #${Math.floor(1000 + Math.random() * 8999)}`;
 
+/* =========================================================
+   1. SISTEMA DE AUTENTICAÇÃO SIMPLES E SEGURO (WEB CRYPTO SHA-256)
+   ========================================================= */
+let authMode = "login"; // "login" | "register"
+
+async function hashPassword(password, salt) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(`${salt}:${password}`);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+function getStoredUsers() {
+  try {
+    return JSON.parse(localStorage.getItem("nh_users_db") || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function saveStoredUsers(db) {
+  localStorage.setItem("nh_users_db", JSON.stringify(db));
+}
+
+function getCurrentSession() {
+  try {
+    return JSON.parse(sessionStorage.getItem("nh_active_session") || "null");
+  } catch {
+    return null;
+  }
+}
+
+function setCurrentSession(userObj) {
+  sessionStorage.setItem("nh_active_session", JSON.stringify(userObj));
+}
+
+function showAuthError(msg) {
+  const errEl = $("auth-error");
+  errEl.textContent = msg;
+  errEl.classList.remove("hidden");
+}
+
+function enterAuthenticatedApp(user) {
+  $("auth-screen").classList.add("hidden");
+  $("topbar").classList.remove("hidden");
+  $("editor").classList.remove("hidden");
+  $("welcome-user-kicker").textContent = `Olá, ${user.name || "Criador"} • Estúdio Ativo`;
+}
+
+function initAuthSystem() {
+  // Verifica se o link aberto é um presente compartilhado (?gift=...)
+  const params = new URLSearchParams(window.location.search);
+  const giftPayload = params.get("gift");
+  if (giftPayload) {
+    try {
+      const decoded = JSON.parse(decodeURIComponent(escape(atob(giftPayload))));
+      $("auth-screen").classList.add("hidden");
+      openSharedGiftDirectly(decoded);
+      return;
+    } catch (e) {
+      console.warn("Link de presente inválido, abrindo login.");
+    }
+  }
+
+  const existingSession = getCurrentSession();
+  if (existingSession) {
+    enterAuthenticatedApp(existingSession);
+    return;
+  }
+
+  $("tab-login").addEventListener("click", () => {
+    authMode = "login";
+    $("tab-login").classList.add("active");
+    $("tab-register").classList.remove("active");
+    $("auth-name-wrap").classList.add("hidden");
+    $("auth-submit-btn").textContent = "Acessar Estúdio";
+    $("auth-error").classList.add("hidden");
+  });
+
+  $("tab-register").addEventListener("click", () => {
+    authMode = "register";
+    $("tab-register").classList.add("active");
+    $("tab-login").classList.remove("active");
+    $("auth-name-wrap").classList.remove("hidden");
+    $("auth-submit-btn").textContent = "Criar Conta Segura";
+    $("auth-error").classList.add("hidden");
+  });
+
+  $("auth-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    $("auth-error").classList.add("hidden");
+
+    const email = $("auth-email").value.trim().toLowerCase();
+    const pass = $("auth-pass").value;
+    const name = $("auth-name").value.trim() || email.split("@")[0];
+
+    if (pass.length < 6) {
+      showAuthError("A senha precisa ter pelo menos 6 caracteres.");
+      return;
+    }
+
+    const db = getStoredUsers();
+
+    if (authMode === "register") {
+      if (db[email]) {
+        showAuthError("Este e-mail já possui conta. Clique em Entrar.");
+        return;
+      }
+      const salt = crypto.getRandomValues(new Uint32Array(2)).join("-");
+      const hash = await hashPassword(pass, salt);
+      db[email] = { name, email, salt, hash, createdAt: Date.now() };
+      saveStoredUsers(db);
+      setCurrentSession({ name, email });
+      enterAuthenticatedApp({ name, email });
+    } else {
+      const userRecord = db[email];
+      if (!userRecord) {
+        showAuthError("Conta não encontrada. Crie uma conta na aba ao lado.");
+        return;
+      }
+      const attemptHash = await hashPassword(pass, userRecord.salt);
+      if (attemptHash !== userRecord.hash) {
+        showAuthError("Senha incorreta. Tente novamente.");
+        return;
+      }
+      setCurrentSession({ name: userRecord.name, email });
+      enterAuthenticatedApp({ name: userRecord.name, email });
+    }
+  });
+
+  $("logout-btn").addEventListener("click", () => {
+    sessionStorage.removeItem("nh_active_session");
+    if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+    if (liveClockInterval) clearInterval(liveClockInterval);
+    $("editor").classList.add("hidden");
+    $("topbar").classList.add("hidden");
+    $("reader").classList.add("hidden");
+    $("cinema-only-view").classList.add("hidden");
+    $("auth-screen").classList.remove("hidden");
+  });
+}
+
+function buildShareableGiftLink(ctx) {
+  const compactData = {
+    her: ctx.her,
+    him: ctx.him,
+    meet: ctx.meet,
+    formattedDate: ctx.formattedDate,
+    timeTogether: ctx.timeTogether,
+    c1: charState.c1,
+    c2: charState.c2,
+    chapters: ctx.chapters.map(c => ({ number: c.number, title: c.title, text: c.text }))
+  };
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(compactData))));
+  return `${window.location.href.split("?")[0]}?gift=${encoded}`;
+}
+
+function openSharedGiftDirectly(data) {
+  if (data.c1) charState.c1 = data.c1;
+  if (data.c2) charState.c2 = data.c2;
+  currentStoryContext = {
+    her: data.her || "Você",
+    him: data.him || "Eu",
+    meet: data.meet || { shortLabel: "de um jeito especial" },
+    chapters: data.chapters || [{ number: 1, title: "Nosso começo", text: "Cada dia ao seu lado é único." }],
+    formattedDate: data.formattedDate || "Nosso dia",
+    timeTogether: data.timeTogether || null
+  };
+  selectedExperience = "both";
+  renderBookExperience(currentStoryContext, "");
+}
+
+/* =========================================================
+   SELETOR DE FORMATO DO PRODUTO
+   ========================================================= */
 document.querySelectorAll(".prod-card").forEach(card => {
   card.addEventListener("click", () => {
     document.querySelectorAll(".prod-card").forEach(c => c.classList.remove("selected"));
     card.classList.add("selected");
     selectedExperience = card.dataset.mode;
 
-    const isOnlyAnim = selectedExperience === "animation";
-    $("cover-panel").classList.toggle("hidden", isOnlyAnim);
-    $("chapters-step-num").textContent = isOnlyAnim ? "3" : "4";
-    $("chapters-heading").textContent = isOnlyAnim
-      ? "Cenas da animação (escreva os lugares e momentos)"
-      : "Capítulos e momentos marcantes";
-    $("make-book").textContent = isOnlyAnim
-      ? "Assistir nossa animação 🎬"
-      : selectedExperience === "book"
-        ? "Lacrar e abrir nosso livro 📖"
-        : "Gerar livro + animação ♥";
+    $("make-book").textContent =
+      selectedExperience === "book-video"
+        ? "Gerar vídeo do livro folheando 📹"
+        : selectedExperience === "animation"
+          ? "Gerar filme animado do casal 🎬"
+          : "Gerar livro animado para enviar ♥";
   });
-});
-
-document.addEventListener("click", (e) => {
-  if (e.target.closest("button") || e.target.closest(".swatch") || e.target.closest(".prod-card")) {
-    const symbols = ["♥", "✦", "❀"];
-    for (let i = 0; i < 6; i++) {
-      const spark = document.createElement("span");
-      spark.className = "click-spark";
-      spark.textContent = symbols[i % symbols.length];
-      spark.style.left = `${e.clientX}px`;
-      spark.style.top = `${e.clientY}px`;
-      spark.style.setProperty("--dx", `${(Math.random() - 0.5) * 80}px`);
-      spark.style.setProperty("--dy", `${-Math.random() * 60 - 15}px`);
-      document.body.appendChild(spark);
-      setTimeout(() => spark.remove(), 850);
-    }
-  }
 });
 
 function toggleAmbientMusic() {
@@ -1629,7 +1506,7 @@ function toggleAmbientMusic() {
   if (isMusicPlaying) {
     isMusicPlaying = false;
     if (musicInterval) clearInterval(musicInterval);
-    btns.forEach(b => { if (b) b.textContent = "♪ Música: Off"; });
+    btns.forEach(b => { if (b) b.textContent = "♪ Trilha: Off"; });
     return;
   }
 
@@ -1637,7 +1514,7 @@ function toggleAmbientMusic() {
   if (audioCtx.state === "suspended") audioCtx.resume();
 
   isMusicPlaying = true;
-  btns.forEach(b => { if (b) b.textContent = "♪ Música: On"; });
+  btns.forEach(b => { if (b) b.textContent = "♪ Trilha: On"; });
 
   const notes = [349.23, 440.00, 523.25, 659.25, 587.33, 523.25, 440.00, 392.00];
   let idx = 0;
@@ -1658,10 +1535,13 @@ function toggleAmbientMusic() {
   };
 
   playNote();
-  musicInterval = setInterval(playNote, 950);
+  musicInterval = setInterval(playNote, 920);
 }
 
-const PALETTE = [
+/* =========================================================
+   PERSONALIZAÇÃO DE PERSONAGENS (CABELOS 100% VOLUMOSOS)
+   ========================================================= */
+const OUTFIT_PALETTE = [
   { name: "Terracota", hex: "#b5544b" },
   { name: "Salmão", hex: "#d98a7c" },
   { name: "Azul Marinho", hex: "#3d5a80" },
@@ -1671,33 +1551,38 @@ const PALETTE = [
   { name: "Carvão", hex: "#383230" }
 ];
 
+const HAIR_PALETTE = [
+  { name: "Preto Ébano", hex: "#211b19" },
+  { name: "Castanho Escuro", hex: "#4a3226" },
+  { name: "Castanho Mel", hex: "#7c5238" },
+  { name: "Loiro Dourado", hex: "#cfa355" },
+  { name: "Ruivo Acobreado", hex: "#a8442a" },
+  { name: "Platinado", hex: "#dcd6ce" }
+];
+
 const HAIR_OPTIONS = {
   female: [
+    { value: "curly-long-vol", label: "Cacheado longo volumoso" },
+    { value: "curly-med-def", label: "Cacheado médio definido" },
+    { value: "afro-puff", label: "Black Power / Afro cheio" },
+    { value: "curly-pineapple", label: "Coque abacaxi cacheado" },
     { value: "long-straight", label: "Longo liso cheio" },
-    { value: "long-wavy", label: "Longo ondulado volumoso" },
     { value: "long-bangs", label: "Longo com franja cheia" },
-    { value: "ponytail", label: "Rabo de cavalo alto" },
-    { value: "bun", label: "Coque cheio" },
-    { value: "bob", label: "Chanel / Médio" }
+    { value: "ponytail", label: "Rabo de cavalo alto" }
   ],
   male: [
-    { value: "messy-top", label: "Topete volumoso" },
-    { value: "short-classic", label: "Clássico bem cheio" },
-    { value: "curly-short", label: "Cacheado volumoso" },
-    { value: "beard-guy", label: "Cabelo cheio + barba" },
-    { value: "side-part", label: "Franja lateral" }
-  ],
-  neutral: [
-    { value: "long-straight", label: "Longo liso cheio" },
-    { value: "messy-top", label: "Topete volumoso" },
-    { value: "curly-short", label: "Cacheado volumoso" },
-    { value: "bun", label: "Coque cheio" }
+    { value: "curly-top", label: "Cacheado volumoso cheio" },
+    { value: "afro-short", label: "Afro / Black Power cheio" },
+    { value: "curly-messy", label: "Cachos médios bagunçados" },
+    { value: "curly-beard", label: "Cacheado cheio + barba" },
+    { value: "messy-top", label: "Topete volumoso cheio" },
+    { value: "short-classic", label: "Corte clássico cheio" }
   ]
 };
 
 const charState = {
-  c1: { gender: "female", hair: "long-straight", outfit: "dress", acc: "none", color: "#b5544b" },
-  c2: { gender: "male", hair: "messy-top", outfit: "shirt", acc: "none", color: "#3d5a80" }
+  c1: { gender: "female", hair: "curly-long-vol", hairColor: "#211b19", outfit: "dress", acc: "none", color: "#b5544b" },
+  c2: { gender: "male", hair: "curly-top", hairColor: "#211b19", outfit: "shirt", acc: "none", color: "#3d5a80" }
 };
 
 function populateHairOptions(key) {
@@ -1705,7 +1590,7 @@ function populateHairOptions(key) {
   const select = $(`${key}-hair`);
   const currentVal = charState[key].hair;
   select.innerHTML = "";
-  const options = HAIR_OPTIONS[gender] || HAIR_OPTIONS.neutral;
+  const options = HAIR_OPTIONS[gender] || HAIR_OPTIONS.female;
   options.forEach(opt => {
     const el = document.createElement("option");
     el.value = opt.value;
@@ -1719,132 +1604,104 @@ function populateHairOptions(key) {
   }
 }
 
-function renderStickCharacterSVG(cfg, side = "left", expression = "happy") {
-  const { gender, hair, outfit, acc, color } = cfg;
+function renderStickCharacterSVG(cfg, side = "left", expression = "happy", holdingBouquet = false) {
+  const { gender, hair, hairColor, outfit, acc, color } = cfg;
+  const hc = hairColor || "#211b19";
   const isRight = side === "right";
 
-  let hairBack = "";
-  let hairFront = "";
+  let hairBack = `<path d="M22 22 C21 6, 49 6, 48 22 Z" fill="${hc}"/>`;
+  let hairFront = `<path d="M23 18 C24 8, 46 8, 47 18 C42 13, 28 13, 23 18 Z" fill="${hc}"/>`;
 
-  if (hair === "long-straight") {
-    hairBack = `<path d="M21 21 C20 6, 50 6, 49 21 L52 43 L18 43 Z" fill="#2b2320"/>`;
-    hairFront = `<path d="M23 19 C24 8, 46 8, 47 19 C43 13, 38 12, 35 15 C32 12, 27 13, 23 19 Z" fill="#2b2320"/>`;
-  } else if (hair === "long-wavy") {
-    hairBack = `
-      <path d="M19 21 C18 5, 52 5, 51 21 C54 30, 50 38, 54 46 L16 46 C20 38, 16 30, 19 21 Z" fill="#2b2320"/>
-      <circle cx="19" cy="34" r="4.5" fill="#2b2320"/><circle cx="51" cy="34" r="4.5" fill="#2b2320"/>
+  if (hair === "curly-long-vol") {
+    hairBack += `
+      <circle cx="19" cy="17" r="7.5" fill="${hc}"/><circle cx="51" cy="17" r="7.5" fill="${hc}"/>
+      <circle cx="17" cy="27" r="8" fill="${hc}"/><circle cx="53" cy="27" r="8" fill="${hc}"/>
+      <circle cx="18" cy="37" r="7.5" fill="${hc}"/><circle cx="52" cy="37" r="7.5" fill="${hc}"/>
+      <circle cx="22" cy="44" r="6.5" fill="${hc}"/><circle cx="48" cy="44" r="6.5" fill="${hc}"/>
     `;
-    hairFront = `<path d="M23 19 C24 8, 46 8, 47 19 C42 13, 35 13, 23 19 Z" fill="#2b2320"/>`;
+    hairFront = `
+      <circle cx="25" cy="11.5" r="6.2" fill="${hc}"/>
+      <circle cx="32" cy="9" r="6.8" fill="${hc}"/>
+      <circle cx="39" cy="9" r="6.8" fill="${hc}"/>
+      <circle cx="45" cy="11.5" r="6.2" fill="${hc}"/>
+    `;
+  } else if (hair === "curly-med-def") {
+    hairBack += `
+      <circle cx="20" cy="18" r="7" fill="${hc}"/><circle cx="50" cy="18" r="7" fill="${hc}"/>
+      <circle cx="19" cy="28" r="7" fill="${hc}"/><circle cx="51" cy="28" r="7" fill="${hc}"/>
+      <circle cx="22" cy="36" r="6" fill="${hc}"/><circle cx="48" cy="36" r="6" fill="${hc}"/>
+    `;
+    hairFront = `
+      <circle cx="26" cy="11.5" r="5.8" fill="${hc}"/>
+      <circle cx="35" cy="9.5" r="6.4" fill="${hc}"/>
+      <circle cx="44" cy="11.5" r="5.8" fill="${hc}"/>
+    `;
+  } else if (hair === "afro-puff") {
+    hairBack = `<circle cx="35" cy="16" r="19.5" fill="${hc}"/>`;
+    hairFront = `
+      <circle cx="25" cy="11.5" r="5.8" fill="${hc}"/>
+      <circle cx="35" cy="9.5" r="6.5" fill="${hc}"/>
+      <circle cx="45" cy="11.5" r="5.8" fill="${hc}"/>
+    `;
+  } else if (hair === "curly-pineapple") {
+    hairBack += `<circle cx="35" cy="5" r="8" fill="${hc}"/><circle cx="27" cy="7" r="6" fill="${hc}"/><circle cx="43" cy="7" r="6" fill="${hc}"/>`;
+  } else if (hair === "long-straight") {
+    hairBack = `<path d="M20 22 C19 5, 51 5, 50 22 L53 45 L17 45 Z" fill="${hc}"/>`;
+    hairFront = `<path d="M23 19 C24 8, 46 8, 47 19 C43 13, 38 12, 35 15 C32 12, 27 13, 23 19 Z" fill="${hc}"/>`;
   } else if (hair === "long-bangs") {
-    hairBack = `<path d="M21 21 C20 6, 50 6, 49 21 L51 42 L19 42 Z" fill="#2b2320"/>`;
-    hairFront = `<path d="M23 19 C23 7, 47 7, 47 19 L43 17 L40 19 L37 16 L34 19 L31 16 L27 18 Z" fill="#2b2320"/>`;
+    hairBack = `<path d="M20 22 C19 5, 51 5, 50 22 L52 44 L18 44 Z" fill="${hc}"/>`;
+    hairFront = `<path d="M23 19 C23 7, 47 7, 47 19 L43 17 L40 19 L37 16 L34 19 L31 16 L27 18 Z" fill="${hc}"/>`;
   } else if (hair === "ponytail") {
-    hairBack = `<path d="${isRight ? "M44 13 Q61 9 56 29 Q51 22 45 18" : "M26 13 Q9 9 14 29 Q19 22 25 18"}" fill="#2b2320"/>`;
-    hairFront = `<path d="M23 19 C23 7, 47 7, 47 19 C42 13, 28 13, 23 19 Z" fill="#2b2320"/>`;
-  } else if (hair === "bun") {
-    hairBack = `<circle cx="35" cy="6.5" r="6.5" fill="#2b2320"/>`;
-    hairFront = `<path d="M23 19 C23 7, 47 7, 47 19 C42 13, 28 13, 23 19 Z" fill="#2b2320"/>`;
-  } else if (hair === "bob") {
-    hairBack = `<path d="M21 20 C21 6, 49 6, 49 20 L50 31 L20 31 Z" fill="#2b2320"/>`;
-    hairFront = `<path d="M23 19 C24 8, 46 8, 47 19 C42 13, 28 13, 23 19 Z" fill="#2b2320"/>`;
+    hairBack += `<path d="${isRight ? "M44 13 Q62 9 57 30 Q51 22 45 18" : "M26 13 Q8 9 13 30 Q19 22 25 18"}" fill="${hc}"/>`;
+  } else if (hair === "curly-top") {
+    hairBack += `<circle cx="23" cy="16" r="4.8" fill="${hc}"/><circle cx="47" cy="16" r="4.8" fill="${hc}"/>`;
+    hairFront = `<circle cx="25" cy="12" r="5.4" fill="${hc}"/><circle cx="30" cy="8.5" r="6" fill="${hc}"/><circle cx="36" cy="8" r="6.2" fill="${hc}"/><circle cx="42" cy="9.5" r="5.8" fill="${hc}"/><circle cx="46" cy="13" r="5.2" fill="${hc}"/>`;
+  } else if (hair === "afro-short") {
+    hairBack = `<circle cx="35" cy="15.5" r="15.5" fill="${hc}"/>`;
+    hairFront = `<path d="M23 17 C24 8, 46 8, 47 17 C42 12, 28 12, 23 17 Z" fill="${hc}"/>`;
+  } else if (hair === "curly-messy") {
+    hairBack += `<circle cx="22" cy="16" r="5.2" fill="${hc}"/><circle cx="48" cy="16" r="5.2" fill="${hc}"/>`;
+    hairFront = `<circle cx="26" cy="10.5" r="5.6" fill="${hc}"/><circle cx="32" cy="8.5" r="6" fill="${hc}"/><circle cx="39" cy="9" r="6" fill="${hc}"/><circle cx="45" cy="11.5" r="5.4" fill="${hc}"/><circle cx="34" cy="13.5" r="4.5" fill="${hc}"/>`;
+  } else if (hair === "curly-beard") {
+    hairBack += `<circle cx="23" cy="16" r="4.8" fill="${hc}"/><circle cx="47" cy="16" r="4.8" fill="${hc}"/>`;
+    hairFront = `<circle cx="26" cy="10.5" r="5.5" fill="${hc}"/><circle cx="33" cy="8.5" r="6" fill="${hc}"/><circle cx="40" cy="9" r="6" fill="${hc}"/><circle cx="45" cy="11.5" r="5.2" fill="${hc}"/><path d="M25 21 Q35 31 45 21 Q35 27 25 21" fill="${hc}"/>`;
   } else if (hair === "messy-top") {
-    hairFront = `
-      <path d="M23 20 C22 8, 34 3, 47 10 C50 13, 48 18, 47 20 C44 14, 33 13, 23 20 Z" fill="#2b2320"/>
-      <path d="M28 8 Q35 2 43 8" fill="none" stroke="#2b2320" stroke-width="3.5" stroke-linecap="round"/>
-    `;
+    hairBack += `<circle cx="23" cy="16" r="4.5" fill="${hc}"/><circle cx="47" cy="16" r="4.5" fill="${hc}"/>`;
+    hairFront = `<path d="M23 19 C22 7, 34 2, 47 9 C50 12, 48 18, 47 19 C44 13, 33 12, 23 19 Z" fill="${hc}"/><path d="M27 8 Q35 1 44 8" fill="none" stroke="${hc}" stroke-width="4" stroke-linecap="round"/>`;
   } else if (hair === "short-classic") {
-    hairFront = `<path d="M23 20 C22 7, 48 7, 47 20 C44 14, 26 14, 23 20 Z" fill="#2b2320"/>`;
-  } else if (hair === "curly-short") {
-    hairBack = `
-      <circle cx="24" cy="15" r="5" fill="#2b2320"/><circle cx="46" cy="15" r="5" fill="#2b2320"/>
-    `;
-    hairFront = `
-      <circle cx="27" cy="10" r="5.5" fill="#2b2320"/>
-      <circle cx="35" cy="8.5" r="6" fill="#2b2320"/>
-      <circle cx="43" cy="10" r="5.5" fill="#2b2320"/>
-    `;
-  } else if (hair === "beard-guy") {
-    hairFront = `
-      <path d="M23 20 C22 7, 48 7, 47 20 C44 14, 26 14, 23 20 Z" fill="#2b2320"/>
-      <path d="M25 21 Q35 31 45 21 Q35 27 25 21" fill="#2b2320"/>
-    `;
-  } else if (hair === "side-part") {
-    hairFront = `<path d="M23 20 C22 6, 48 7, 47 19 C41 12, 31 16, 23 20 Z" fill="#2b2320"/>`;
+    hairBack += `<circle cx="23" cy="16" r="4.5" fill="${hc}"/><circle cx="47" cy="16" r="4.5" fill="${hc}"/>`;
+    hairFront = `<path d="M22 19 C21 6, 49 6, 48 19 C44 13, 26 13, 22 19 Z" fill="${hc}"/>`;
   }
 
-  let outfitSVG = "";
-  if (outfit === "dress" || gender === "female") {
-    outfitSVG = `<path d="M27 34 L43 34 L48 54 L22 54 Z" fill="${color}" stroke="#2b2320" stroke-width="2.2" stroke-linejoin="round"/>`;
-  } else {
-    outfitSVG = `<path d="M25 34 C25 30, 45 30, 45 34 L43 53 L27 53 Z" fill="${color}" stroke="#2b2320" stroke-width="2.2" stroke-linejoin="round"/>`;
-  }
+  let outfitSVG = (outfit === "dress" || gender === "female")
+    ? `<path d="M27 34 L43 34 L48 54 L22 54 Z" fill="${color}" stroke="#2b2320" stroke-width="2.2" stroke-linejoin="round"/>`
+    : `<path d="M25 34 C25 30, 45 30, 45 34 L43 53 L27 53 Z" fill="${color}" stroke="#2b2320" stroke-width="2.2" stroke-linejoin="round"/>`;
 
-  let faceSVG = "";
-  if (expression === "love") {
-    faceSVG = `
-      <text x="29" y="21.5" font-size="6.5" fill="#b5544b">♥</text>
-      <text x="36.5" y="21.5" font-size="6.5" fill="#b5544b">♥</text>
-      <circle cx="29" cy="23.5" r="2" fill="#e5989b" opacity="0.85"/>
-      <circle cx="41" cy="23.5" r="2" fill="#e5989b" opacity="0.85"/>
-      <path d="M32.5 24 Q35 27.5 37.5 24" fill="none" stroke="#2b2320" stroke-width="1.6" stroke-linecap="round"/>
-    `;
-  } else if (expression === "excited") {
-    faceSVG = `
-      <path d="M30 20 Q31.5 17.5 33 20" fill="none" stroke="#2b2320" stroke-width="1.6" stroke-linecap="round"/>
-      <path d="M37 20 Q38.5 17.5 40 20" fill="none" stroke="#2b2320" stroke-width="1.6" stroke-linecap="round"/>
-      <circle cx="29" cy="23" r="1.8" fill="#e5989b" opacity="0.75"/>
-      <circle cx="41" cy="23" r="1.8" fill="#e5989b" opacity="0.75"/>
-      <path d="M32.5 23.5 Q35 28 37.5 23.5 Z" fill="#b5544b" stroke="#2b2320" stroke-width="1.2"/>
-    `;
-  } else {
-    faceSVG = `
-      <circle cx="31.5" cy="20" r="1.35" fill="#2b2320"/>
-      <circle cx="38.5" cy="20" r="1.35" fill="#2b2320"/>
-      <circle cx="29.5" cy="23" r="1.7" fill="#e5989b" opacity="0.7"/>
-      <circle cx="40.5" cy="23" r="1.7" fill="#e5989b" opacity="0.7"/>
-      <path d="M33.2 23.5 Q35.2 26 37.2 23.5" fill="none" stroke="#2b2320" stroke-width="1.5" stroke-linecap="round"/>
-    `;
-  }
+  let faceSVG = expression === "love"
+    ? `<text x="29" y="21.5" font-size="6.5" fill="#b5544b">♥</text><text x="36.5" y="21.5" font-size="6.5" fill="#b5544b">♥</text><circle cx="29" cy="23.5" r="2" fill="#e5989b" opacity="0.85"/><circle cx="41" cy="23.5" r="2" fill="#e5989b" opacity="0.85"/><path d="M32.5 24 Q35 27.5 37.5 24" fill="none" stroke="#2b2320" stroke-width="1.6" stroke-linecap="round"/>`
+    : `<circle cx="31.5" cy="20" r="1.4" fill="#2b2320"/><circle cx="38.5" cy="20" r="1.4" fill="#2b2320"/><circle cx="29.5" cy="23" r="1.7" fill="#e5989b" opacity="0.7"/><circle cx="40.5" cy="23" r="1.7" fill="#e5989b" opacity="0.7"/><path d="M33.2 23.5 Q35.2 26 37.2 23.5" fill="none" stroke="#2b2320" stroke-width="1.5" stroke-linecap="round"/>`;
 
   let accSVG = "";
   if (acc === "glasses") {
-    accSVG = `
-      <circle cx="31.2" cy="20" r="3.2" fill="rgba(255,255,255,0.35)" stroke="#2b2320" stroke-width="1.4"/>
-      <circle cx="38.8" cy="20" r="3.2" fill="rgba(255,255,255,0.35)" stroke="#2b2320" stroke-width="1.4"/>
-      <line x1="34.4" y1="20" x2="35.6" y2="20" stroke="#2b2320" stroke-width="1.4"/>
-    `;
+    accSVG = `<circle cx="31.2" cy="20" r="3.2" fill="rgba(255,255,255,0.35)" stroke="#2b2320" stroke-width="1.4"/><circle cx="38.8" cy="20" r="3.2" fill="rgba(255,255,255,0.35)" stroke="#2b2320" stroke-width="1.4"/><line x1="34.4" y1="20" x2="35.6" y2="20" stroke="#2b2320" stroke-width="1.4"/>`;
   } else if (acc === "cap") {
-    accSVG = `
-      <path d="M23 16 C23 7, 47 7, 47 16 Z" fill="${color}" stroke="#2b2320" stroke-width="1.8"/>
-      <path d="${isRight ? "M19 16 L36 16" : "M34 16 L51 16"}" stroke="#2b2320" stroke-width="2.4" stroke-linecap="round"/>
-    `;
+    accSVG = `<path d="M23 15 C23 6, 47 6, 47 15 Z" fill="${color}" stroke="#2b2320" stroke-width="1.8"/><path d="${isRight ? "M19 15 L36 15" : "M34 15 L51 15"}" stroke="#2b2320" stroke-width="2.4" stroke-linecap="round"/>`;
   } else if (acc === "bow") {
     accSVG = `<path d="M42 10 L47 7 L47 13 Z M42 10 L38 7 L38 13 Z" fill="#b5544b" stroke="#2b2320" stroke-width="1.2"/>`;
   } else if (acc === "flower") {
     const fx = isRight ? 18 : 52;
-    accSVG = `
-      <line x1="${fx}" y1="45" x2="${fx}" y2="33" stroke="#5c8056" stroke-width="2"/>
-      <circle cx="${fx}" cy="31" r="3.5" fill="#e06d63" stroke="#2b2320" stroke-width="1.2"/>
-      <circle cx="${fx}" cy="31" r="1.2" fill="#f7d060"/>
-    `;
+    accSVG = `<line x1="${fx}" y1="45" x2="${fx}" y2="33" stroke="#5c8056" stroke-width="2"/><circle cx="${fx}" cy="31" r="3.5" fill="#e06d63" stroke="#2b2320" stroke-width="1.2"/><circle cx="${fx}" cy="31" r="1.2" fill="#f7d060"/>`;
   }
 
   const armsSVG = isRight
-    ? `
-      <path d="M27 36 Q21 43 24 50" fill="none" stroke="#2b2320" stroke-width="2.3" stroke-linecap="round"/>
-      <path d="M43 36 Q54 32 56 22" fill="none" stroke="#2b2320" stroke-width="2.3" stroke-linecap="round"/>
-      <circle cx="56" cy="21" r="2.4" fill="#fcf9f4" stroke="#2b2320" stroke-width="1.8"/>
-    `
-    : `
-      <path d="M26 36 Q16 32 14 22" fill="none" stroke="#2b2320" stroke-width="2.3" stroke-linecap="round"/>
-      <circle cx="14" cy="21" r="2.4" fill="#fcf9f4" stroke="#2b2320" stroke-width="1.8"/>
-      <path d="M44 36 Q50 43 47 50" fill="none" stroke="#2b2320" stroke-width="2.3" stroke-linecap="round"/>
-    `;
+    ? `<path d="M27 36 Q21 43 24 50" fill="none" stroke="#2b2320" stroke-width="2.3" stroke-linecap="round"/><path d="M43 36 Q54 32 56 22" fill="none" stroke="#2b2320" stroke-width="2.3" stroke-linecap="round"/>`
+    : `<path d="M26 36 Q16 32 14 22" fill="none" stroke="#2b2320" stroke-width="2.3" stroke-linecap="round"/><path d="M44 36 Q50 43 47 50" fill="none" stroke="#2b2320" stroke-width="2.3" stroke-linecap="round"/>`;
 
   return `
     <svg viewBox="0 0 70 78" width="100%" height="100%">
       <ellipse cx="35" cy="73" rx="16" ry="3" fill="rgba(43,35,32,0.12)"/>
-      <path d="M30 53 L28 70 M40 53 L42 70" stroke="#2b2320" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="30" y1="53" x2="28" y2="70" stroke="#2b2320" stroke-width="2.4" stroke-linecap="round"/>
+      <line x1="40" y1="53" x2="42" y2="70" stroke="#2b2320" stroke-width="2.4" stroke-linecap="round"/>
       ${hairBack}
       ${outfitSVG}
       ${armsSVG}
@@ -1860,8 +1717,24 @@ function initCharacterCustomizer() {
   ["c1", "c2"].forEach((key) => {
     populateHairOptions(key);
 
+    const hairSwatchContainer = $(`${key}-hair-colors`);
+    HAIR_PALETTE.forEach((p) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "swatch" + (charState[key].hairColor === p.hex ? " active" : "");
+      btn.style.background = p.hex;
+      btn.title = p.name;
+      btn.addEventListener("click", () => {
+        charState[key].hairColor = p.hex;
+        hairSwatchContainer.querySelectorAll(".swatch").forEach(s => s.classList.remove("active"));
+        btn.classList.add("active");
+        updateCharacterPreviews();
+      });
+      hairSwatchContainer.appendChild(btn);
+    });
+
     const swatchContainer = $(`${key}-colors`);
-    PALETTE.forEach((p) => {
+    OUTFIT_PALETTE.forEach((p) => {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "swatch" + (charState[key].color === p.hex ? " active" : "");
@@ -1901,8 +1774,8 @@ function initCharacterCustomizer() {
   const syncNames = () => {
     const his = $("his-name").value.trim();
     const her = $("her-name").value.trim();
-    $("label-char-1").textContent = her ? `Boneco de ${her}` : "Boneco 1";
-    $("label-char-2").textContent = his ? `Boneco de ${his}` : "Boneco 2";
+    $("label-char-1").textContent = her ? `Personagem de ${her}` : "Personagem 1";
+    $("label-char-2").textContent = his ? `Personagem de ${his}` : "Personagem 2";
   };
   $("his-name").addEventListener("input", syncNames);
   $("her-name").addEventListener("input", syncNames);
@@ -1915,14 +1788,681 @@ function updateCharacterPreviews() {
   const svg2 = renderStickCharacterSVG(charState.c2, "right", "love");
   $("preview-c1").innerHTML = svg1;
   $("preview-c2").innerHTML = svg2;
-  $("hero-mini-chars").innerHTML = `<div style="width:52px;height:64px;">${svg1}</div><div style="width:52px;height:64px;">${svg2}</div>`;
+  $("hero-mini-chars").innerHTML = `<div style="width:54px;height:66px;">${svg1}</div><div style="width:54px;height:66px;">${svg2}</div>`;
+}
+
+/* =========================================================
+   ANIMAÇÃO DO LIVRO ABRE-PÁGINAS EM HD (PARA ENVIAR COMO VÍDEO)
+   ========================================================= */
+function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 6) {
+  const words = text.split(" ");
+  let line = "";
+  let lineCount = 0;
+
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + " ";
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > maxWidth && n > 0) {
+      ctx.fillText(line.trim(), x, y);
+      line = words[n] + " ";
+      y += lineHeight;
+      lineCount++;
+      if (lineCount >= maxLines) break;
+    } else {
+      line = testLine;
+    }
+  }
+  if (lineCount < maxLines) {
+    ctx.fillText(line.trim(), x, y);
+  }
+}
+
+async function startBookFlipVideoStudio(container, storyCtx) {
+  if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+
+  const { her, him, meet, chapters, formattedDate, timeTogether } = storyCtx;
+  const shareUrl = buildShareableGiftLink(storyCtx);
+  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(shareUrl)}`;
+
+  // Carrega imagens enviadas pelo usuário para aparecerem dentro do livro animado
+  const loadedImages = {};
+  const loadImg = (src) => new Promise((res) => {
+    if (!src) return res(null);
+    const img = new Image();
+    img.onload = () => res(img);
+    img.onerror = () => res(null);
+    img.src = src;
+  });
+
+  loadedImages.cover = await loadImg(coverImage);
+  for (let i = 0; i < chapters.length; i++) {
+    loadedImages[`ch_${i}`] = await loadImg(chapters[i].image);
+  }
+
+  // Monta as páginas do vídeo do livro
+  const bookSlides = [
+    {
+      type: "cover",
+      kicker: `${$("edition-code").textContent} • Edição Exclusiva`,
+      title: `${her} & ${him}`,
+      subtitle: `Onde tudo começou: ${meet.shortLabel}`,
+      date: formattedDate,
+      img: loadedImages.cover
+    },
+    ...chapters.map((ch, idx) => ({
+      type: "chapter",
+      kicker: `Capítulo ${ch.number}`,
+      title: ch.title,
+      text: ch.text,
+      img: loadedImages[`ch_${idx}`]
+    })),
+    {
+      type: "final",
+      kicker: "Para você guardar no coração",
+      title: `${her} & ${him}`,
+      text: generateDynamicFinalLetter(storyCtx, 0).join(" "),
+      date: timeTogether ? `${timeTogether} juntos ♥` : "Continua nos próximos dias..."
+    }
+  ];
+
+  container.innerHTML = `
+    <div class="cinema-studio-card">
+      <div class="cinema-canvas-wrap">
+        <canvas id="book-flip-canvas" width="960" height="540"></canvas>
+      </div>
+      <div class="cinema-toolbar">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="cinema-btn" id="btn-replay-book">↻ Folhear novamente</button>
+          <button type="button" class="cinema-btn gold" id="btn-export-book-video">⬇ Baixar Vídeo do Livro (.webm)</button>
+        </div>
+        <span id="book-slide-indicator" style="font-size:0.78rem;color:#d6c7b8;font-weight:600;">Página 1 de ${bookSlides.length}</span>
+      </div>
+    </div>
+
+    <div class="share-gift-box">
+      <div>
+        <strong style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--accent-dark);">Envie este presente para ${her === "Pessoa 1" ? "quem você ama" : her}</strong>
+        <p style="font-size:0.83rem;color:var(--muted);margin:3px 0 8px;">Mande o vídeo baixado acima no WhatsApp/Instagram ou envie o link direto abaixo (abre direto no envelope sem pedir senha).</p>
+        <button type="button" class="reroll-btn" id="copy-book-gift-link" style="margin-top:0;">🔗 Copiar link do presente para enviar</button>
+      </div>
+      <img src="${qrSrc}" class="qr-preview" alt="QR Code do presente">
+    </div>
+  `;
+
+  const canvas = $("book-flip-canvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width;
+  const H = canvas.height;
+
+  const petals = Array.from({ length: 24 }, () => ({
+    x: Math.random() * W,
+    y: Math.random() * H,
+    size: 5 + Math.random() * 5,
+    speedY: 0.5 + Math.random() * 0.9,
+    speedX: (Math.random() - 0.5) * 0.6,
+    rot: Math.random() * Math.PI * 2,
+    color: ["#e5989b", "#d98a7c", "#f7d060", "#89a882"][Math.floor(Math.random() * 4)]
+  }));
+
+  const PAGE_DURATION = 3800;
+  let startTime = performance.now();
+  let lastIdx = -1;
+
+  function drawSlideContent(slide, x, y, w, h, progress) {
+    // Fundo papel creme com textura de lombada
+    const paperGrad = ctx.createLinearGradient(x, y, x + w, y);
+    paperGrad.addColorStop(0, "#ede2d3");
+    paperGrad.addColorStop(0.06, "#fcf9f4");
+    paperGrad.addColorStop(1, "#f9f3ea");
+    ctx.fillStyle = paperGrad;
+    ctx.beginPath();
+    ctx.roundRect(x, y, w, h, [6, 18, 18, 6]);
+    ctx.fill();
+
+    ctx.strokeStyle = "#d9c9b6";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Ornamento dourado nos cantos
+    ctx.strokeStyle = "rgba(181, 84, 75, 0.35)";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x + 16, y + 16, w - 32, h - 32);
+
+    const centerX = x + w / 2;
+
+    if (slide.type === "cover") {
+      // Selo de cera no topo
+      ctx.fillStyle = "#b5544b";
+      ctx.beginPath();
+      ctx.arc(centerX, y + 54, 18, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 16px serif";
+      ctx.textAlign = "center";
+      ctx.fillText("♥", centerX, y + 60);
+
+      ctx.fillStyle = "#b5544b";
+      ctx.font = "600 18px 'Caveat', cursive";
+      ctx.fillText(slide.kicker, centerX, y + 96);
+
+      ctx.fillStyle = "#2b2320";
+      ctx.font = "700 42px 'Cormorant Garamond', serif";
+      ctx.fillText(slide.title, centerX, y + 144);
+
+      if (slide.img) {
+        const imgW = 210;
+        const imgH = 145;
+        ctx.fillStyle = "#fff";
+        ctx.shadowColor = "rgba(0,0,0,0.14)";
+        ctx.shadowBlur = 12;
+        ctx.fillRect(centerX - imgW / 2 - 8, y + 164, imgW + 16, imgH + 24);
+        ctx.shadowBlur = 0;
+        ctx.drawImage(slide.img, centerX - imgW / 2, y + 172, imgW, imgH);
+        ctx.fillStyle = "#6e615b";
+        ctx.font = "500 15px 'Plus Jakarta Sans', sans-serif";
+        ctx.fillText(slide.subtitle, centerX, y + 358);
+      } else {
+        ctx.fillStyle = "#6e615b";
+        ctx.font = "500 17px 'Plus Jakarta Sans', sans-serif";
+        wrapCanvasText(ctx, slide.subtitle, centerX, y + 205, w - 90, 26, 3);
+      }
+
+      ctx.fillStyle = "#8e3b33";
+      ctx.font = "700 22px 'Caveat', cursive";
+      ctx.fillText(slide.date, centerX, y + h - 34);
+    } else {
+      // Páginas internas de capítulo ou carta final
+      ctx.fillStyle = "#b5544b";
+      ctx.font = "700 20px 'Caveat', cursive";
+      ctx.textAlign = "center";
+      ctx.fillText(slide.kicker, centerX, y + 54);
+
+      ctx.fillStyle = "#2b2320";
+      ctx.font = "700 32px 'Cormorant Garamond', serif";
+      ctx.fillText(slide.title, centerX, y + 92);
+
+      if (slide.img) {
+        const imgW = 220;
+        const imgH = 135;
+        ctx.fillStyle = "#fff";
+        ctx.shadowColor = "rgba(0,0,0,0.12)";
+        ctx.shadowBlur = 10;
+        ctx.fillRect(centerX - imgW / 2 - 6, y + 108, imgW + 12, imgH + 18);
+        ctx.shadowBlur = 0;
+        ctx.drawImage(slide.img, centerX - imgW / 2, y + 114, imgW, imgH);
+
+        ctx.fillStyle = "#463c38";
+        ctx.font = "400 15px 'Plus Jakarta Sans', sans-serif";
+        const visibleText = slide.text.slice(0, Math.floor(slide.text.length * Math.min(1, progress * 2.2)));
+        wrapCanvasText(ctx, visibleText, centerX, y + 286, w - 80, 22, 4);
+      } else {
+        ctx.fillStyle = "#463c38";
+        ctx.font = "400 16px 'Plus Jakarta Sans', sans-serif";
+        const visibleText = slide.text.slice(0, Math.floor(slide.text.length * Math.min(1, progress * 2.2)));
+        wrapCanvasText(ctx, visibleText, centerX, y + 145, w - 90, 25, 8);
+      }
+
+      if (slide.date) {
+        ctx.fillStyle = "#8e3b33";
+        ctx.font = "700 22px 'Caveat', cursive";
+        ctx.fillText(slide.date, centerX, y + h - 32);
+      }
+    }
+  }
+
+  function renderBookFrame(now) {
+    const elapsed = now - startTime;
+    const totalDuration = bookSlides.length * PAGE_DURATION;
+    const clamped = Math.min(elapsed, totalDuration - 10);
+    const idx = Math.floor(clamped / PAGE_DURATION);
+    const progress = (clamped % PAGE_DURATION) / PAGE_DURATION;
+
+    if (idx !== lastIdx) {
+      lastIdx = idx;
+      const ind = $("book-slide-indicator");
+      if (ind) ind.textContent = `Página ${idx + 1} de ${bookSlides.length}`;
+    }
+
+    // Fundo mesa de madeira clara / papel artesanal iluminado
+    const bgGrad = ctx.createRadialGradient(W / 2, H / 2, 40, W / 2, H / 2, W * 0.7);
+    bgGrad.addColorStop(0, "#fbf6ef");
+    bgGrad.addColorStop(1, "#dfd0be");
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Pétalas caindo suavemente ao redor do livro
+    petals.forEach(p => {
+      p.y += p.speedY;
+      p.x += p.speedX;
+      p.rot += 0.02;
+      if (p.y > H + 10) { p.y = -10; p.x = Math.random() * W; }
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = 0.65;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    // Sombra e camadas de folhas do livro físico
+    const bookW = 540;
+    const bookH = 420;
+    const bookX = (W - bookW) / 2;
+    const bookY = (H - bookH) / 2;
+
+    ctx.fillStyle = "rgba(43, 35, 32, 0.18)";
+    ctx.beginPath();
+    ctx.roundRect(bookX + 10, bookY + 14, bookW + 12, bookH + 8, 18);
+    ctx.fill();
+
+    // Pilha de páginas abaixo
+    ctx.fillStyle = "#e6d8c7";
+    ctx.beginPath();
+    ctx.roundRect(bookX + 8, bookY + 6, bookW, bookH, [6, 18, 18, 6]);
+    ctx.fill();
+
+    // Desenha a página atual
+    drawSlideContent(bookSlides[idx], bookX, bookY, bookW, bookH, progress);
+
+    // Efeito 3D realista de página virando nos últimos 28% do tempo de cada página
+    if (progress > 0.72 && idx < bookSlides.length - 1) {
+      const flipT = (progress - 0.72) / 0.28; // 0 -> 1
+      // Mostra a próxima página por baixo
+      drawSlideContent(bookSlides[idx + 1], bookX, bookY, bookW, bookH, 0.2);
+
+      // Desenha a folha virando para a esquerda
+      ctx.save();
+      ctx.translate(bookX, bookY);
+      const scaleX = Math.max(0.02, 1 - flipT);
+      ctx.scale(scaleX, 1);
+      drawSlideContent(bookSlides[idx], 0, 0, bookW, bookH, 1);
+
+      // Sombra da dobra da página
+      const foldGrad = ctx.createLinearGradient(bookW - 60, 0, bookW, 0);
+      foldGrad.addColorStop(0, "rgba(0,0,0,0)");
+      foldGrad.addColorStop(1, `rgba(43, 35, 32, ${0.35 * flipT})`);
+      ctx.fillStyle = foldGrad;
+      ctx.fillRect(0, 0, bookW, bookH);
+      ctx.restore();
+    }
+
+    // Rodapé discreto com nomes
+    ctx.fillStyle = "rgba(43, 35, 32, 0.65)";
+    ctx.font = "600 13px 'Plus Jakarta Sans', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(`Nossa História • ${her} & ${him}`, W / 2, H - 18);
+
+    if (elapsed < totalDuration) {
+      canvasAnimFrame = requestAnimationFrame(renderBookFrame);
+    }
+  }
+
+  canvasAnimFrame = requestAnimationFrame(renderBookFrame);
+
+  $("btn-replay-book").addEventListener("click", () => {
+    startTime = performance.now();
+    lastIdx = -1;
+    if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+    canvasAnimFrame = requestAnimationFrame(renderBookFrame);
+  });
+
+  $("btn-export-book-video").addEventListener("click", () => {
+    exportCanvasAsWebm(canvas, $("btn-export-book-video"), `livro-${her}-e-${him}.webm`, bookSlides.length * PAGE_DURATION, () => {
+      startTime = performance.now();
+      lastIdx = -1;
+    });
+  });
+
+  $("copy-book-gift-link").addEventListener("click", () => {
+    navigator.clipboard?.writeText(shareUrl);
+    $("copy-book-gift-link").textContent = "✓ Link copiado! Agora é só colar e enviar";
+    setTimeout(() => { $("copy-book-gift-link").textContent = "🔗 Copiar link do presente para enviar"; }, 3000);
+  });
+}
+
+function exportCanvasAsWebm(canvas, btn, filename, durationMs, onRestart) {
+  if (!canvas.captureStream || !window.MediaRecorder) {
+    alert("Seu navegador não suporta gravação direta de vídeo.");
+    return;
+  }
+  const origLabel = btn.textContent;
+  btn.textContent = "Gerando vídeo para enviar...";
+  btn.disabled = true;
+  if (onRestart) onRestart();
+
+  const stream = canvas.captureStream(30);
+  const chunks = [];
+  let recorder;
+  try {
+    recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
+  } catch {
+    recorder = new MediaRecorder(stream);
+  }
+
+  recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: "video/webm" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+    btn.textContent = origLabel;
+    btn.disabled = false;
+  };
+
+  recorder.start();
+  setTimeout(() => {
+    if (recorder.state !== "inactive") recorder.stop();
+  }, durationMs + 300);
+}
+
+/* =========================================================
+   FILME ANIMADO DOS PERSONAGENS EM HD (CANVAS)
+   ========================================================= */
+function drawCanvasCharacter(ctx, cfg, x, y, scale, side, walkPhase, holdingBouquet, mood) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.scale(scale, scale);
+
+  const hc = cfg.hairColor || "#211b19";
+  const isRight = side === "right";
+  const bob = Math.abs(Math.sin(walkPhase)) * 5;
+  ctx.translate(0, -bob);
+
+  ctx.fillStyle = "rgba(0, 0, 0, 0.22)";
+  ctx.beginPath();
+  ctx.ellipse(0, 48 + bob, 22, 5, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  const legSwing = Math.sin(walkPhase) * 10;
+  ctx.strokeStyle = "#2b2320";
+  ctx.lineWidth = 3.5;
+  ctx.lineCap = "round";
+
+  ctx.beginPath();
+  ctx.moveTo(-7, 20);
+  ctx.lineTo(-9 + legSwing, 45);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(7, 20);
+  ctx.lineTo(9 - legSwing, 45);
+  ctx.stroke();
+
+  ctx.fillStyle = hc;
+  ctx.beginPath();
+  ctx.arc(0, -24, 18.5, Math.PI * 0.9, Math.PI * 2.1);
+  ctx.fill();
+
+  if (cfg.hair === "curly-long-vol" || cfg.hair === "curly-med-def") {
+    [[-19, -22, 9], [19, -22, 9], [-21, -10, 9.5], [21, -10, 9.5], [-19, 2, 8.5], [19, 2, 8.5]].forEach(([cx, cy, r]) => {
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  } else if (cfg.hair === "afro-puff") {
+    ctx.beginPath();
+    ctx.arc(0, -27, 26, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (cfg.hair === "afro-short") {
+    ctx.beginPath();
+    ctx.arc(0, -26, 21.5, 0, Math.PI * 2);
+    ctx.fill();
+  } else if (cfg.hair === "long-straight" || cfg.hair === "long-bangs") {
+    ctx.beginPath();
+    ctx.roundRect(-20, -34, 40, 48, 16);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = cfg.color;
+  ctx.strokeStyle = "#2b2320";
+  ctx.lineWidth = 2.6;
+  ctx.beginPath();
+  if (cfg.outfit === "dress" || cfg.gender === "female") {
+    ctx.moveTo(-11, -6);
+    ctx.lineTo(11, -6);
+    ctx.lineTo(18, 22);
+    ctx.lineTo(-18, 22);
+    ctx.closePath();
+  } else {
+    ctx.roundRect(-13, -6, 26, 27, 7);
+  }
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.beginPath();
+  if (isRight) {
+    ctx.moveTo(-11, -2); ctx.quadraticCurveTo(-20, 8, -15, 16);
+    ctx.moveTo(11, -2); ctx.quadraticCurveTo(22, -6, 25, -18);
+  } else {
+    ctx.moveTo(-11, -2); ctx.quadraticCurveTo(-22, -6, -25, -18);
+    ctx.moveTo(11, -2); ctx.quadraticCurveTo(20, 8, 15, 16);
+  }
+  ctx.stroke();
+
+  if (holdingBouquet) {
+    const bx = isRight ? -22 : 22;
+    ctx.fillStyle = "#e6ccb2";
+    ctx.beginPath();
+    ctx.moveTo(bx, 12); ctx.lineTo(bx - 9, -6); ctx.lineTo(bx + 9, -6); ctx.closePath();
+    ctx.fill();
+    [[bx - 6, -9, "#e06d63"], [bx + 6, -9, "#f7d060"], [bx, -13, "#ff8fa3"]].forEach(([fx, fy, col]) => {
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.arc(fx, fy, 5.5, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  ctx.fillStyle = "#fcf9f4";
+  ctx.strokeStyle = "#2b2320";
+  ctx.lineWidth = 2.6;
+  ctx.beginPath();
+  ctx.arc(0, -22, 15.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = hc;
+  if (cfg.hair.includes("curly") || cfg.hair.includes("afro")) {
+    [[-13, -32, 7.5], [-6, -36, 8.2], [3, -36.5, 8.5], [11, -33, 7.5], [15, -26, 6]].forEach(([cx, cy, r]) => {
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  } else {
+    ctx.beginPath();
+    ctx.arc(0, -24, 16, Math.PI, Math.PI * 2);
+    ctx.fill();
+  }
+
+  ctx.fillStyle = "#2b2320";
+  ctx.beginPath();
+  ctx.arc(-5, -22, 2, 0, Math.PI * 2);
+  ctx.arc(5, -22, 2, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.strokeStyle = "#2b2320";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(0, -18, 4.5, 0.15 * Math.PI, 0.85 * Math.PI);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function startCinemaCanvasStudio(container, storyCtx) {
+  if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+
+  const { her, him, meet, chapters, timeTogether } = storyCtx;
+  const scenes = [
+    { tag: "PRÓLOGO", title: `Onde tudo começou: ${meet.shortLabel}`, subtitle: meet.customText || "Dois caminhos que se cruzaram", isFinale: false },
+    ...chapters.map((ch) => ({
+      tag: `CAPÍTULO ${ch.number}`,
+      title: ch.title,
+      subtitle: ch.text.length > 68 ? ch.text.slice(0, 65).trim() + "..." : ch.text,
+      isFinale: false
+    })),
+    {
+      tag: "GRAN FINALE",
+      title: `${her} & ${him}`,
+      subtitle: timeTogether ? `${timeTogether} escrevendo essa história` : "Para sempre nós dois",
+      isFinale: true
+    }
+  ];
+
+  container.innerHTML = `
+    <div class="cinema-studio-card">
+      <div class="cinema-canvas-wrap">
+        <canvas id="story-canvas" width="960" height="540"></canvas>
+      </div>
+      <div class="cinema-toolbar">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button type="button" class="cinema-btn" id="btn-replay-hd">↻ Recomeçar filme</button>
+          <button type="button" class="cinema-btn gold" id="btn-export-hd">⬇ Baixar Filme do Casal (.webm)</button>
+        </div>
+        <span id="scene-indicator" style="font-size:0.78rem;color:#d6c7b8;font-weight:600;">Cena 1 de ${scenes.length}</span>
+      </div>
+    </div>
+  `;
+
+  const canvas = $("story-canvas");
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width;
+  const H = canvas.height;
+  const fireworks = [];
+  const SCENE_DURATION = 4000;
+  let startTime = performance.now();
+
+  function renderFrame(now) {
+    const elapsed = now - startTime;
+    const totalDuration = scenes.length * SCENE_DURATION;
+    const clampedElapsed = Math.min(elapsed, totalDuration - 10);
+    const sceneIdx = Math.floor(clampedElapsed / SCENE_DURATION);
+    const sceneProgress = (clampedElapsed % SCENE_DURATION) / SCENE_DURATION;
+    const scene = scenes[sceneIdx];
+
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    if (scene.isFinale) {
+      grad.addColorStop(0, "#0f1024");
+      grad.addColorStop(0.55, "#2b1e3d");
+      grad.addColorStop(1, "#4a2538");
+    } else {
+      grad.addColorStop(0, "#f5cbb8");
+      grad.addColorStop(0.68, "#fce8d5");
+      grad.addColorStop(1, "#d9bfa3");
+    }
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.fillStyle = scene.isFinale ? "#1e1729" : "#d9c5ae";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
+
+    if (scene.isFinale && Math.random() < 0.06) {
+      fireworks.push({
+        x: W * (0.2 + Math.random() * 0.6),
+        y: H * (0.15 + Math.random() * 0.3),
+        age: 0,
+        color: ["#ffd166", "#ff758f", "#a8dadc", "#f4a261"][Math.floor(Math.random() * 4)]
+      });
+    }
+
+    for (let i = fireworks.length - 1; i >= 0; i--) {
+      const fw = fireworks[i];
+      fw.age += 1;
+      for (let a = 0; a < 14; a++) {
+        const angle = (Math.PI * 2 * a) / 14;
+        const dist = fw.age * 2.4;
+        ctx.fillStyle = fw.color;
+        ctx.globalAlpha = Math.max(0, 1 - fw.age / 45);
+        ctx.beginPath();
+        ctx.arc(fw.x + Math.cos(angle) * dist, fw.y + Math.sin(angle) * dist, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      if (fw.age > 45) fireworks.splice(i, 1);
+    }
+
+    const walkPhase = scene.isFinale ? 0 : now * 0.012;
+    const meetOffset = scene.isFinale ? 58 : 170 - sceneProgress * 95;
+    drawCanvasCharacter(ctx, charState.c1, W / 2 - meetOffset, H * 0.67, 1.35, "left", walkPhase, false, "love");
+    drawCanvasCharacter(ctx, charState.c2, W / 2 + meetOffset, H * 0.67, 1.35, "right", walkPhase + 1.5, scene.isFinale, "love");
+
+    if (scene.isFinale) {
+      ctx.fillStyle = "#ff5c77";
+      ctx.font = "bold 46px serif";
+      ctx.textAlign = "center";
+      ctx.fillText("♥", W / 2, H * 0.43);
+    }
+
+    ctx.fillStyle = "#120f14";
+    ctx.fillRect(0, 0, W, 38);
+    ctx.fillRect(0, H - 88, W, 88);
+
+    ctx.fillStyle = "#d4a359";
+    ctx.font = "700 13px 'Plus Jakarta Sans', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(`${scene.tag} • ${$("edition-code").textContent.toUpperCase()}`, W / 2, 24);
+
+    ctx.fillStyle = "#fcf9f4";
+    ctx.font = "700 24px 'Cormorant Garamond', serif";
+    ctx.fillText(scene.title, W / 2, H - 52);
+
+    ctx.fillStyle = "#e6d8c8";
+    ctx.font = "500 15px 'Plus Jakarta Sans', sans-serif";
+    ctx.fillText(scene.subtitle, W / 2, H - 24);
+
+    if (elapsed < totalDuration) {
+      canvasAnimFrame = requestAnimationFrame(renderFrame);
+    }
+  }
+
+  canvasAnimFrame = requestAnimationFrame(renderFrame);
+
+  $("btn-replay-hd").addEventListener("click", () => {
+    startTime = performance.now();
+    if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+    canvasAnimFrame = requestAnimationFrame(renderFrame);
+  });
+
+  $("btn-export-hd").addEventListener("click", () => {
+    exportCanvasAsWebm(canvas, $("btn-export-hd"), `filme-${her}-e-${him}.webm`, scenes.length * SCENE_DURATION, () => {
+      startTime = performance.now();
+    });
+  });
+}
+
+/* =========================================================
+   CONTADOR AO VIVO & EDITOR DE CAPÍTULOS
+   ========================================================= */
+function startLiveLoveClock(dateStr, element) {
+  if (liveClockInterval) clearInterval(liveClockInterval);
+  if (!dateStr || !element) return;
+  const start = new Date(dateStr + "T00:00:00");
+  if (isNaN(start.getTime())) return;
+
+  element.classList.remove("hidden");
+  const update = () => {
+    const diff = Date.now() - start.getTime();
+    if (diff < 0) return;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+    element.textContent = `⏱️ Juntos há ${days} dias, ${hours}h ${mins}m ${secs}s`;
+  };
+  update();
+  liveClockInterval = setInterval(update, 1000);
 }
 
 function setupMeetSelector() {
   $("meet").addEventListener("change", (e) => {
     const isCustom = e.target.value === "custom";
     $("custom-meet-wrap").classList.toggle("hidden", !isCustom);
-    if (isCustom) $("custom-meet-text").focus();
   });
 }
 
@@ -1943,43 +2483,20 @@ function getMeetDetails() {
 }
 
 function readImage(file, callback) {
-  if (!file) return;
-  if (!file.type.startsWith("image/")) {
-    alert("Escolha um arquivo de imagem válido.");
-    return;
-  }
+  if (!file || !file.type.startsWith("image/")) return;
   const reader = new FileReader();
   reader.onload = () => callback(String(reader.result));
   reader.readAsDataURL(file);
 }
 
 function makeDropZone(dropZoneEl, fileInputEl, onImageReady) {
-  ["dragenter", "dragover"].forEach(eventName => {
-    dropZoneEl.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      dropZoneEl.classList.add("drag");
-    }, false);
+  ["dragenter", "dragover"].forEach(ev => dropZoneEl.addEventListener(ev, e => { e.preventDefault(); dropZoneEl.classList.add("drag"); }));
+  ["dragleave", "drop"].forEach(ev => dropZoneEl.addEventListener(ev, e => { e.preventDefault(); dropZoneEl.classList.remove("drag"); }));
+  dropZoneEl.addEventListener("drop", e => {
+    if (e.dataTransfer.files?.[0]) readImage(e.dataTransfer.files[0], onImageReady);
   });
-
-  ["dragleave", "drop"].forEach(eventName => {
-    dropZoneEl.addEventListener(eventName, (e) => {
-      e.preventDefault();
-      dropZoneEl.classList.remove("drag");
-    }, false);
-  });
-
-  dropZoneEl.addEventListener("drop", (e) => {
-    const files = e.dataTransfer.files;
-    if (files && files[0]) {
-      fileInputEl.files = files;
-      readImage(files[0], onImageReady);
-    }
-  }, false);
-
-  fileInputEl.addEventListener("change", (e) => {
-    if (e.target.files && e.target.files[0]) {
-      readImage(e.target.files[0], onImageReady);
-    }
+  fileInputEl.addEventListener("change", e => {
+    if (e.target.files?.[0]) readImage(e.target.files[0], onImageReady);
   });
 }
 
@@ -1988,7 +2505,7 @@ function setupCoverUpload() {
     coverImage = src;
     $("cover-preview").src = src;
     $("cover-preview").classList.add("show");
-    $("cover-label").textContent = "Foto escolhida! Clique ou arraste para trocar.";
+    $("cover-label").textContent = "Foto escolhida!";
   });
 }
 
@@ -2008,28 +2525,22 @@ function addChapter(data = {}) {
   remove.textContent = "×";
   remove.addEventListener("click", () => {
     card.remove();
-    renumberChapters();
+    [...$("chapters").children].forEach((c, i) => c.querySelector("h3").textContent = `Capítulo ${i + 1}`);
   });
   head.append(heading, remove);
 
-  const titleField = makeField("Título do momento / cena", "input", "Ex.: Conversa no pátio da escola / Nossa casa na árvore");
+  const titleField = makeField("Título do capítulo", "input", "Ex.: Nosso primeiro encontro");
   titleField.control.className = "chapter-title";
   titleField.control.value = data.title || "";
 
-  const textField = makeField("O que aconteceu?", "textarea", "Conte os detalhes, lugares ou falas marcantes...");
+  const textField = makeField("O que aconteceu?", "textarea", "Escreva o texto que vai aparecer na página do livro...");
   textField.control.className = "chapter-text";
   textField.control.rows = 3;
   textField.control.value = data.text || "";
 
-  const photoLabel = document.createElement("label");
-  photoLabel.textContent = "Fotografia deste capítulo (opcional)";
-  photoLabel.style.cssText = "display:block;font-weight:600;font-size:.84rem;color:var(--muted);margin:10px 0 6px";
-
   const drop = document.createElement("div");
   drop.className = "drop";
-  drop.tabIndex = 0;
-  drop.innerHTML = "<div>Clique ou arraste uma foto para cá</div>";
-
+  drop.innerHTML = "<div>Clique ou arraste uma foto deste capítulo (opcional)</div>";
   const file = document.createElement("input");
   file.type = "file";
   file.accept = "image/*";
@@ -2038,7 +2549,6 @@ function addChapter(data = {}) {
 
   const preview = document.createElement("div");
   preview.className = "preview";
-
   drop.addEventListener("click", () => file.click());
 
   makeDropZone(drop, file, (src) => {
@@ -2048,18 +2558,12 @@ function addChapter(data = {}) {
     const clear = document.createElement("button");
     clear.type = "button";
     clear.textContent = "×";
-    clear.addEventListener("click", () => {
-      preview.innerHTML = "";
-      file.value = "";
-      drop.querySelector("div").textContent = "Clique ou arraste uma foto para cá";
-    });
+    clear.addEventListener("click", () => { preview.innerHTML = ""; file.value = ""; });
     preview.append(img, clear);
-    drop.querySelector("div").textContent = "Foto adicionada. Clique ou arraste para trocar.";
   });
 
-  card.append(head, titleField.wrapper, textField.wrapper, photoLabel, drop, preview);
+  card.append(head, titleField.wrapper, textField.wrapper, drop, preview);
   $("chapters").appendChild(card);
-  renumberChapters();
 }
 
 function makeField(labelText, tag, placeholder) {
@@ -2073,17 +2577,11 @@ function makeField(labelText, tag, placeholder) {
   return { wrapper, control };
 }
 
-function renumberChapters() {
-  [...$("chapters").children].forEach((card, index) => {
-    card.querySelector("h3").textContent = `Capítulo ${index + 1}`;
-  });
-}
-
 function getChapterData() {
   return [...$("chapters").querySelectorAll(".chapter")].map((card, index) => ({
     number: index + 1,
     title: card.querySelector(".chapter-title").value.trim() || `Lembrança #${index + 1}`,
-    text: card.querySelector(".chapter-text").value.trim() || "Um momento guardado no coração.",
+    text: card.querySelector(".chapter-text").value.trim() || "Um momento especial guardado para sempre.",
     image: card.querySelector(".preview img")?.src || ""
   }));
 }
@@ -2091,14 +2589,11 @@ function getChapterData() {
 function calculateTimeTogether(dateStr) {
   if (!dateStr) return null;
   const start = new Date(dateStr + "T12:00:00");
-  const now = new Date();
-  const diffMs = now - start;
+  const diffMs = Date.now() - start.getTime();
   if (diffMs < 0) return null;
-
   const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   const years = Math.floor(days / 365);
   const months = Math.floor((days % 365) / 30);
-
   if (years >= 1) return `${years} ${years === 1 ? "ano" : "anos"}${months > 0 ? ` e ${months} meses` : ""} (${days} dias)`;
   if (months >= 1) return `${months} ${months === 1 ? "mês" : "meses"} (${days} dias)`;
   return `${days} dias`;
@@ -2112,13 +2607,13 @@ function generateDynamicFinalLetter(ctx, variation = 0) {
   const templates = [
     [
       `${her},`,
-      `Já são ${timeTogether || "vários dias"} desde ${formattedDate}, e cada pedacinho desse tempo valeu a pena.`,
-      `Relembrar desde "${firstChap}" até "${lastChap}" me traz a certeza de que construir a vida com você é minha parte favorita.`,
-      `Com todo o meu carinho,\n${him}.`
+      `Já são ${timeTogether || "vários dias"} desde ${formattedDate}, e cada detalhe desse tempo ao seu lado vale ouro.`,
+      `Relembrar desde "${firstChap}" até "${lastChap}" me dá a certeza de que construir a vida com você é a minha parte favorita.`,
+      `Com todo o meu amor,\n${him}.`
     ],
     [
       `Para ${her},`,
-      `Se eu pudesse voltar no tempo, escolheria cada detalhe de novo — inclusive o dia em que nos cruzamos ${meet.shortLabel}.`,
+      `Se eu pudesse voltar no tempo, escolheria cada momento de novo — inclusive o dia em que nos cruzamos ${meet.shortLabel}.`,
       `Obrigado por ser minha melhor companhia em todas as horas.`,
       `Seguimos escrevendo nossa história,\n${him}.`
     ]
@@ -2126,366 +2621,9 @@ function generateDynamicFinalLetter(ctx, variation = 0) {
   return templates[variation % templates.length];
 }
 
-function buildRichScenery(chapters, meetKey) {
-  const fullText = chapters.map(c => `${c.title} ${c.text}`).join(" ").toLowerCase();
-
-  if (fullText.includes("árvore") || fullText.includes("arvore") || fullText.includes("quintal")) {
-    return {
-      sky: "sky-tree",
-      badge: "🌳 Nossa Casa na Árvore",
-      backdropSVG: `<svg viewBox="0 0 600 260" width="100%" height="100%" preserveAspectRatio="xMidYMax slice">
-        <rect x="415" y="95" width="38" height="125" fill="#7c5841"/>
-        <circle cx="435" cy="70" r="68" fill="#789c68" opacity="0.85"/>
-        <circle cx="385" cy="85" r="46" fill="#89ad77" opacity="0.9"/>
-        <circle cx="485" cy="85" r="46" fill="#6a8c5a" opacity="0.9"/>
-        <rect x="392" y="68" width="84" height="54" rx="4" fill="#b8845c" stroke="#2b2320" stroke-width="2"/>
-        <polygon points="384,68 434,36 484,68" fill="#8e3b33" stroke="#2b2320" stroke-width="2"/>
-        <rect x="424" y="84" width="20" height="20" rx="2" fill="#fcf9f4" stroke="#2b2320" stroke-width="1.8"/>
-        <line x1="406" y1="122" x2="394" y2="205" stroke="#5c402c" stroke-width="2.5"/>
-        <line x1="422" y1="122" x2="410" y2="205" stroke="#5c402c" stroke-width="2.5"/>
-        <line x1="403" y1="140" x2="419" y2="140" stroke="#5c402c" stroke-width="2"/>
-        <line x1="400" y1="160" x2="416" y2="160" stroke="#5c402c" stroke-width="2"/>
-        <line x1="397" y1="180" x2="413" y2="180" stroke="#5c402c" stroke-width="2"/>
-      </svg>`
-    };
-  }
-
-  if (fullText.includes("escola") || fullText.includes("pátio") || fullText.includes("patio") || fullText.includes("faculdade") || fullText.includes("aula") || meetKey === "escola") {
-    return {
-      sky: "sky-school",
-      badge: "🏫 No Pátio da Escola",
-      backdropSVG: `<svg viewBox="0 0 600 260" width="100%" height="100%" preserveAspectRatio="xMidYMax slice">
-        <rect x="145" y="72" width="310" height="132" rx="4" fill="#efe3d3" stroke="#cbbba9" stroke-width="2"/>
-        <polygon points="135,72 300,32 465,72" fill="#b5544b" opacity="0.85"/>
-        <circle cx="300" cy="64" r="14" fill="#fff" stroke="#2b2320" stroke-width="2"/>
-        <line x1="300" y1="64" x2="300" y2="56" stroke="#2b2320" stroke-width="2"/>
-        <line x1="300" y1="64" x2="306" y2="64" stroke="#2b2320" stroke-width="2"/>
-        <rect x="180" y="98" width="34" height="28" rx="3" fill="#cde0e8" stroke="#8e7f73" stroke-width="1.5"/>
-        <rect x="386" y="98" width="34" height="28" rx="3" fill="#cde0e8" stroke="#8e7f73" stroke-width="1.5"/>
-        <rect x="278" y="142" width="44" height="62" rx="3" fill="#8e5e46"/>
-        <rect x="65" y="176" width="68" height="8" rx="2" fill="#9c6b49"/>
-        <line x1="74" y1="184" x2="74" y2="205" stroke="#2b2320" stroke-width="2.5"/>
-        <line x1="124" y1="184" x2="124" y2="205" stroke="#2b2320" stroke-width="2.5"/>
-      </svg>`
-    };
-  }
-
-  if (fullText.includes("bar") || fullText.includes("festa") || fullText.includes("cerveja") || fullText.includes("drink") || fullText.includes("rolê") || meetKey === "festa") {
-    return {
-      sky: "sky-sunset",
-      badge: "🍻 No Barzinho / Festa",
-      backdropSVG: `<svg viewBox="0 0 600 260" width="100%" height="100%" preserveAspectRatio="xMidYMax slice">
-        <path d="M20 35 Q300 85 580 35" fill="none" stroke="#463c38" stroke-width="1.8"/>
-        <circle cx="110" cy="52" r="5" fill="#f7d060"/>
-        <circle cx="205" cy="63" r="5" fill="#f7d060"/>
-        <circle cx="300" cy="66" r="5" fill="#f7d060"/>
-        <circle cx="395" cy="63" r="5" fill="#f7d060"/>
-        <circle cx="490" cy="52" r="5" fill="#f7d060"/>
-        <rect x="276" y="156" width="48" height="6" rx="3" fill="#8e5e46" stroke="#2b2320" stroke-width="1.5"/>
-        <line x1="300" y1="162" x2="300" y2="205" stroke="#2b2320" stroke-width="2.5"/>
-        <line x1="286" y1="205" x2="314" y2="205" stroke="#2b2320" stroke-width="2.5"/>
-        <rect x="286" y="142" width="8" height="13" rx="1" fill="#f4b942" stroke="#2b2320" stroke-width="1.2"/>
-        <rect x="305" y="142" width="8" height="13" rx="1" fill="#f4b942" stroke="#2b2320" stroke-width="1.2"/>
-      </svg>`
-    };
-  }
-
-  if (fullText.includes("praia") || fullText.includes("mar") || fullText.includes("sol") || fullText.includes("areia")) {
-    return {
-      sky: "sky-morning",
-      badge: "☀️ Dia de Praia",
-      backdropSVG: `<svg viewBox="0 0 600 260" width="100%" height="100%" preserveAspectRatio="xMidYMax slice">
-        <circle cx="490" cy="55" r="24" fill="#f4b942" opacity="0.85"/>
-        <path d="M0 175 Q150 160 300 175 T600 175 L600 205 L0 205 Z" fill="#82b8cf" opacity="0.7"/>
-        <path d="M40 185 Q120 175 200 185 T360 185" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>`
-    };
-  }
-
-  if (fullText.includes("cinema") || fullText.includes("filme") || fullText.includes("pipoca")) {
-    return {
-      sky: "sky-night",
-      badge: "🎬 Sessão de Cinema",
-      backdropSVG: `<svg viewBox="0 0 600 260" width="100%" height="100%" preserveAspectRatio="xMidYMax slice">
-        <rect x="190" y="45" width="220" height="115" rx="6" fill="#fcf9f4" stroke="#b5544b" stroke-width="4"/>
-        <polygon points="290,85 290,120 322,102" fill="#b5544b" opacity="0.8"/>
-      </svg>`
-    };
-  }
-
-  return {
-    sky: "sky-morning",
-    badge: "✨ Nosso Lugar Especial",
-    backdropSVG: `<svg viewBox="0 0 600 260" width="100%" height="100%" preserveAspectRatio="xMidYMax slice">
-      <circle cx="510" cy="52" r="20" fill="#f4b942" opacity="0.65"/>
-      <rect x="262" y="176" width="76" height="8" rx="3" fill="#9c6b49"/>
-      <line x1="274" y1="184" x2="274" y2="205" stroke="#2b2320" stroke-width="2.5"/>
-      <line x1="326" y1="184" x2="326" y2="205" stroke="#2b2320" stroke-width="2.5"/>
-    </svg>`
-  };
-}
-
-function getExcerptFromChapters(chapters) {
-  for (const ch of chapters) {
-    const clean = ch.text.trim();
-    if (clean && clean !== "Um momento guardado no coração.") {
-      return clean.length > 62 ? clean.slice(0, 59).trim() + "..." : clean;
-    }
-  }
-  return chapters[0]?.title || "Cada detalhe nosso";
-}
-
-function startStickStoryAnimation(container, ctx) {
-  if (theaterTimer) clearInterval(theaterTimer);
-
-  const { her, him, meet, chapters, timeTogether } = ctx;
-  const chapTitles = chapters.map(c => c.title);
-  const scenery = buildRichScenery(chapters, meet.key);
-  const storyExcerpt = getExcerptFromChapters(chapters);
-  const chapterPhotos = chapters.map(c => c.image).filter(Boolean);
-  if (coverImage) chapterPhotos.unshift(coverImage);
-
-  const acts = [
-    {
-      sky: scenery.sky,
-      cam: "cam-wide",
-      caption: `Cena 1: Onde tudo começou (${meet.shortLabel})`,
-      leftPos: "12%",
-      rightPos: "12%",
-      walking: true,
-      happy: false,
-      expr1: "happy",
-      expr2: "happy",
-      backdrop: scenery.backdropSVG,
-      propsHTML: `
-        <span class="story-badge">${scenery.badge}</span>
-        <div class="speech-bubble" style="margin-top:4px;">“${meet.customText || chapTitles[0] || "Oi! Tudo bem?"}”</div>
-      `
-    },
-    {
-      sky: scenery.sky,
-      cam: "cam-zoom-left",
-      caption: `Close em ${her}: O primeiro olhar`,
-      leftPos: "22%",
-      rightPos: "22%",
-      walking: false,
-      happy: false,
-      expr1: "love",
-      expr2: "happy",
-      backdrop: scenery.backdropSVG,
-      propsHTML: `
-        <div class="speech-bubble" style="align-self:flex-start;margin-left:8%;">💭 “Que sorriso incrível...”</div>
-      `
-    },
-    {
-      sky: scenery.sky,
-      cam: "cam-zoom-right",
-      caption: `Close em ${him}: Coração acelerado`,
-      leftPos: "24%",
-      rightPos: "24%",
-      walking: false,
-      happy: false,
-      expr1: "happy",
-      expr2: "love",
-      backdrop: scenery.backdropSVG,
-      propsHTML: `
-        <div class="speech-bubble" style="align-self:flex-end;margin-right:8%;">💬 “${storyExcerpt}”</div>
-      `
-    },
-    {
-      sky: "sky-sunset",
-      cam: "cam-pan-right",
-      caption: timeTogether ? `Cena 4: ${timeTogether} construindo memórias` : `Cena 4: Cada capítulo melhor juntos`,
-      leftPos: "31%",
-      rightPos: "31%",
-      walking: true,
-      happy: true,
-      expr1: "excited",
-      expr2: "excited",
-      backdrop: scenery.backdropSVG,
-      propsHTML: chapterPhotos.length > 0
-        ? `<div class="mini-polaroid-garland">
-            ${chapterPhotos.slice(0, 3).map((src, idx) => `
-              <div class="mini-polaroid" style="transform:rotate(${idx % 2 === 0 ? -4 : 4}deg)">
-                <img src="${src}" alt="Foto">
-              </div>
-            `).join("")}
-          </div>`
-        : `<div style="display:flex;flex-wrap:wrap;justify-content:center;">
-            ${chapTitles.slice(0, 3).map(t => `<span class="story-badge">✦ ${t}</span>`).join("")}
-          </div>`
-    },
-    {
-      sky: "sky-night",
-      cam: "cam-closeup",
-      caption: `${her} & ${him}: Nossa história está só começando!`,
-      leftPos: "34%",
-      rightPos: "34%",
-      walking: false,
-      happy: true,
-      expr1: "love",
-      expr2: "love",
-      backdrop: "",
-      propsHTML: `
-        <span class="star-twinkle" style="top:16px;left:22%;font-size:15px;">✦</span>
-        <span class="star-twinkle" style="top:26px;right:24%;font-size:18px;animation-delay:0.4s;">✦</span>
-        <div class="story-badge" style="background:#b5544b;color:#fff;border-color:#b5544b;margin-top:6px;">
-          Para sempre nós dois ♥
-        </div>
-        <svg width="76" height="44" viewBox="0 0 90 55" style="margin-top:2px;animation:popIn 0.6s ease both;">
-          <path d="M45 48 C25 32, 12 22, 12 13 A9 9 0 0 1 30 10 Q45 20 45 20 Q45 20 60 10 A9 9 0 0 1 78 13 C78 22, 65 32, 45 48 Z" fill="#e06d63"/>
-        </svg>
-      `
-    }
-  ];
-
-  container.innerHTML = `
-    <div class="theater-viewport" id="recording-stage">
-      <div class="camera-rig sky-morning cam-wide" id="camera-rig">
-        <div class="scenery-backdrop" id="scenery-backdrop"></div>
-        <div class="actor-left" id="actor-left"></div>
-        <div class="actor-right" id="actor-right"></div>
-      </div>
-      <div class="prop-layer" id="theater-props"></div>
-    </div>
-    <div class="theater-caption" id="theater-caption"></div>
-    <div class="theater-progress" id="theater-dots">
-      ${acts.map((_, i) => `<span class="dot-step ${i === 0 ? "active" : ""}"></span>`).join("")}
-    </div>
-    <div style="display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;">
-      <button type="button" class="reroll-btn" id="replay-theater">↻ Assistir novamente</button>
-      <button type="button" class="reroll-btn" id="save-video-btn" style="background:var(--accent);color:#fff;border:0;">⬇ Salvar vídeo (.webm)</button>
-    </div>
-  `;
-
-  let step = 0;
-  const renderStep = (idx) => {
-    const act = acts[idx];
-    const camEl = $("camera-rig");
-    const bgEl = $("scenery-backdrop");
-    const leftEl = $("actor-left");
-    const rightEl = $("actor-right");
-    const propsEl = $("theater-props");
-    const capEl = $("theater-caption");
-    if (!leftEl || !rightEl || !camEl) return;
-
-    camEl.className = `camera-rig ${act.sky} ${act.cam}`;
-    bgEl.innerHTML = act.backdrop;
-    leftEl.innerHTML = renderStickCharacterSVG(charState.c1, "left", act.expr1);
-    rightEl.innerHTML = renderStickCharacterSVG(charState.c2, "right", act.expr2);
-    leftEl.style.left = act.leftPos;
-    rightEl.style.right = act.rightPos;
-    leftEl.classList.toggle("actor-walking", act.walking);
-    rightEl.classList.toggle("actor-walking", act.walking);
-    leftEl.classList.toggle("actor-happy", act.happy);
-    rightEl.classList.toggle("actor-happy", act.happy);
-    propsEl.innerHTML = act.propsHTML;
-    capEl.textContent = act.caption;
-
-    container.querySelectorAll(".dot-step").forEach((d, i) => d.classList.toggle("active", i === idx));
-  };
-
-  renderStep(0);
-
-  theaterTimer = setInterval(() => {
-    step++;
-    if (step >= acts.length) {
-      clearInterval(theaterTimer);
-      return;
-    }
-    renderStep(step);
-  }, 3100);
-
-  $("replay-theater").addEventListener("click", () => startStickStoryAnimation(container, ctx));
-  $("save-video-btn").addEventListener("click", () => recordAndDownloadVideo(container, ctx));
-}
-
-function recordAndDownloadVideo(container, ctx) {
-  const stageEl = $("recording-stage");
-  if (!stageEl) return;
-
-  if (!window.MediaRecorder) {
-    alert("Seu navegador não suporta gravação direta de vídeo nesta tela.");
-    return;
-  }
-
-  startStickStoryAnimation(container, ctx);
-  const saveBtn = $("save-video-btn");
-  saveBtn.textContent = "Gravando (15s)...";
-  saveBtn.disabled = true;
-
-  import('https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/+esm').then(async (htmlToImage) => {
-    const canvas = document.createElement('canvas');
-    canvas.width = 620;
-    canvas.height = 270;
-    const ctxCanvas = canvas.getContext('2d');
-    
-    const stream = canvas.captureStream(30);
-    recordedChunks = [];
-    
-    try {
-      mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
-    } catch (e) {
-      mediaRecorder = new MediaRecorder(stream);
-    }
-
-    mediaRecorder.ondataavailable = (e) => {
-      if (e.data && e.data.size > 0) recordedChunks.push(e.data);
-    };
-
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(recordedChunks, { type: 'video/webm' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `nossa-historia-${ctx.her}-e-${ctx.him}.webm`;
-      a.click();
-      URL.revokeObjectURL(url);
-      saveBtn.textContent = "⬇ Salvar vídeo (.webm)";
-      saveBtn.disabled = false;
-    };
-
-    mediaRecorder.start();
-
-    let elapsed = 0;
-    const interval = setInterval(async () => {
-      elapsed += 120;
-      try {
-        const dataUrl = await htmlToImage.toPng(stageEl);
-        const img = new Image();
-        img.src = dataUrl;
-        await new Promise(r => img.onload = r);
-        ctxCanvas.clearRect(0, 0, canvas.width, canvas.height);
-        ctxCanvas.drawImage(img, 0, 0);
-      } catch (err) {}
-
-      if (elapsed >= 15600) {
-        clearInterval(interval);
-        if (mediaRecorder && mediaRecorder.state !== "inactive") mediaRecorder.stop();
-      }
-    }, 120);
-
-  }).catch(() => {
-    alert("Erro ao iniciar gravação automática.");
-    saveBtn.textContent = "⬇ Salvar vídeo (.webm)";
-    saveBtn.disabled = false;
-  });
-}
-
-function getCornerFloralSVG(posClass) {
-  return `<svg class="corner-floral ${posClass}" viewBox="0 0 80 80" fill="none">
-    <path d="M8 70 Q12 24 68 10" stroke="#b5544b" stroke-width="1.5" stroke-linecap="round"/>
-    <circle cx="24" cy="34" r="5" fill="#e5989b" opacity="0.75"/>
-    <circle cx="44" cy="20" r="4" fill="#d4a359" opacity="0.75"/>
-    <path d="M16 48 Q26 44 28 52 Q18 54 16 48 Z" fill="#6b8e6b" opacity="0.65"/>
-    <path d="M34 28 Q42 24 44 32 Q35 34 34 28 Z" fill="#6b8e6b" opacity="0.65"/>
-  </svg>`;
-}
-
-function buildPage({ kicker, title, text, image, date, cover = false, isFinal = false }) {
+function buildPage({ kicker, title, text, image, date, cover = false, isFinal = false, rawDate = "" }) {
   const page = document.createElement("article");
   page.className = "book-page";
-  page.innerHTML = getCornerFloralSVG("corner-tl") + getCornerFloralSVG("corner-br");
 
   const k = document.createElement("div");
   k.className = "page-kicker";
@@ -2496,6 +2634,13 @@ function buildPage({ kicker, title, text, image, date, cover = false, isFinal = 
   if (cover) heading.className = "book-title";
   heading.textContent = title;
   page.appendChild(heading);
+
+  if (cover && rawDate) {
+    const clock = document.createElement("div");
+    clock.className = "live-clock-pill";
+    page.appendChild(clock);
+    startLiveLoveClock(rawDate, clock);
+  }
 
   if (image) {
     const frame = document.createElement("div");
@@ -2508,66 +2653,58 @@ function buildPage({ kicker, title, text, image, date, cover = false, isFinal = 
   }
 
   if (isFinal) {
-    if (selectedExperience === "book") {
-      const letterBox = document.createElement("div");
-      letterBox.className = "final-letter";
-      renderFinalParagraphs(letterBox, generateDynamicFinalLetter(currentStoryContext, letterVariationIndex));
-      page.appendChild(letterBox);
+    const switcher = document.createElement("div");
+    switcher.className = "final-mode-switch";
+    switcher.innerHTML = `
+      <button type="button" class="mode-btn active" data-mode="book-video">1. Vídeo do Livro Folheando</button>
+      <button type="button" class="mode-btn" data-mode="couple-film">2. Filme do Casal</button>
+      <button type="button" class="mode-btn" data-mode="letter">3. Carta & Link</button>
+    `;
+    page.appendChild(switcher);
 
-      const reroll = document.createElement("button");
-      reroll.type = "button";
-      reroll.className = "reroll-btn";
-      reroll.textContent = "↻ Gerar outra versão da carta";
-      reroll.addEventListener("click", () => {
-        letterVariationIndex++;
-        renderFinalParagraphs(letterBox, generateDynamicFinalLetter(currentStoryContext, letterVariationIndex));
+    const bookVideoView = document.createElement("div");
+    const coupleFilmView = document.createElement("div");
+    coupleFilmView.classList.add("hidden");
+    const letterView = document.createElement("div");
+    letterView.classList.add("hidden");
+
+    const letterBox = document.createElement("div");
+    letterBox.className = "final-letter";
+    const renderP = () => {
+      letterBox.innerHTML = "";
+      generateDynamicFinalLetter(currentStoryContext, letterVariationIndex).forEach(t => {
+        const p = document.createElement("p");
+        p.textContent = t;
+        letterBox.appendChild(p);
       });
-      page.appendChild(reroll);
-    } else {
-      const switcher = document.createElement("div");
-      switcher.className = "final-mode-switch";
-      switcher.innerHTML = `
-        <button type="button" class="mode-btn active" data-mode="letter">1. Carta personalizada</button>
-        <button type="button" class="mode-btn" data-mode="animation">2. Animação com câmeras</button>
-      `;
-      page.appendChild(switcher);
+    };
+    renderP();
+    letterView.appendChild(letterBox);
 
-      const letterView = document.createElement("div");
-      const letterBox = document.createElement("div");
-      letterBox.className = "final-letter";
-      renderFinalParagraphs(letterBox, generateDynamicFinalLetter(currentStoryContext, letterVariationIndex));
-      letterView.appendChild(letterBox);
+    const reroll = document.createElement("button");
+    reroll.type = "button";
+    reroll.className = "reroll-btn";
+    reroll.textContent = "↻ Gerar outra versão da carta";
+    reroll.addEventListener("click", () => { letterVariationIndex++; renderP(); });
+    letterView.appendChild(reroll);
 
-      const reroll = document.createElement("button");
-      reroll.type = "button";
-      reroll.className = "reroll-btn";
-      reroll.textContent = "↻ Gerar outra versão da carta";
-      reroll.addEventListener("click", () => {
-        letterVariationIndex++;
-        renderFinalParagraphs(letterBox, generateDynamicFinalLetter(currentStoryContext, letterVariationIndex));
+    page.append(bookVideoView, coupleFilmView, letterView);
+
+    page._startDefaultStudio = () => startBookFlipVideoStudio(bookVideoView, currentStoryContext);
+
+    switcher.querySelectorAll(".mode-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        switcher.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const mode = btn.dataset.mode;
+        bookVideoView.classList.toggle("hidden", mode !== "book-video");
+        coupleFilmView.classList.toggle("hidden", mode !== "couple-film");
+        letterView.classList.toggle("hidden", mode !== "letter");
+
+        if (mode === "book-video") startBookFlipVideoStudio(bookVideoView, currentStoryContext);
+        if (mode === "couple-film") startCinemaCanvasStudio(coupleFilmView, currentStoryContext);
       });
-      letterView.appendChild(reroll);
-
-      const animView = document.createElement("div");
-      animView.className = "story-theater hidden";
-
-      page.append(letterView, animView);
-
-      switcher.querySelectorAll(".mode-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          switcher.querySelectorAll(".mode-btn").forEach(b => b.classList.remove("active"));
-          btn.classList.add("active");
-          const isAnim = btn.dataset.mode === "animation";
-          letterView.classList.toggle("hidden", isAnim);
-          animView.classList.toggle("hidden", !isAnim);
-          if (isAnim) {
-            startStickStoryAnimation(animView, currentStoryContext);
-          } else if (theaterTimer) {
-            clearInterval(theaterTimer);
-          }
-        });
-      });
-    }
+    });
   } else if (text) {
     const p = document.createElement("p");
     p.textContent = text;
@@ -2584,62 +2721,78 @@ function buildPage({ kicker, title, text, image, date, cover = false, isFinal = 
   return page;
 }
 
-function renderFinalParagraphs(container, paragraphs) {
-  container.innerHTML = "";
-  paragraphs.forEach(txt => {
-    const p = document.createElement("p");
-    p.textContent = txt;
-    container.appendChild(p);
-  });
-}
-
-/* =========================================================
-   CHUVA DE FLORES E PÉTALAS CAINDO DO CÉU
-   ========================================================= */
-function spawnFallingFlowers(targetId = "floating-bg", count = 24) {
+function spawnFallingFlowers(targetId = "floating-bg", count = 22) {
   const container = $(targetId);
   if (!container) return;
   container.innerHTML = "";
-
-  const flowerSVGs = [
-    // Flor de 5 pétalas rosê
-    `<svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="6" r="4" fill="#e5989b"/><circle cx="18" cy="11" r="4" fill="#e5989b"/><circle cx="15" cy="18" r="4" fill="#e5989b"/><circle cx="9" cy="18" r="4" fill="#e5989b"/><circle cx="6" cy="11" r="4" fill="#e5989b"/><circle cx="12" cy="12" r="3" fill="#f7d060"/></svg>`,
-    // Pétala delicada terracota
-    `<svg width="16" height="16" viewBox="0 0 20 20"><path d="M10 2 C16 6, 16 14, 10 18 C4 14, 4 6, 10 2 Z" fill="#d98a7c"/></svg>`,
-    // Florzinha branca/dourada
-    `<svg width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="6" r="3.8" fill="#fffdf9"/><circle cx="18" cy="11" r="3.8" fill="#fffdf9"/><circle cx="15" cy="18" r="3.8" fill="#fffdf9"/><circle cx="9" cy="18" r="3.8" fill="#fffdf9"/><circle cx="6" cy="11" r="3.8" fill="#fffdf9"/><circle cx="12" cy="12" r="2.8" fill="#d4a359"/></svg>`,
-    // Folhinha verde oliva
-    `<svg width="16" height="16" viewBox="0 0 20 20"><path d="M3 17 Q10 3 17 3 Q17 10 3 17 Z" fill="#89a882"/></svg>`
-  ];
-
+  const petals = ["#e5989b", "#d98a7c", "#f7d060", "#89a882"];
   for (let i = 0; i < count; i++) {
     const el = document.createElement("div");
     el.className = "falling-petal";
-    el.innerHTML = flowerSVGs[i % flowerSVGs.length];
+    el.innerHTML = `<svg width="16" height="16" viewBox="0 0 20 20"><path d="M10 2 C16 6, 16 14, 10 18 C4 14, 4 6, 10 2 Z" fill="${petals[i % petals.length]}"/></svg>`;
     el.style.left = `${Math.random() * 98}%`;
     el.style.setProperty("--sway", `${(Math.random() - 0.5) * 140}px`);
     el.style.animationDuration = `${Math.random() * 7 + 8}s`;
-    el.style.animationDelay = `${Math.random() * 8}s`;
-    el.style.transform = `scale(${0.75 + Math.random() * 0.55})`;
+    el.style.animationDelay = `${Math.random() * 6}s`;
     container.appendChild(el);
   }
 }
 
-/* Atualiza a caminhada dos bonequinhos conforme a página atual do livro */
 function updateCharactersWalkPosition() {
-  const leftChar = $("char-left");
-  const rightChar = $("char-right");
-  if (!leftChar || !rightChar || pages.length <= 1) return;
+  if (pages.length <= 1) return;
+  const progress = pageIndex / (pages.length - 1);
+  const offset = Math.round(progress * 32);
+  $("char-left").style.left = `${4 + offset}%`;
+  $("char-right").style.right = `${4 + offset}%`;
+  const isLast = pageIndex === pages.length - 1;
+  $("char-left-svg").innerHTML = renderStickCharacterSVG(charState.c1, "left", "love", false);
+  $("char-right-svg").innerHTML = renderStickCharacterSVG(charState.c2, "right", "love", isLast);
+}
 
-  const progress = pageIndex / (pages.length - 1); // 0 na capa -> 1 na última página
-  const offset = Math.round(progress * 32); // Vai de 4% até 36% (encontrando-se no centro na última página)
+function renderBookExperience(ctx, rawDate) {
+  pages = [];
+  pages.push(buildPage({
+    kicker: `${$("edition-code").textContent} • Feito a dois`,
+    title: `${ctx.her} & ${ctx.him}`,
+    text: `Onde tudo começou: ${ctx.meet.shortLabel}.`,
+    image: coverImage,
+    date: ctx.formattedDate,
+    cover: true,
+    rawDate
+  }));
 
-  leftChar.style.left = `${4 + offset}%`;
-  rightChar.style.right = `${4 + offset}%`;
+  ctx.chapters.forEach(chapter => {
+    pages.push(buildPage({
+      kicker: `Capítulo ${chapter.number}`,
+      title: chapter.title,
+      text: chapter.text,
+      image: chapter.image
+    }));
+  });
 
-  const isLastPage = pageIndex === pages.length - 1;
-  $("char-left-svg").innerHTML = renderStickCharacterSVG(charState.c1, "left", isLastPage ? "love" : "happy");
-  $("char-right-svg").innerHTML = renderStickCharacterSVG(charState.c2, "right", isLastPage ? "love" : "excited");
+  pages.push(buildPage({
+    kicker: "Pronto para enviar",
+    title: "Animação do Livro & Presente",
+    date: "Baixe o vídeo ou copie o link acima ♥",
+    isFinal: true
+  }));
+
+  $("editor").classList.add("hidden");
+  $("topbar").classList.add("hidden");
+  $("book-stage").innerHTML = "";
+  pages.forEach(page => $("book-stage").appendChild(page));
+
+  $("envelope-names").textContent = `${ctx.her} & ${ctx.him}`;
+  const overlay = $("gift-overlay");
+  overlay.classList.remove("hidden", "opened");
+  $("reader").classList.remove("hidden");
+
+  spawnFallingFlowers("floating-bg", 24);
+  pageIndex = 0;
+  pages[0].classList.add("active");
+  updateCharactersWalkPosition();
+  updateControls();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function createBook() {
@@ -2651,112 +2804,49 @@ function createBook() {
   const chapters = getChapterData();
 
   if (!chapters.length) {
-    alert("Adicione pelo menos um capítulo ou cena antes de continuar.");
+    alert("Adicione pelo menos um capítulo antes de gerar.");
     return;
   }
 
   letterVariationIndex = 0;
   currentStoryContext = { her, him, meet, chapters, formattedDate, timeTogether: calculateTimeTogether(dateValue) };
 
-  if (selectedExperience === "animation") {
+  if (selectedExperience === "book-video" || selectedExperience === "animation") {
     $("editor").classList.add("hidden");
     $("topbar").classList.add("hidden");
     $("cinema-only-view").classList.remove("hidden");
+    $("cinema-brand-label").textContent = selectedExperience === "book-video" ? "📹 Vídeo do Livro Folheando" : "🎬 Filme do Casal";
     $("cinema-title").textContent = `${her} & ${him}`;
-    $("cinema-subtitle").textContent = `${$("edition-code").textContent} • Curta Animado`;
-    spawnFallingFlowers("floating-bg-cinema", 20);
-    startStickStoryAnimation($("standalone-theater"), currentStoryContext);
+    startLiveLoveClock(dateValue, $("cinema-live-clock"));
+    spawnFallingFlowers("floating-bg-cinema", 18);
+
+    if (selectedExperience === "book-video") {
+      startBookFlipVideoStudio($("standalone-theater"), currentStoryContext);
+    } else {
+      startCinemaCanvasStudio($("standalone-theater"), currentStoryContext);
+    }
     window.scrollTo({ top: 0, behavior: "smooth" });
     return;
   }
 
-  pages = [];
-  pages.push(buildPage({
-    kicker: `${$("edition-code").textContent} • Feito a dois`,
-    title: `${her} & ${him}`,
-    text: `Onde tudo começou: ${meet.shortLabel}.`,
-    image: coverImage,
-    date: formattedDate,
-    cover: true
-  }));
-
-  chapters.forEach(chapter => {
-    pages.push(buildPage({
-      kicker: `Capítulo ${chapter.number}`,
-      title: chapter.title,
-      text: chapter.text,
-      image: chapter.image
-    }));
-  });
-
-  pages.push(buildPage({
-    kicker: "Última página (por enquanto)",
-    title: "Para você guardar",
-    date: "Continua nos próximos dias...",
-    isFinal: true
-  }));
-
-  $("editor").classList.add("hidden");
-  $("topbar").classList.add("hidden");
-  $("book-stage").innerHTML = "";
-  pages.forEach(page => $("book-stage").appendChild(page));
-
-  $("envelope-names").textContent = `${her} & ${him}`;
-  const overlay = $("gift-overlay");
-  overlay.classList.remove("hidden", "opened");
-  $("reader").classList.remove("hidden");
-
-  spawnFallingFlowers("floating-bg", 26);
-  pageIndex = 0;
-  pages[0].classList.add("active");
-  updateCharactersWalkPosition();
-  updateControls();
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  renderBookExperience(currentStoryContext, dateValue);
 }
 
 $("break-seal-btn").addEventListener("click", () => {
   const overlay = $("gift-overlay");
   overlay.classList.add("opened");
-  // Chuva extra de flores ao quebrar o selo
-  spawnFallingFlowers("floating-bg", 36);
   setTimeout(() => overlay.classList.add("hidden"), 720);
 });
 
-function triggerCharacterPull(direction) {
-  const char = direction === "next" ? $("char-right") : $("char-left");
-  char.classList.remove("pulling");
-  void char.offsetWidth;
-  char.classList.add("pulling");
-}
-
 function showPage(newIndex) {
-  if (isAnimating || !pages.length) return;
   const target = Math.max(0, Math.min(newIndex, pages.length - 1));
   if (target === pageIndex) return;
-
-  isAnimating = true;
-  const direction = target > pageIndex ? "next" : "prev";
-  const currentPage = pages[pageIndex];
-  const nextPage = pages[target];
-
-  triggerCharacterPull(direction);
-
-  pages.forEach(p => {
-    p.classList.remove("active", "prev-dir", "turning-out-next", "turning-out-prev");
-  });
-
-  currentPage.classList.add(direction === "next" ? "turning-out-next" : "turning-out-prev");
-  nextPage.classList.add("active");
-  if (direction === "prev") nextPage.classList.add("prev-dir");
-
+  pages.forEach(p => p.classList.remove("active"));
+  pages[target].classList.add("active");
   pageIndex = target;
+  if (pages[target]._startDefaultStudio) pages[target]._startDefaultStudio();
   updateCharactersWalkPosition();
   updateControls();
-
-  setTimeout(() => {
-    currentPage.classList.remove("turning-out-next", "turning-out-prev");
-    isAnimating = false;
-  }, 660);
 }
 
 function updateControls() {
@@ -2766,24 +2856,14 @@ function updateControls() {
 }
 
 function backToEditor() {
-  if (theaterTimer) clearInterval(theaterTimer);
+  if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
+  if (liveClockInterval) clearInterval(liveClockInterval);
   if (isMusicPlaying) toggleAmbientMusic();
   $("reader").classList.add("hidden");
   $("cinema-only-view").classList.add("hidden");
   $("editor").classList.remove("hidden");
   $("topbar").classList.remove("hidden");
   window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function switchView(view) {
-  const isReader = view === "reader";
-  if (isReader) {
-    createBook();
-    return;
-  }
-  backToEditor();
-  $("editor-tab").classList.add("active");
-  $("reader-tab").classList.remove("active");
 }
 
 $("music-toggle").addEventListener("click", toggleAmbientMusic);
@@ -2794,19 +2874,14 @@ $("back-editor").addEventListener("click", backToEditor);
 $("back-editor-cinema").addEventListener("click", backToEditor);
 $("previous").addEventListener("click", () => showPage(pageIndex - 1));
 $("next").addEventListener("click", () => showPage(pageIndex + 1));
-$("editor-tab").addEventListener("click", () => switchView("editor"));
-$("reader-tab").addEventListener("click", () => switchView("reader"));
-
-document.addEventListener("keydown", e => {
-  if ($("reader").classList.contains("hidden")) return;
-  if (e.key === "ArrowRight") showPage(pageIndex + 1);
-  if (e.key === "ArrowLeft") showPage(pageIndex - 1);
-});
+$("editor-tab").addEventListener("click", backToEditor);
+$("reader-tab").addEventListener("click", createBook);
 
 setupMeetSelector();
 initCharacterCustomizer();
 setupCoverUpload();
 addChapter();
+initAuthSystem();
 </script>
 </body>
 </html>
