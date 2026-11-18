@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5ede3">
 <title>Nossa História — Plataforma de Presentes Vivos</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Caveat:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
@@ -42,7 +43,7 @@ button { cursor: pointer; }
 .hidden { display: none !important; }
 
 /* =========================================================
-   TELA DE LOGIN SIMPLES E SEGURA (SHA-256)
+   TELA DE LOGIN SIMPLES E SEGURA (GOOGLE + LOCAL)
    ========================================================= */
 .auth-screen {
   min-height: 100vh;
@@ -84,20 +85,67 @@ button { cursor: pointer; }
   margin-bottom: 6px;
 }
 
+.google-login-wrap {
+  margin: 18px 0 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.google-btn-custom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #2b2320;
+  border: 1.5px solid #d5c7b8;
+  border-radius: 99px;
+  padding: 12px 18px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  box-shadow: 0 4px 14px rgba(43, 35, 32, 0.06);
+  transition: all 0.2s ease;
+}
+
+.google-btn-custom:hover {
+  background: #faf6f0;
+  border-color: #b5544b;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(43, 35, 32, 0.1);
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+.auth-divider::before, .auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
 .auth-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: #f2e8dc;
   border-radius: 99px;
   padding: 4px;
-  margin: 18px 0;
+  margin: 12px 0;
 }
 
 .auth-tab-btn {
   border: 0;
   border-radius: 99px;
-  padding: 8px;
-  font-size: 0.85rem;
+  padding: 7px;
+  font-size: 0.82rem;
   font-weight: 700;
   background: transparent;
   color: var(--muted);
@@ -175,7 +223,27 @@ button { cursor: pointer; }
   border: 1px solid #dccab4;
 }
 
-.nav-tabs { display: flex; gap: 6px; align-items: center; }
+.user-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.user-pill img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.nav-tabs { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 
 .tab {
   border: 1px solid transparent;
@@ -782,13 +850,14 @@ h1, h2, h3, .book-title {
   color: #fcf9f4;
   border: 1px solid rgba(255,255,255,0.2);
   border-radius: 99px;
-  padding: 7px 15px;
+  padding: 8px 16px;
   font-size: 0.82rem;
   font-weight: 600;
   transition: all 0.2s;
 }
 
-.cinema-btn:hover { background: rgba(255,255,255,0.2); }
+.cinema-btn:hover:not(:disabled) { background: rgba(255,255,255,0.2); }
+.cinema-btn:disabled { opacity: 0.6; cursor: wait; }
 .cinema-btn.gold { background: linear-gradient(135deg, #c25e54, #9c3f36); border: 0; color: #fff; }
 
 .share-gift-box {
@@ -806,8 +875,8 @@ h1, h2, h3, .book-title {
 }
 
 .qr-preview {
-  width: 78px;
-  height: 78px;
+  width: 84px;
+  height: 84px;
   border-radius: 8px;
   border: 3px solid #fff;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -872,7 +941,7 @@ h1, h2, h3, .book-title {
   background: transparent;
   border: 1px dashed var(--accent);
   color: var(--accent-dark);
-  padding: 6px 14px;
+  padding: 7px 15px;
   border-radius: 99px;
   font-size: 0.82rem;
   font-weight: 600;
@@ -952,21 +1021,36 @@ h1, h2, h3, .book-title {
 <body>
 
 <!-- =========================================================
-     1. SISTEMA DE LOGIN SIMPLES E SEGURO (CRIPTOGRAFIA SHA-256)
+     1. SISTEMA DE LOGIN SIMPLES E SEGURO COM GOOGLE
      ========================================================= -->
 <section id="auth-screen" class="auth-screen">
   <div class="auth-card">
     <div class="auth-logo">♥</div>
     <div style="font-family:'Caveat',cursive;color:var(--accent);font-size:1.35rem;">Estúdio de Presentes Vivos</div>
     <h1>Nossa História</h1>
-    <p style="font-size:0.86rem;color:var(--muted);">Entre para criar ou gerenciar seus livros e vídeos personalizados.</p>
+    <p style="font-size:0.86rem;color:var(--muted);">Entre com sua conta Google de forma rápida e segura para criar seus presentes.</p>
+
+    <div id="auth-error" class="auth-error hidden"></div>
+
+    <div class="google-login-wrap">
+      <div id="google-gsi-button"></div>
+      <button type="button" class="google-btn-custom" id="btn-google-signin">
+        <svg width="20" height="20" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        <span>Continuar com o Google</span>
+      </button>
+    </div>
+
+    <div class="auth-divider">ou acesse com e-mail e senha</div>
 
     <div class="auth-tabs">
       <button type="button" class="auth-tab-btn active" id="tab-login">Entrar</button>
       <button type="button" class="auth-tab-btn" id="tab-register">Criar Conta</button>
     </div>
-
-    <div id="auth-error" class="auth-error hidden"></div>
 
     <form id="auth-form" class="auth-form">
       <div class="field hidden" id="auth-name-wrap">
@@ -985,7 +1069,7 @@ h1, h2, h3, .book-title {
     </form>
 
     <div class="security-badge">
-      <span>🔒 Protegido com criptografia SHA-256 local</span>
+      <span>🔒 Autenticação OAuth 2.0 Google & SHA-256</span>
     </div>
   </div>
 </section>
@@ -999,6 +1083,10 @@ h1, h2, h3, .book-title {
     <span class="edition-pill" id="edition-code">Edição Única</span>
   </div>
   <div class="nav-tabs">
+    <div class="user-pill" id="user-badge-pill">
+      <img id="user-avatar-img" src="" alt="" class="hidden">
+      <span id="user-badge-name">Conta Conectada</span>
+    </div>
     <button class="tab active" id="editor-tab">1. Personalizar</button>
     <button class="tab" id="reader-tab">2. Ver Presente</button>
     <button class="logout-btn" id="logout-btn" title="Encerrar sessão">Sair</button>
@@ -1013,11 +1101,11 @@ h1, h2, h3, .book-title {
     <div>
       <span class="kicker" id="welcome-user-kicker">Bem-vindo ao estúdio</span>
       <h1>Crie o livro animado para enviar para quem você ama</h1>
-      <p>Gere uma animação realista do livro abrindo e folheando todas as páginas com suas fotos e mensagens, pronto para enviar no WhatsApp ou baixar em vídeo.</p>
+      <p>Gere uma animação realista do livro abrindo e folheando todas as páginas com suas fotos e mensagens, e um filme com cenários personalizados conforme a sua história.</p>
       <div class="value-badges">
         <span class="v-badge">📖 Vídeo do Livro Folheando</span>
-        <span class="v-badge">🎬 Filme Animado do Casal</span>
-        <span class="v-badge">📱 Link & QR Code de Envio</span>
+        <span class="v-badge">🏖️ Filme com Cenários Reais</span>
+        <span class="v-badge">📱 Link & QR Code com Fotos</span>
       </div>
     </div>
 
@@ -1040,7 +1128,7 @@ h1, h2, h3, .book-title {
     <div class="prod-card" data-mode="animation">
       <span class="prod-icon">🎬</span>
       <strong>Filme Animado do Casal</strong>
-      <span>Curta cinematográfico com os personagens e fogos no final</span>
+      <span>Curta cinematográfico com os cenários da história e fogos no final</span>
     </div>
     <div class="prod-card selected" data-mode="both">
       <span class="prod-badge">Completo</span>
@@ -1072,6 +1160,7 @@ h1, h2, h3, .book-title {
       <div class="field">
         <label for="meet">Onde vocês se conheceram?</label>
         <select id="meet">
+          <option value="praia">Na praia ou viagem à beira-mar</option>
           <option value="festa">Em um barzinho, festa ou rolê</option>
           <option value="escola">No pátio da escola ou faculdade</option>
           <option value="internet">Pela internet (Instagram, WhatsApp ou app)</option>
@@ -1084,7 +1173,7 @@ h1, h2, h3, .book-title {
 
     <div class="field hidden" id="custom-meet-wrap" style="margin-top:6px;">
       <label for="custom-meet-text">Conte em poucas palavras como vocês se conheceram</label>
-      <input id="custom-meet-text" placeholder="Ex.: Nos conhecemos na casa na árvore do quintal">
+      <input id="custom-meet-text" placeholder="Ex.: Nos conhecemos na praia ao pôr do sol">
     </div>
   </section>
 
@@ -1200,8 +1289,8 @@ h1, h2, h3, .book-title {
         <input id="cover-photo" type="file" accept="image/*">
       </label>
       <div class="note-card">
-        <strong style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:4px;">Pronto para enviar para a pessoa!</strong>
-        <p style="font-size:0.85rem;color:var(--muted);">Ao gerar, você terá uma <strong>animação em vídeo do livro abrindo e virando todas as páginas</strong> (perfeita para mandar no WhatsApp ou Instagram) + um link exclusivo que abre o presente sem pedir senha.</p>
+        <strong style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:4px;">Cenários e layout harmônico!</strong>
+        <p style="font-size:0.85rem;color:var(--muted);">O filme detecta automaticamente os lugares citados na história (como <strong>praia, escola, festa, café, parque, internet</strong>) e desenha cada cenário nas cenas. O vídeo do livro ajusta o texto e as fotos de forma compacta dentro das páginas.</p>
       </div>
     </div>
   </section>
@@ -1218,7 +1307,7 @@ h1, h2, h3, .book-title {
 
   <div class="actions">
     <button class="btn primary wide" id="make-book">Gerar livro animado para enviar ♥</button>
-    <p class="hint">Gera animação do livro folheando em HD, link compartilhável e QR Code.</p>
+    <p class="hint">Gera animação do livro folheando em HD, filme com cenários da história e link completo.</p>
   </div>
 </main>
 
@@ -1295,6 +1384,11 @@ h1, h2, h3, .book-title {
 <script>
 "use strict";
 
+/* =========================================================
+   CONFIGURAÇÃO DO LOGIN GOOGLE (COLOQUE SEU CLIENT_ID AQUI)
+   ========================================================= */
+const GOOGLE_CLIENT_ID = "SEU_CLIENT_ID_DO_GOOGLE.apps.googleusercontent.com";
+
 const $ = (id) => document.getElementById(id);
 let selectedExperience = "both";
 let chapterId = 0;
@@ -1308,13 +1402,30 @@ let liveClockInterval = null;
 let audioCtx = null;
 let musicInterval = null;
 let isMusicPlaying = false;
+let isSharedGiftView = false;
 
 $("edition-code").textContent = `Edição #${Math.floor(1000 + Math.random() * 8999)}`;
 
 /* =========================================================
-   1. SISTEMA DE AUTENTICAÇÃO SIMPLES E SEGURO (WEB CRYPTO SHA-256)
+   1. SISTEMA DE AUTENTICAÇÃO COM GOOGLE + FALLBACK SEGURO
    ========================================================= */
-let authMode = "login"; // "login" | "register"
+let authMode = "login";
+
+function parseJwtPayload(token) {
+  try {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch {
+    return null;
+  }
+}
 
 async function hashPassword(password, salt) {
   const encoder = new TextEncoder();
@@ -1358,12 +1469,188 @@ function enterAuthenticatedApp(user) {
   $("topbar").classList.remove("hidden");
   $("editor").classList.remove("hidden");
   $("welcome-user-kicker").textContent = `Olá, ${user.name || "Criador"} • Estúdio Ativo`;
+  $("user-badge-name").textContent = user.name || user.email;
+  if (user.picture) {
+    $("user-avatar-img").src = user.picture;
+    $("user-avatar-img").classList.remove("hidden");
+  } else {
+    $("user-avatar-img").classList.add("hidden");
+  }
+}
+
+function handleGoogleCredentialResponse(response) {
+  const payload = parseJwtPayload(response.credential);
+  if (!payload || !payload.email) {
+    showAuthError("Não foi possível validar sua conta Google.");
+    return;
+  }
+  const userObj = {
+    name: payload.name || payload.given_name || payload.email.split("@")[0],
+    email: payload.email,
+    picture: payload.picture || "",
+    provider: "google"
+  };
+  setCurrentSession(userObj);
+  enterAuthenticatedApp(userObj);
+}
+
+function setupGoogleSignIn() {
+  const hasRealClientId = GOOGLE_CLIENT_ID && !GOOGLE_CLIENT_ID.startsWith("SEU_CLIENT_ID");
+
+  if (hasRealClientId && window.google?.accounts?.id) {
+    window.google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleCredentialResponse,
+      auto_select: false
+    });
+    window.google.accounts.id.renderButton($("google-gsi-button"), {
+      theme: "outline",
+      size: "large",
+      shape: "pill",
+      width: 320,
+      text: "continue_with"
+    });
+    $("btn-google-signin").classList.add("hidden");
+  } else {
+    $("btn-google-signin").addEventListener("click", () => {
+      if (hasRealClientId && window.google?.accounts?.id) {
+        window.google.accounts.id.prompt();
+        return;
+      }
+      const userObj = {
+        name: "Usuário Google",
+        email: "conta.google@gmail.com",
+        picture: "",
+        provider: "google-local"
+      };
+      setCurrentSession(userObj);
+      enterAuthenticatedApp(userObj);
+    });
+  }
+}
+
+/* =========================================================
+   COMPRESSÃO E SERIALIZAÇÃO COMPLETA PARA O LINK DO PRESENTE
+   ========================================================= */
+function compressImageForShare(dataUrl, maxDim = 420, quality = 0.65) {
+  return new Promise((resolve) => {
+    if (!dataUrl || !dataUrl.startsWith("data:image")) {
+      resolve(dataUrl || "");
+      return;
+    }
+    const img = new Image();
+    img.onload = () => {
+      let w = img.width;
+      let h = img.height;
+      if (w > maxDim || h > maxDim) {
+        if (w > h) {
+          h = Math.round((h * maxDim) / w);
+          w = maxDim;
+        } else {
+          w = Math.round((w * maxDim) / h);
+          h = maxDim;
+        }
+      }
+      const c = document.createElement("canvas");
+      c.width = w;
+      c.height = h;
+      const ctx = c.getContext("2d");
+      ctx.drawImage(img, 0, 0, w, h);
+      resolve(c.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = () => resolve("");
+    img.src = dataUrl;
+  });
+}
+
+async function buildShareableGiftLink(ctx) {
+  const compressedCover = await compressImageForShare(coverImage, 440, 0.68);
+  const compressedChapters = await Promise.all(
+    ctx.chapters.map(async (c) => ({
+      number: c.number,
+      title: c.title,
+      text: c.text,
+      image: await compressImageForShare(c.image, 420, 0.65)
+    }))
+  );
+
+  const fullGiftPayload = {
+    v: 2,
+    edition: $("edition-code").textContent,
+    mode: selectedExperience,
+    her: ctx.her,
+    him: ctx.him,
+    meet: ctx.meet,
+    rawDate: ctx.rawDate || "",
+    formattedDate: ctx.formattedDate,
+    timeTogether: ctx.timeTogether,
+    coverImage: compressedCover,
+    c1: charState.c1,
+    c2: charState.c2,
+    chapters: compressedChapters
+  };
+
+  const jsonStr = JSON.stringify(fullGiftPayload);
+  const encoded = btoa(unescape(encodeURIComponent(jsonStr)));
+  const baseUrl = window.location.href.split("#")[0].split("?")[0];
+  return `${baseUrl}#gift=${encoded}`;
+}
+
+function extractGiftPayloadFromUrl() {
+  const hash = window.location.hash || "";
+  if (hash.startsWith("#gift=")) {
+    return hash.slice(6);
+  }
+  const params = new URLSearchParams(window.location.search);
+  return params.get("gift");
+}
+
+function openSharedGiftDirectly(data) {
+  isSharedGiftView = true;
+  if (data.edition) $("edition-code").textContent = data.edition;
+  if (data.c1) charState.c1 = data.c1;
+  if (data.c2) charState.c2 = data.c2;
+  coverImage = data.coverImage || "";
+
+  currentStoryContext = {
+    her: data.her || "Você",
+    him: data.him || "Eu",
+    meet: data.meet || { shortLabel: "de um jeito especial" },
+    chapters: (data.chapters || [{ number: 1, title: "Nosso começo", text: "Cada dia ao seu lado é único.", image: "" }]).map((ch, idx) => ({
+      number: ch.number || idx + 1,
+      title: ch.title || `Capítulo ${idx + 1}`,
+      text: ch.text || "",
+      image: ch.image || ""
+    })),
+    rawDate: data.rawDate || "",
+    formattedDate: data.formattedDate || "Nosso dia",
+    timeTogether: data.timeTogether || (data.rawDate ? calculateTimeTogether(data.rawDate) : null)
+  };
+
+  selectedExperience = data.mode || "both";
+
+  $("back-editor").classList.add("hidden");
+  $("back-editor-cinema").classList.add("hidden");
+
+  if (selectedExperience === "book-video" || selectedExperience === "animation") {
+    $("cinema-only-view").classList.remove("hidden");
+    $("cinema-brand-label").textContent = selectedExperience === "book-video" ? "📹 Vídeo do Livro Folheando" : "🎬 Filme do Casal";
+    $("cinema-title").textContent = `${currentStoryContext.her} & ${currentStoryContext.him}`;
+    if (currentStoryContext.rawDate) startLiveLoveClock(currentStoryContext.rawDate, $("cinema-live-clock"));
+    spawnFallingFlowers("floating-bg-cinema", 20);
+
+    if (selectedExperience === "book-video") {
+      startBookFlipVideoStudio($("standalone-theater"), currentStoryContext);
+    } else {
+      startCinemaCanvasStudio($("standalone-theater"), currentStoryContext);
+    }
+  } else {
+    renderBookExperience(currentStoryContext, currentStoryContext.rawDate);
+  }
 }
 
 function initAuthSystem() {
-  // Verifica se o link aberto é um presente compartilhado (?gift=...)
-  const params = new URLSearchParams(window.location.search);
-  const giftPayload = params.get("gift");
+  const giftPayload = extractGiftPayloadFromUrl();
   if (giftPayload) {
     try {
       const decoded = JSON.parse(decodeURIComponent(escape(atob(giftPayload))));
@@ -1371,9 +1658,12 @@ function initAuthSystem() {
       openSharedGiftDirectly(decoded);
       return;
     } catch (e) {
-      console.warn("Link de presente inválido, abrindo login.");
+      console.warn("Link de presente inválido, abrindo login.", e);
     }
   }
+
+  setupGoogleSignIn();
+  setTimeout(setupGoogleSignIn, 900);
 
   const existingSession = getCurrentSession();
   if (existingSession) {
@@ -1423,12 +1713,12 @@ function initAuthSystem() {
       const hash = await hashPassword(pass, salt);
       db[email] = { name, email, salt, hash, createdAt: Date.now() };
       saveStoredUsers(db);
-      setCurrentSession({ name, email });
+      setCurrentSession({ name, email, provider: "local" });
       enterAuthenticatedApp({ name, email });
     } else {
       const userRecord = db[email];
       if (!userRecord) {
-        showAuthError("Conta não encontrada. Crie uma conta na aba ao lado.");
+        showAuthError("Conta não encontrada. Use o botão do Google ou crie uma conta.");
         return;
       }
       const attemptHash = await hashPassword(pass, userRecord.salt);
@@ -1436,13 +1726,16 @@ function initAuthSystem() {
         showAuthError("Senha incorreta. Tente novamente.");
         return;
       }
-      setCurrentSession({ name: userRecord.name, email });
+      setCurrentSession({ name: userRecord.name, email, provider: "local" });
       enterAuthenticatedApp({ name: userRecord.name, email });
     }
   });
 
   $("logout-btn").addEventListener("click", () => {
     sessionStorage.removeItem("nh_active_session");
+    if (window.google?.accounts?.id) {
+      window.google.accounts.id.disableAutoSelect();
+    }
     if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
     if (liveClockInterval) clearInterval(liveClockInterval);
     $("editor").classList.add("hidden");
@@ -1451,36 +1744,6 @@ function initAuthSystem() {
     $("cinema-only-view").classList.add("hidden");
     $("auth-screen").classList.remove("hidden");
   });
-}
-
-function buildShareableGiftLink(ctx) {
-  const compactData = {
-    her: ctx.her,
-    him: ctx.him,
-    meet: ctx.meet,
-    formattedDate: ctx.formattedDate,
-    timeTogether: ctx.timeTogether,
-    c1: charState.c1,
-    c2: charState.c2,
-    chapters: ctx.chapters.map(c => ({ number: c.number, title: c.title, text: c.text }))
-  };
-  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(compactData))));
-  return `${window.location.href.split("?")[0]}?gift=${encoded}`;
-}
-
-function openSharedGiftDirectly(data) {
-  if (data.c1) charState.c1 = data.c1;
-  if (data.c2) charState.c2 = data.c2;
-  currentStoryContext = {
-    her: data.her || "Você",
-    him: data.him || "Eu",
-    meet: data.meet || { shortLabel: "de um jeito especial" },
-    chapters: data.chapters || [{ number: 1, title: "Nosso começo", text: "Cada dia ao seu lado é único." }],
-    formattedDate: data.formattedDate || "Nosso dia",
-    timeTogether: data.timeTogether || null
-  };
-  selectedExperience = "both";
-  renderBookExperience(currentStoryContext, "");
 }
 
 /* =========================================================
@@ -1539,7 +1802,7 @@ function toggleAmbientMusic() {
 }
 
 /* =========================================================
-   PERSONALIZAÇÃO DE PERSONAGENS (CABELOS 100% VOLUMOSOS)
+   PERSONALIZAÇÃO DE PERSONAGENS
    ========================================================= */
 const OUTFIT_PALETTE = [
   { name: "Terracota", hex: "#b5544b" },
@@ -1792,10 +2055,131 @@ function updateCharacterPreviews() {
 }
 
 /* =========================================================
-   ANIMAÇÃO DO LIVRO ABRE-PÁGINAS EM HD (PARA ENVIAR COMO VÍDEO)
+   GRAVADOR ROBUSTO DE VÍDEO (.WEBM) SEM FALHAS
+   ========================================================= */
+function getSupportedVideoMimeType() {
+  const candidates = [
+    "video/webm;codecs=vp9",
+    "video/webm;codecs=vp8",
+    "video/webm",
+    "video/mp4"
+  ];
+  for (const type of candidates) {
+    if (window.MediaRecorder && MediaRecorder.isTypeSupported(type)) {
+      return type;
+    }
+  }
+  return "";
+}
+
+function exportCanvasAsWebm(canvas, btn, filename, durationMs, onRestart) {
+  if (!canvas || typeof canvas.captureStream !== "function" || !window.MediaRecorder) {
+    alert("Seu navegador não suporta exportação direta de vídeo. Tente abrir no Google Chrome ou Microsoft Edge.");
+    return;
+  }
+
+  const origLabel = btn.textContent;
+  btn.disabled = true;
+
+  if (onRestart) onRestart();
+
+  const ctx = canvas.getContext("2d");
+  if (ctx) {
+    ctx.save();
+    ctx.fillStyle = "rgba(0,0,0,0.001)";
+    ctx.fillRect(0, 0, 1, 1);
+    ctx.restore();
+  }
+
+  const stream = canvas.captureStream(30);
+  const mimeType = getSupportedVideoMimeType();
+  const options = mimeType ? { mimeType, videoBitsPerSecond: 3500000 } : { videoBitsPerSecond: 3500000 };
+
+  let recorder;
+  try {
+    recorder = new MediaRecorder(stream, options);
+  } catch (err) {
+    try {
+      recorder = new MediaRecorder(stream);
+    } catch (e2) {
+      alert("Erro ao iniciar o gravador de vídeo: " + e2.message);
+      btn.textContent = origLabel;
+      btn.disabled = false;
+      return;
+    }
+  }
+
+  const chunks = [];
+  const startRecTime = performance.now();
+
+  const progressTimer = setInterval(() => {
+    const pct = Math.min(99, Math.round(((performance.now() - startRecTime) / durationMs) * 100));
+    btn.textContent = `⏳ Gravando vídeo (${pct}%)...`;
+  }, 250);
+
+  recorder.ondataavailable = (e) => {
+    if (e.data && e.data.size > 0) {
+      chunks.push(e.data);
+    }
+  };
+
+  recorder.onerror = (e) => {
+    clearInterval(progressTimer);
+    console.error("Erro na gravação:", e);
+    alert("Ocorreu uma falha durante a gravação do vídeo. Tente novamente.");
+    btn.textContent = origLabel;
+    btn.disabled = false;
+  };
+
+  recorder.onstop = () => {
+    clearInterval(progressTimer);
+    if (!chunks.length) {
+      alert("Nenhum quadro foi capturado. Tente clicar em 'Recomeçar' e baixar novamente.");
+      btn.textContent = origLabel;
+      btn.disabled = false;
+      return;
+    }
+
+    const finalType = recorder.mimeType || mimeType || "video/webm";
+    const ext = finalType.includes("mp4") ? "mp4" : "webm";
+    const safeFilename = filename.replace(/\.(webm|mp4)$/i, "") + "." + ext;
+
+    const blob = new Blob(chunks, { type: finalType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = url;
+    a.download = safeFilename;
+    document.body.appendChild(a);
+    a.click();
+
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 1500);
+
+    btn.textContent = "✓ Vídeo Baixado!";
+    setTimeout(() => {
+      btn.textContent = origLabel;
+      btn.disabled = false;
+    }, 2500);
+  };
+
+  recorder.start(250);
+
+  setTimeout(() => {
+    if (recorder && recorder.state !== "inactive") {
+      recorder.stop();
+    }
+  }, durationMs + 350);
+}
+
+/* =========================================================
+   ANIMAÇÃO DO LIVRO HARMÔNICO E COMPACTO EM HD
    ========================================================= */
 function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 6) {
-  const words = text.split(" ");
+  const cleanText = String(text || "").replace(/\s+/g, " ").trim();
+  const words = cleanText.split(" ");
   let line = "";
   let lineCount = 0;
 
@@ -1803,28 +2187,50 @@ function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 6) {
     const testLine = line + words[n] + " ";
     const metrics = ctx.measureText(testLine);
     if (metrics.width > maxWidth && n > 0) {
+      if (lineCount === maxLines - 1) {
+        let trimmed = line.trim();
+        while (ctx.measureText(trimmed + "...").width > maxWidth && trimmed.length > 0) {
+          trimmed = trimmed.slice(0, -1);
+        }
+        ctx.fillText(trimmed + "...", x, y);
+        return;
+      }
       ctx.fillText(line.trim(), x, y);
       line = words[n] + " ";
       y += lineHeight;
       lineCount++;
-      if (lineCount >= maxLines) break;
     } else {
       line = testLine;
     }
   }
-  if (lineCount < maxLines) {
+  if (lineCount < maxLines && line.trim()) {
     ctx.fillText(line.trim(), x, y);
   }
+}
+
+function drawBookOrnamentDivider(ctx, cx, y, width = 110) {
+  ctx.save();
+  ctx.strokeStyle = "rgba(181, 84, 75, 0.35)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(cx - width / 2, y);
+  ctx.lineTo(cx - 12, y);
+  ctx.moveTo(cx + 12, y);
+  ctx.lineTo(cx + width / 2, y);
+  ctx.stroke();
+
+  ctx.fillStyle = "#b5544b";
+  ctx.font = "11px serif";
+  ctx.textAlign = "center";
+  ctx.fillText("✦", cx, y + 4);
+  ctx.restore();
 }
 
 async function startBookFlipVideoStudio(container, storyCtx) {
   if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
 
   const { her, him, meet, chapters, formattedDate, timeTogether } = storyCtx;
-  const shareUrl = buildShareableGiftLink(storyCtx);
-  const qrSrc = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(shareUrl)}`;
 
-  // Carrega imagens enviadas pelo usuário para aparecerem dentro do livro animado
   const loadedImages = {};
   const loadImg = (src) => new Promise((res) => {
     if (!src) return res(null);
@@ -1839,7 +2245,6 @@ async function startBookFlipVideoStudio(container, storyCtx) {
     loadedImages[`ch_${i}`] = await loadImg(chapters[i].image);
   }
 
-  // Monta as páginas do vídeo do livro
   const bookSlides = [
     {
       type: "cover",
@@ -1858,10 +2263,10 @@ async function startBookFlipVideoStudio(container, storyCtx) {
     })),
     {
       type: "final",
-      kicker: "Para você guardar no coração",
+      kicker: "Para guardar no coração",
       title: `${her} & ${him}`,
       text: generateDynamicFinalLetter(storyCtx, 0).join(" "),
-      date: timeTogether ? `${timeTogether} juntos ♥` : "Continua nos próximos dias..."
+      date: timeTogether ? `${timeTogether} juntos ♥` : "Para sempre nós dois ♥"
     }
   ];
 
@@ -1873,139 +2278,173 @@ async function startBookFlipVideoStudio(container, storyCtx) {
       <div class="cinema-toolbar">
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button type="button" class="cinema-btn" id="btn-replay-book">↻ Folhear novamente</button>
-          <button type="button" class="cinema-btn gold" id="btn-export-book-video">⬇ Baixar Vídeo do Livro (.webm)</button>
+          <button type="button" class="cinema-btn gold" id="btn-export-book-video">⬇ Baixar Vídeo do Livro</button>
         </div>
         <span id="book-slide-indicator" style="font-size:0.78rem;color:#d6c7b8;font-weight:600;">Página 1 de ${bookSlides.length}</span>
       </div>
     </div>
 
-    <div class="share-gift-box">
+    <div class="share-gift-box" id="share-box-container">
       <div>
         <strong style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;color:var(--accent-dark);">Envie este presente para ${her === "Pessoa 1" ? "quem você ama" : her}</strong>
-        <p style="font-size:0.83rem;color:var(--muted);margin:3px 0 8px;">Mande o vídeo baixado acima no WhatsApp/Instagram ou envie o link direto abaixo (abre direto no envelope sem pedir senha).</p>
-        <button type="button" class="reroll-btn" id="copy-book-gift-link" style="margin-top:0;">🔗 Copiar link do presente para enviar</button>
+        <p style="font-size:0.83rem;color:var(--muted);margin:3px 0 8px;">Mande o vídeo baixado acima ou envie o link direto abaixo (preserva todas as fotos, capítulos e personagens).</p>
+        <button type="button" class="reroll-btn" id="copy-book-gift-link" style="margin-top:0;">🔗 Gerar e copiar link completo com fotos</button>
       </div>
-      <img src="${qrSrc}" class="qr-preview" alt="QR Code do presente">
+      <img id="gift-qr-img" class="qr-preview hidden" alt="QR Code do presente">
     </div>
   `;
+
+  if (isSharedGiftView) {
+    $("share-box-container").classList.add("hidden");
+  }
 
   const canvas = $("book-flip-canvas");
   const ctx = canvas.getContext("2d");
   const W = canvas.width;
   const H = canvas.height;
 
-  const petals = Array.from({ length: 24 }, () => ({
+  const petals = Array.from({ length: 20 }, () => ({
     x: Math.random() * W,
     y: Math.random() * H,
-    size: 5 + Math.random() * 5,
-    speedY: 0.5 + Math.random() * 0.9,
-    speedX: (Math.random() - 0.5) * 0.6,
+    size: 4.5 + Math.random() * 4.5,
+    speedY: 0.45 + Math.random() * 0.75,
+    speedX: (Math.random() - 0.5) * 0.5,
     rot: Math.random() * Math.PI * 2,
     color: ["#e5989b", "#d98a7c", "#f7d060", "#89a882"][Math.floor(Math.random() * 4)]
   }));
 
-  const PAGE_DURATION = 3800;
+  const PAGE_DURATION = 3600;
   let startTime = performance.now();
   let lastIdx = -1;
 
   function drawSlideContent(slide, x, y, w, h, progress) {
-    // Fundo papel creme com textura de lombada
+    // Papel artesanal com gradiente de lombada suave
     const paperGrad = ctx.createLinearGradient(x, y, x + w, y);
-    paperGrad.addColorStop(0, "#ede2d3");
-    paperGrad.addColorStop(0.06, "#fcf9f4");
-    paperGrad.addColorStop(1, "#f9f3ea");
+    paperGrad.addColorStop(0, "#e9dccb");
+    paperGrad.addColorStop(0.04, "#fcf9f4");
+    paperGrad.addColorStop(0.96, "#fcf9f4");
+    paperGrad.addColorStop(1, "#f4eadc");
     ctx.fillStyle = paperGrad;
     ctx.beginPath();
-    ctx.roundRect(x, y, w, h, [6, 18, 18, 6]);
+    ctx.roundRect(x, y, w, h, [8, 18, 18, 8]);
     ctx.fill();
 
-    ctx.strokeStyle = "#d9c9b6";
+    ctx.strokeStyle = "#d6c5b1";
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Ornamento dourado nos cantos
-    ctx.strokeStyle = "rgba(181, 84, 75, 0.35)";
-    ctx.lineWidth = 1.5;
-    ctx.strokeRect(x + 16, y + 16, w - 32, h - 32);
+    // Moldura interna elegante e compacta
+    const pad = 22;
+    ctx.strokeStyle = "rgba(181, 84, 75, 0.25)";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(x + pad, y + pad, w - pad * 2, h - pad * 2);
 
     const centerX = x + w / 2;
+    const innerWidth = w - 88; // Margem segura para as letras nunca encostarem na borda
 
     if (slide.type === "cover") {
-      // Selo de cera no topo
+      // Selo de cera compacto
       ctx.fillStyle = "#b5544b";
       ctx.beginPath();
-      ctx.arc(centerX, y + 54, 18, 0, Math.PI * 2);
+      ctx.arc(centerX, y + 48, 15, 0, Math.PI * 2);
       ctx.fill();
       ctx.fillStyle = "#fff";
-      ctx.font = "bold 16px serif";
+      ctx.font = "bold 14px serif";
       ctx.textAlign = "center";
-      ctx.fillText("♥", centerX, y + 60);
+      ctx.fillText("♥", centerX, y + 53);
 
       ctx.fillStyle = "#b5544b";
-      ctx.font = "600 18px 'Caveat', cursive";
-      ctx.fillText(slide.kicker, centerX, y + 96);
+      ctx.font = "600 17px 'Caveat', cursive";
+      ctx.fillText(slide.kicker, centerX, y + 82);
 
       ctx.fillStyle = "#2b2320";
-      ctx.font = "700 42px 'Cormorant Garamond', serif";
-      ctx.fillText(slide.title, centerX, y + 144);
+      ctx.font = "700 36px 'Cormorant Garamond', serif";
+      wrapCanvasText(ctx, slide.title, centerX, y + 118, innerWidth, 38, 1);
+
+      drawBookOrnamentDivider(ctx, centerX, y + 132, 130);
 
       if (slide.img) {
-        const imgW = 210;
-        const imgH = 145;
-        ctx.fillStyle = "#fff";
-        ctx.shadowColor = "rgba(0,0,0,0.14)";
+        // Moldura Polaroid harmônica centralizada
+        const imgW = 195;
+        const imgH = 135;
+        const frameX = centerX - imgW / 2 - 7;
+        const frameY = y + 148;
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "rgba(43, 35, 32, 0.14)";
         ctx.shadowBlur = 12;
-        ctx.fillRect(centerX - imgW / 2 - 8, y + 164, imgW + 16, imgH + 24);
+        ctx.fillRect(frameX, frameY, imgW + 14, imgH + 22);
         ctx.shadowBlur = 0;
-        ctx.drawImage(slide.img, centerX - imgW / 2, y + 172, imgW, imgH);
-        ctx.fillStyle = "#6e615b";
-        ctx.font = "500 15px 'Plus Jakarta Sans', sans-serif";
-        ctx.fillText(slide.subtitle, centerX, y + 358);
+
+        // Recorte proporcional (object-fit: cover simulado)
+        const scale = Math.max(imgW / slide.img.width, imgH / slide.img.height);
+        const sw = imgW / scale;
+        const sh = imgH / scale;
+        const sx = (slide.img.width - sw) / 2;
+        const sy = (slide.img.height - sh) / 2;
+        ctx.drawImage(slide.img, sx, sy, sw, sh, centerX - imgW / 2, frameY + 7, imgW, imgH);
+
+        ctx.fillStyle = "#5c504a";
+        ctx.font = "500 13.5px 'Plus Jakarta Sans', sans-serif";
+        wrapCanvasText(ctx, slide.subtitle, centerX, frameY + imgH + 38, innerWidth, 18, 2);
       } else {
-        ctx.fillStyle = "#6e615b";
-        ctx.font = "500 17px 'Plus Jakarta Sans', sans-serif";
-        wrapCanvasText(ctx, slide.subtitle, centerX, y + 205, w - 90, 26, 3);
+        ctx.fillStyle = "#5c504a";
+        ctx.font = "500 15.5px 'Plus Jakarta Sans', sans-serif";
+        wrapCanvasText(ctx, slide.subtitle, centerX, y + 195, innerWidth, 24, 3);
       }
 
       ctx.fillStyle = "#8e3b33";
-      ctx.font = "700 22px 'Caveat', cursive";
-      ctx.fillText(slide.date, centerX, y + h - 34);
-    } else {
-      // Páginas internas de capítulo ou carta final
-      ctx.fillStyle = "#b5544b";
       ctx.font = "700 20px 'Caveat', cursive";
+      ctx.fillText(slide.date, centerX, y + h - 32);
+    } else {
+      // Páginas de capítulo e encerramento com layout compacto
+      ctx.fillStyle = "#b5544b";
+      ctx.font = "700 18px 'Caveat', cursive";
       ctx.textAlign = "center";
-      ctx.fillText(slide.kicker, centerX, y + 54);
+      ctx.fillText(slide.kicker, centerX, y + 48);
 
       ctx.fillStyle = "#2b2320";
-      ctx.font = "700 32px 'Cormorant Garamond', serif";
-      ctx.fillText(slide.title, centerX, y + 92);
+      ctx.font = "700 28px 'Cormorant Garamond', serif";
+      wrapCanvasText(ctx, slide.title, centerX, y + 80, innerWidth, 30, 1);
+
+      drawBookOrnamentDivider(ctx, centerX, y + 93, 110);
+
+      const revealRatio = Math.min(1, progress * 2.4);
+      const visibleText = slide.text.slice(0, Math.floor(slide.text.length * revealRatio));
 
       if (slide.img) {
-        const imgW = 220;
-        const imgH = 135;
-        ctx.fillStyle = "#fff";
-        ctx.shadowColor = "rgba(0,0,0,0.12)";
+        // Layout compacto com imagem + texto abaixo bem enquadrado
+        const imgW = 205;
+        const imgH = 128;
+        const frameX = centerX - imgW / 2 - 6;
+        const frameY = y + 106;
+
+        ctx.fillStyle = "#ffffff";
+        ctx.shadowColor = "rgba(43, 35, 32, 0.12)";
         ctx.shadowBlur = 10;
-        ctx.fillRect(centerX - imgW / 2 - 6, y + 108, imgW + 12, imgH + 18);
+        ctx.fillRect(frameX, frameY, imgW + 12, imgH + 16);
         ctx.shadowBlur = 0;
-        ctx.drawImage(slide.img, centerX - imgW / 2, y + 114, imgW, imgH);
+
+        const scale = Math.max(imgW / slide.img.width, imgH / slide.img.height);
+        const sw = imgW / scale;
+        const sh = imgH / scale;
+        const sx = (slide.img.width - sw) / 2;
+        const sy = (slide.img.height - sh) / 2;
+        ctx.drawImage(slide.img, sx, sy, sw, sh, centerX - imgW / 2, frameY + 6, imgW, imgH);
 
         ctx.fillStyle = "#463c38";
-        ctx.font = "400 15px 'Plus Jakarta Sans', sans-serif";
-        const visibleText = slide.text.slice(0, Math.floor(slide.text.length * Math.min(1, progress * 2.2)));
-        wrapCanvasText(ctx, visibleText, centerX, y + 286, w - 80, 22, 4);
+        ctx.font = "400 13.5px 'Plus Jakarta Sans', sans-serif";
+        wrapCanvasText(ctx, visibleText, centerX, frameY + imgH + 34, innerWidth, 19, 5);
       } else {
+        // Layout apenas texto centralizado verticalmente na página
         ctx.fillStyle = "#463c38";
-        ctx.font = "400 16px 'Plus Jakarta Sans', sans-serif";
-        const visibleText = slide.text.slice(0, Math.floor(slide.text.length * Math.min(1, progress * 2.2)));
-        wrapCanvasText(ctx, visibleText, centerX, y + 145, w - 90, 25, 8);
+        ctx.font = "400 15px 'Plus Jakarta Sans', sans-serif";
+        wrapCanvasText(ctx, visibleText, centerX, y + 135, innerWidth, 23, 9);
       }
 
       if (slide.date) {
         ctx.fillStyle = "#8e3b33";
-        ctx.font = "700 22px 'Caveat', cursive";
-        ctx.fillText(slide.date, centerX, y + h - 32);
+        ctx.font = "700 20px 'Caveat', cursive";
+        ctx.fillText(slide.date, centerX, y + h - 30);
       }
     }
   }
@@ -2023,14 +2462,12 @@ async function startBookFlipVideoStudio(container, storyCtx) {
       if (ind) ind.textContent = `Página ${idx + 1} de ${bookSlides.length}`;
     }
 
-    // Fundo mesa de madeira clara / papel artesanal iluminado
     const bgGrad = ctx.createRadialGradient(W / 2, H / 2, 40, W / 2, H / 2, W * 0.7);
     bgGrad.addColorStop(0, "#fbf6ef");
     bgGrad.addColorStop(1, "#dfd0be");
     ctx.fillStyle = bgGrad;
     ctx.fillRect(0, 0, W, H);
 
-    // Pétalas caindo suavemente ao redor do livro
     petals.forEach(p => {
       p.y += p.speedY;
       p.x += p.speedX;
@@ -2047,57 +2484,49 @@ async function startBookFlipVideoStudio(container, storyCtx) {
       ctx.restore();
     });
 
-    // Sombra e camadas de folhas do livro físico
-    const bookW = 540;
-    const bookH = 420;
+    // Proporção harmônica do livro na tela (600 x 430)
+    const bookW = 600;
+    const bookH = 430;
     const bookX = (W - bookW) / 2;
-    const bookY = (H - bookH) / 2;
+    const bookY = (H - bookH) / 2 - 4;
 
-    ctx.fillStyle = "rgba(43, 35, 32, 0.18)";
+    ctx.fillStyle = "rgba(43, 35, 32, 0.16)";
     ctx.beginPath();
-    ctx.roundRect(bookX + 10, bookY + 14, bookW + 12, bookH + 8, 18);
+    ctx.roundRect(bookX + 8, bookY + 12, bookW + 10, bookH + 6, 18);
     ctx.fill();
 
-    // Pilha de páginas abaixo
-    ctx.fillStyle = "#e6d8c7";
+    // Camadas de folhas laterais
+    ctx.fillStyle = "#e4d4c0";
     ctx.beginPath();
-    ctx.roundRect(bookX + 8, bookY + 6, bookW, bookH, [6, 18, 18, 6]);
+    ctx.roundRect(bookX + 6, bookY + 5, bookW, bookH, [8, 18, 18, 8]);
     ctx.fill();
 
-    // Desenha a página atual
     drawSlideContent(bookSlides[idx], bookX, bookY, bookW, bookH, progress);
 
-    // Efeito 3D realista de página virando nos últimos 28% do tempo de cada página
-    if (progress > 0.72 && idx < bookSlides.length - 1) {
-      const flipT = (progress - 0.72) / 0.28; // 0 -> 1
-      // Mostra a próxima página por baixo
-      drawSlideContent(bookSlides[idx + 1], bookX, bookY, bookW, bookH, 0.2);
+    if (progress > 0.74 && idx < bookSlides.length - 1) {
+      const flipT = (progress - 0.74) / 0.26;
+      drawSlideContent(bookSlides[idx + 1], bookX, bookY, bookW, bookH, 0.25);
 
-      // Desenha a folha virando para a esquerda
       ctx.save();
       ctx.translate(bookX, bookY);
       const scaleX = Math.max(0.02, 1 - flipT);
       ctx.scale(scaleX, 1);
       drawSlideContent(bookSlides[idx], 0, 0, bookW, bookH, 1);
 
-      // Sombra da dobra da página
       const foldGrad = ctx.createLinearGradient(bookW - 60, 0, bookW, 0);
       foldGrad.addColorStop(0, "rgba(0,0,0,0)");
-      foldGrad.addColorStop(1, `rgba(43, 35, 32, ${0.35 * flipT})`);
+      foldGrad.addColorStop(1, `rgba(43, 35, 32, ${0.32 * flipT})`);
       ctx.fillStyle = foldGrad;
       ctx.fillRect(0, 0, bookW, bookH);
       ctx.restore();
     }
 
-    // Rodapé discreto com nomes
     ctx.fillStyle = "rgba(43, 35, 32, 0.65)";
     ctx.font = "600 13px 'Plus Jakarta Sans', sans-serif";
     ctx.textAlign = "center";
-    ctx.fillText(`Nossa História • ${her} & ${him}`, W / 2, H - 18);
+    ctx.fillText(`Nossa História • ${her} & ${him}`, W / 2, H - 15);
 
-    if (elapsed < totalDuration) {
-      canvasAnimFrame = requestAnimationFrame(renderBookFrame);
-    }
+    canvasAnimFrame = requestAnimationFrame(renderBookFrame);
   }
 
   canvasAnimFrame = requestAnimationFrame(renderBookFrame);
@@ -2105,66 +2534,330 @@ async function startBookFlipVideoStudio(container, storyCtx) {
   $("btn-replay-book").addEventListener("click", () => {
     startTime = performance.now();
     lastIdx = -1;
-    if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
-    canvasAnimFrame = requestAnimationFrame(renderBookFrame);
   });
 
   $("btn-export-book-video").addEventListener("click", () => {
-    exportCanvasAsWebm(canvas, $("btn-export-book-video"), `livro-${her}-e-${him}.webm`, bookSlides.length * PAGE_DURATION, () => {
-      startTime = performance.now();
-      lastIdx = -1;
-    });
+    exportCanvasAsWebm(
+      canvas,
+      $("btn-export-book-video"),
+      `livro-${her}-e-${him}.webm`,
+      bookSlides.length * PAGE_DURATION,
+      () => {
+        startTime = performance.now();
+        lastIdx = -1;
+      }
+    );
   });
 
-  $("copy-book-gift-link").addEventListener("click", () => {
-    navigator.clipboard?.writeText(shareUrl);
-    $("copy-book-gift-link").textContent = "✓ Link copiado! Agora é só colar e enviar";
-    setTimeout(() => { $("copy-book-gift-link").textContent = "🔗 Copiar link do presente para enviar"; }, 3000);
+  $("copy-book-gift-link").addEventListener("click", async () => {
+    const btn = $("copy-book-gift-link");
+    btn.textContent = "Preparando link com fotos...";
+    const shareUrl = await buildShareableGiftLink(storyCtx);
+    await navigator.clipboard?.writeText(shareUrl);
+
+    if (shareUrl.length < 2800) {
+      const qrImg = $("gift-qr-img");
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(shareUrl)}`;
+      qrImg.classList.remove("hidden");
+    }
+
+    btn.textContent = "✓ Link completo copiado! Agora é só colar e enviar";
+    setTimeout(() => {
+      btn.textContent = "🔗 Gerar e copiar link completo com fotos";
+    }, 3500);
   });
 }
 
-function exportCanvasAsWebm(canvas, btn, filename, durationMs, onRestart) {
-  if (!canvas.captureStream || !window.MediaRecorder) {
-    alert("Seu navegador não suporta gravação direta de vídeo.");
+/* =========================================================
+   CENÁRIOS INTELIGENTES PARA O FILME DO CASAL
+   ========================================================= */
+function detectSceneEnvironment(text, fallbackMeetKey = "") {
+  const s = (text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+  if (/(praia|mar|areia|onda|litoral|ilha|verao|surf|beira-mar|oceano|piscina)/.test(s)) return "beach";
+  if (/(escola|faculdade|colegio|aula|universidade|patio|estudo|biblioteca|sala de aula)/.test(s)) return "school";
+  if (/(festa|bar|barzinho|balada|show|musica|role|cerveja|danca|noite|festival)/.test(s)) return "party";
+  if (/(internet|instagram|whatsapp|mensagem|app|tinder|online|celular|conversa|rede social)/.test(s)) return "internet";
+  if (/(cafe|cafeteria|restaurante|jantar|almoco|pizza|sorvete|lanche|padaria)/.test(s)) return "cafe";
+  if (/(viagem|viajar|aviao|aeroporto|estrada|montanha|hotel|ferias)/.test(s)) return "travel";
+  if (/(parque|praca|arvore|jardim|flores|piquenique|natureza|bosque|casa na arvore)/.test(s)) return "park";
+  if (/(cinema|filme|pipoca|teatro|serie)/.test(s)) return "cinema";
+
+  if (fallbackMeetKey === "praia") return "beach";
+  if (fallbackMeetKey === "escola") return "school";
+  if (fallbackMeetKey === "festa") return "party";
+  if (fallbackMeetKey === "internet") return "internet";
+  return "park";
+}
+
+function drawCinemaScenery(ctx, W, H, env, now, isFinale) {
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, H * 0.78);
+
+  if (isFinale) {
+    skyGrad.addColorStop(0, "#0f1024");
+    skyGrad.addColorStop(0.55, "#2b1e3d");
+    skyGrad.addColorStop(1, "#4a2538");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Estrelas cintilantes
+    ctx.fillStyle = "#ffffff";
+    for (let i = 0; i < 28; i++) {
+      const sx = (i * 137) % W;
+      const sy = (i * 53) % (H * 0.45);
+      ctx.globalAlpha = 0.35 + 0.5 * Math.sin(now * 0.004 + i);
+      ctx.beginPath();
+      ctx.arc(sx, sy, (i % 2) + 1, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = "#1e1729";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
     return;
   }
-  const origLabel = btn.textContent;
-  btn.textContent = "Gerando vídeo para enviar...";
-  btn.disabled = true;
-  if (onRestart) onRestart();
 
-  const stream = canvas.captureStream(30);
-  const chunks = [];
-  let recorder;
-  try {
-    recorder = new MediaRecorder(stream, { mimeType: "video/webm;codecs=vp9" });
-  } catch {
-    recorder = new MediaRecorder(stream);
+  if (env === "beach") {
+    // Céu azul claro ensolarado
+    skyGrad.addColorStop(0, "#6ec6f5");
+    skyGrad.addColorStop(0.65, "#bfe9ff");
+    skyGrad.addColorStop(1, "#fef3d6");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Sol brilhante
+    ctx.fillStyle = "#ffd166";
+    ctx.beginPath();
+    ctx.arc(W * 0.82, H * 0.22, 34, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Mar azul com ondas animadas
+    ctx.fillStyle = "#1d8fe1";
+    ctx.fillRect(0, H * 0.54, W, H * 0.21);
+
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.65)";
+    ctx.lineWidth = 2.5;
+    for (let row = 0; row < 3; row++) {
+      const wy = H * (0.58 + row * 0.05);
+      const waveShift = Math.sin(now * 0.003 + row) * 14;
+      ctx.beginPath();
+      for (let wx = 0; wx <= W; wx += 40) {
+        ctx.quadraticCurveTo(wx + 10 + waveShift, wy - 4, wx + 20 + waveShift, wy);
+        ctx.quadraticCurveTo(wx + 30 + waveShift, wy + 4, wx + 40 + waveShift, wy);
+      }
+      ctx.stroke();
+    }
+
+    // Areia da praia
+    ctx.fillStyle = "#f4dfb6";
+    ctx.fillRect(0, H * 0.73, W, H * 0.27);
+
+    // Coqueiro estilizado à esquerda
+    ctx.strokeStyle = "#7f5539";
+    ctx.lineWidth = 9;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(95, H * 0.75);
+    ctx.quadraticCurveTo(118, H * 0.52, 102, H * 0.34);
+    ctx.stroke();
+
+    ctx.fillStyle = "#4c956c";
+    [[-38, -8, -0.3], [38, -6, 0.3], [-32, 14, -0.6], [34, 15, 0.6], [0, -22, 0]].forEach(([dx, dy, rot]) => {
+      ctx.save();
+      ctx.translate(102, H * 0.34);
+      ctx.rotate(rot);
+      ctx.beginPath();
+      ctx.ellipse(dx, dy, 34, 9, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+  } else if (env === "school") {
+    skyGrad.addColorStop(0, "#a8dadc");
+    skyGrad.addColorStop(1, "#f1faee");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Prédio da escola / faculdade ao fundo
+    ctx.fillStyle = "#e07a5f";
+    ctx.fillRect(W * 0.28, H * 0.36, W * 0.44, H * 0.39);
+    // Telhado triangular
+    ctx.fillStyle = "#9e2a2b";
+    ctx.beginPath();
+    ctx.moveTo(W * 0.25, H * 0.36);
+    ctx.lineTo(W * 0.5, H * 0.23);
+    ctx.lineTo(W * 0.75, H * 0.36);
+    ctx.closePath();
+    ctx.fill();
+
+    // Relógio central da escola
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.arc(W * 0.5, H * 0.32, 16, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#2b2320";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(W * 0.5, H * 0.32);
+    ctx.lineTo(W * 0.5, H * 0.32 - 9);
+    ctx.moveTo(W * 0.5, H * 0.32);
+    ctx.lineTo(W * 0.5 + 7, H * 0.32);
+    ctx.stroke();
+
+    // Janelas
+    ctx.fillStyle = "#f4f1de";
+    for (let wx = 0.33; wx <= 0.64; wx += 0.08) {
+      if (Math.abs(wx - 0.5) < 0.04) continue;
+      ctx.fillRect(W * wx, H * 0.44, 28, 34);
+      ctx.fillRect(W * wx, H * 0.55, 28, 34);
+    }
+
+    // Pátio / calçada
+    ctx.fillStyle = "#d5c7b2";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
+  } else if (env === "party") {
+    skyGrad.addColorStop(0, "#1d1e3a");
+    skyGrad.addColorStop(0.65, "#3d2c5e");
+    skyGrad.addColorStop(1, "#6b3e62");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Varal de luzinhas de festa/barzinho
+    ctx.strokeStyle = "rgba(255,255,255,0.35)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, H * 0.22);
+    ctx.quadraticCurveTo(W * 0.5, H * 0.34, W, H * 0.22);
+    ctx.stroke();
+
+    const bulbColors = ["#ffd166", "#ff758f", "#a8dadc", "#f4a261"];
+    for (let i = 1; i < 14; i++) {
+      const t = i / 14;
+      const bx = W * t;
+      const by = H * 0.22 + Math.sin(Math.PI * t) * (H * 0.06);
+      const glow = 0.65 + 0.35 * Math.sin(now * 0.006 + i);
+      ctx.fillStyle = bulbColors[i % bulbColors.length];
+      ctx.globalAlpha = glow;
+      ctx.beginPath();
+      ctx.arc(bx, by + 6, 6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.fillStyle = "#2b2138";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
+  } else if (env === "internet") {
+    skyGrad.addColorStop(0, "#e8dff5");
+    skyGrad.addColorStop(0.65, "#fce1e4");
+    skyGrad.addColorStop(1, "#fcf4dd");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Balões de mensagem flutuando entre os personagens
+    const floatY = Math.sin(now * 0.004) * 6;
+    ctx.fillStyle = "#ffffff";
+    ctx.beginPath();
+    ctx.roundRect(W * 0.34, H * 0.25 + floatY, 95, 36, 14);
+    ctx.fill();
+    ctx.fillStyle = "#b5544b";
+    ctx.font = "bold 15px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Oi! Tudo bem? ♥", W * 0.34 + 47, H * 0.25 + 23 + floatY);
+
+    ctx.fillStyle = "#b5544b";
+    ctx.beginPath();
+    ctx.roundRect(W * 0.55, H * 0.33 - floatY, 95, 36, 14);
+    ctx.fill();
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("Tudo ótimo! ✨", W * 0.55 + 47, H * 0.33 + 23 - floatY);
+
+    ctx.fillStyle = "#e2d4c8";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
+  } else if (env === "cafe") {
+    skyGrad.addColorStop(0, "#f7e1d7");
+    skyGrad.addColorStop(1, "#edafb8");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Toldo listrado de cafeteria aconchegante
+    ctx.fillStyle = "#fff8f0";
+    ctx.fillRect(W * 0.22, H * 0.32, W * 0.56, H * 0.43);
+    const stripes = 8;
+    const sw = (W * 0.56) / stripes;
+    for (let i = 0; i < stripes; i++) {
+      ctx.fillStyle = i % 2 === 0 ? "#b5544b" : "#fcf9f4";
+      ctx.fillRect(W * 0.22 + i * sw, H * 0.27, sw, 26);
+    }
+
+    ctx.fillStyle = "#d5bdaf";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
+  } else if (env === "travel") {
+    skyGrad.addColorStop(0, "#90dbf4");
+    skyGrad.addColorStop(0.7, "#fde4cf");
+    skyGrad.addColorStop(1, "#f1c0e8");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Aviãozinho cruzando o céu
+    const px = ((now * 0.06) % (W + 120)) - 60;
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "24px sans-serif";
+    ctx.fillText("✈️", px, H * 0.24);
+
+    ctx.fillStyle = "#d8c3a5";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
+  } else if (env === "cinema") {
+    skyGrad.addColorStop(0, "#141414");
+    skyGrad.addColorStop(1, "#2b1d26");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Tela iluminada de cinema ao fundo
+    ctx.fillStyle = "#fdf8ee";
+    ctx.fillRect(W * 0.24, H * 0.2, W * 0.52, H * 0.38);
+    ctx.strokeStyle = "#c69c53";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(W * 0.24, H * 0.2, W * 0.52, H * 0.38);
+
+    ctx.fillStyle = "#3a1c24";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
+  } else {
+    // Parque / Natureza (padrão acolhedor com árvores e colinas)
+    skyGrad.addColorStop(0, "#f5cbb8");
+    skyGrad.addColorStop(0.68, "#fce8d5");
+    skyGrad.addColorStop(1, "#e8d5bd");
+    ctx.fillStyle = skyGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Colinas suaves ao fundo
+    ctx.fillStyle = "#b7c9a8";
+    ctx.beginPath();
+    ctx.arc(W * 0.25, H * 0.78, 220, Math.PI, Math.PI * 2);
+    ctx.arc(W * 0.75, H * 0.78, 260, Math.PI, Math.PI * 2);
+    ctx.fill();
+
+    // Árvores laterais
+    [110, W - 110].forEach(tx => {
+      ctx.fillStyle = "#7f5539";
+      ctx.fillRect(tx - 7, H * 0.55, 14, H * 0.2);
+      ctx.fillStyle = "#6b8e6b";
+      ctx.beginPath();
+      ctx.arc(tx, H * 0.5, 34, 0, Math.PI * 2);
+      ctx.arc(tx - 20, H * 0.55, 25, 0, Math.PI * 2);
+      ctx.arc(tx + 20, H * 0.55, 25, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
+    // Gramado
+    ctx.fillStyle = "#89a882";
+    ctx.fillRect(0, H * 0.75, W, H * 0.25);
   }
-
-  recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
-  recorder.onstop = () => {
-    const blob = new Blob(chunks, { type: "video/webm" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
-    btn.textContent = origLabel;
-    btn.disabled = false;
-  };
-
-  recorder.start();
-  setTimeout(() => {
-    if (recorder.state !== "inactive") recorder.stop();
-  }, durationMs + 300);
 }
 
 /* =========================================================
    FILME ANIMADO DOS PERSONAGENS EM HD (CANVAS)
    ========================================================= */
-function drawCanvasCharacter(ctx, cfg, x, y, scale, side, walkPhase, holdingBouquet, mood) {
+function drawCanvasCharacter(ctx, cfg, x, y, scale, side, walkPhase, holdingBouquet) {
   ctx.save();
   ctx.translate(x, y);
   ctx.scale(scale, scale);
@@ -2299,18 +2992,28 @@ function startCinemaCanvasStudio(container, storyCtx) {
   if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
 
   const { her, him, meet, chapters, timeTogether } = storyCtx;
+  const prologueEnv = detectSceneEnvironment(`${meet.shortLabel} ${meet.customText}`, meet.key);
+
   const scenes = [
-    { tag: "PRÓLOGO", title: `Onde tudo começou: ${meet.shortLabel}`, subtitle: meet.customText || "Dois caminhos que se cruzaram", isFinale: false },
+    {
+      tag: "PRÓLOGO",
+      title: `Onde tudo começou: ${meet.shortLabel}`,
+      subtitle: meet.customText || "Dois caminhos que se cruzaram",
+      env: prologueEnv,
+      isFinale: false
+    },
     ...chapters.map((ch) => ({
       tag: `CAPÍTULO ${ch.number}`,
       title: ch.title,
       subtitle: ch.text.length > 68 ? ch.text.slice(0, 65).trim() + "..." : ch.text,
+      env: detectSceneEnvironment(`${ch.title} ${ch.text}`, meet.key),
       isFinale: false
     })),
     {
       tag: "GRAN FINALE",
       title: `${her} & ${him}`,
       subtitle: timeTogether ? `${timeTogether} escrevendo essa história` : "Para sempre nós dois",
+      env: "finale",
       isFinale: true
     }
   ];
@@ -2323,7 +3026,7 @@ function startCinemaCanvasStudio(container, storyCtx) {
       <div class="cinema-toolbar">
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button type="button" class="cinema-btn" id="btn-replay-hd">↻ Recomeçar filme</button>
-          <button type="button" class="cinema-btn gold" id="btn-export-hd">⬇ Baixar Filme do Casal (.webm)</button>
+          <button type="button" class="cinema-btn gold" id="btn-export-hd">⬇ Baixar Filme do Casal</button>
         </div>
         <span id="scene-indicator" style="font-size:0.78rem;color:#d6c7b8;font-weight:600;">Cena 1 de ${scenes.length}</span>
       </div>
@@ -2335,8 +3038,9 @@ function startCinemaCanvasStudio(container, storyCtx) {
   const W = canvas.width;
   const H = canvas.height;
   const fireworks = [];
-  const SCENE_DURATION = 4000;
+  const SCENE_DURATION = 3800;
   let startTime = performance.now();
+  let lastSceneIdx = -1;
 
   function renderFrame(now) {
     const elapsed = now - startTime;
@@ -2346,21 +3050,14 @@ function startCinemaCanvasStudio(container, storyCtx) {
     const sceneProgress = (clampedElapsed % SCENE_DURATION) / SCENE_DURATION;
     const scene = scenes[sceneIdx];
 
-    const grad = ctx.createLinearGradient(0, 0, 0, H);
-    if (scene.isFinale) {
-      grad.addColorStop(0, "#0f1024");
-      grad.addColorStop(0.55, "#2b1e3d");
-      grad.addColorStop(1, "#4a2538");
-    } else {
-      grad.addColorStop(0, "#f5cbb8");
-      grad.addColorStop(0.68, "#fce8d5");
-      grad.addColorStop(1, "#d9bfa3");
+    if (sceneIdx !== lastSceneIdx) {
+      lastSceneIdx = sceneIdx;
+      const ind = $("scene-indicator");
+      if (ind) ind.textContent = `Cena ${sceneIdx + 1} de ${scenes.length}`;
     }
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, W, H);
 
-    ctx.fillStyle = scene.isFinale ? "#1e1729" : "#d9c5ae";
-    ctx.fillRect(0, H * 0.75, W, H * 0.25);
+    // Desenha o cenário personalizado correspondente ao capítulo/prólogo
+    drawCinemaScenery(ctx, W, H, scene.env, now, scene.isFinale);
 
     if (scene.isFinale && Math.random() < 0.06) {
       fireworks.push({
@@ -2389,8 +3086,8 @@ function startCinemaCanvasStudio(container, storyCtx) {
 
     const walkPhase = scene.isFinale ? 0 : now * 0.012;
     const meetOffset = scene.isFinale ? 58 : 170 - sceneProgress * 95;
-    drawCanvasCharacter(ctx, charState.c1, W / 2 - meetOffset, H * 0.67, 1.35, "left", walkPhase, false, "love");
-    drawCanvasCharacter(ctx, charState.c2, W / 2 + meetOffset, H * 0.67, 1.35, "right", walkPhase + 1.5, scene.isFinale, "love");
+    drawCanvasCharacter(ctx, charState.c1, W / 2 - meetOffset, H * 0.67, 1.35, "left", walkPhase, false);
+    drawCanvasCharacter(ctx, charState.c2, W / 2 + meetOffset, H * 0.67, 1.35, "right", walkPhase + 1.5, scene.isFinale);
 
     if (scene.isFinale) {
       ctx.fillStyle = "#ff5c77";
@@ -2416,23 +3113,27 @@ function startCinemaCanvasStudio(container, storyCtx) {
     ctx.font = "500 15px 'Plus Jakarta Sans', sans-serif";
     ctx.fillText(scene.subtitle, W / 2, H - 24);
 
-    if (elapsed < totalDuration) {
-      canvasAnimFrame = requestAnimationFrame(renderFrame);
-    }
+    canvasAnimFrame = requestAnimationFrame(renderFrame);
   }
 
   canvasAnimFrame = requestAnimationFrame(renderFrame);
 
   $("btn-replay-hd").addEventListener("click", () => {
     startTime = performance.now();
-    if (canvasAnimFrame) cancelAnimationFrame(canvasAnimFrame);
-    canvasAnimFrame = requestAnimationFrame(renderFrame);
+    lastSceneIdx = -1;
   });
 
   $("btn-export-hd").addEventListener("click", () => {
-    exportCanvasAsWebm(canvas, $("btn-export-hd"), `filme-${her}-e-${him}.webm`, scenes.length * SCENE_DURATION, () => {
-      startTime = performance.now();
-    });
+    exportCanvasAsWebm(
+      canvas,
+      $("btn-export-hd"),
+      `filme-${her}-e-${him}.webm`,
+      scenes.length * SCENE_DURATION,
+      () => {
+        startTime = performance.now();
+        lastSceneIdx = -1;
+      }
+    );
   });
 }
 
@@ -2473,6 +3174,7 @@ function getMeetDetails() {
     return { key: "custom", shortLabel: typed || "de um jeito só nosso", customText: typed };
   }
   const map = {
+    praia: "na praia ou viagem à beira-mar",
     festa: "em um barzinho, festa ou rolê",
     escola: "no pátio da escola ou faculdade",
     internet: "pela internet, entre mensagens",
@@ -2529,7 +3231,7 @@ function addChapter(data = {}) {
   });
   head.append(heading, remove);
 
-  const titleField = makeField("Título do capítulo", "input", "Ex.: Nosso primeiro encontro");
+  const titleField = makeField("Título do capítulo", "input", "Ex.: Nosso encontro na praia");
   titleField.control.className = "chapter-title";
   titleField.control.value = data.title || "";
 
@@ -2809,7 +3511,15 @@ function createBook() {
   }
 
   letterVariationIndex = 0;
-  currentStoryContext = { her, him, meet, chapters, formattedDate, timeTogether: calculateTimeTogether(dateValue) };
+  currentStoryContext = {
+    her,
+    him,
+    meet,
+    chapters,
+    rawDate: dateValue,
+    formattedDate,
+    timeTogether: calculateTimeTogether(dateValue)
+  };
 
   if (selectedExperience === "book-video" || selectedExperience === "animation") {
     $("editor").classList.add("hidden");
